@@ -1,7 +1,8 @@
 #include <stdio.h> 
 #include <stdlib.h>
 
-void tela_apresentation() {
+char tela_apresentation(void) {
+  char enter;
   printf("____________________________________________________\n");
   printf("                                                    \n");
   printf("----Universidade Federal do Rio Grande do Norte-----\n");
@@ -25,6 +26,8 @@ void tela_apresentation() {
   printf("             Virlania Micarla Medeiros Canuto       \n");
   printf("____________________________________________________\n");
   printf("Pressione enter para continuar!\n");
+  enter = getchar();
+  return enter;
 }
 
 char tela_principal(void) {
@@ -56,7 +59,11 @@ char tela_principal(void) {
 } 
 
 int main(){
-	tela_apresentation();
+  char tecla;
+  while (tecla != 10){
+    tecla = tela_apresentation();
+    printf("O cod ASCII do enter é: %d",tecla);
+  }
   tela_principal();
 	return 0; 
 }
