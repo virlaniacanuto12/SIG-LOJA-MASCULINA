@@ -16,9 +16,9 @@ char tela_apresentation(void) {
   printf("- - - - - - - - -SIG-LOJA-MASCULINA- - - - - - - - -\n");
   printf("                                                    \n");
   printf(" Projeto tem como objetivo desenvolver um programa  \n");
-  printf(" que realize o cadastro e o acompanhamento de       \n");
-  printf(" cheque pré-datados, auxiliando o controle          \n");
-  printf(" financeiro de uma empresa.                         \n");
+  printf(" que realize a gestão e o acompanhamento do         \n");
+  printf(" funcionamento e logiśtica de uma                   \n");
+  printf(" loja de artigos masculinos                         \n");
   printf("____________________________________________________\n");
   printf("                                                    \n");
   printf("-----------------------ALUNA------------------------\n");
@@ -45,11 +45,12 @@ char tela_principal(void) {
   printf("                                                    \n");
   printf("- - - - - - - - SIG-LOJA-MASCULIINA - - - - - - - - \n");
   printf("                                                    \n");
-  printf("             1 - Cliente                            \n");
-  printf("             2 - Departamentos                      \n");
-  printf("             3 - Caixa                              \n");
-  printf("             4 - Relatorio                          \n");
-  printf("             5 - Sobre o sistema                    \n");
+  printf("             1 - Cadastro Vendedor                  \n");
+  printf("             2 - Cadastro Estoque                   \n");
+  printf("             3 - Seções                             \n");
+  printf("             4 - Caixa                              \n");
+  printf("             5 - Cartão da loja                     \n");
+  printf("             0 - Relatórios                         \n");
   printf("             0 - Sair                               \n");
   printf("                                                    \n");
   printf("____________________________________________________\n");
@@ -64,6 +65,6 @@ int main(){
     tecla = tela_apresentation();
     printf("O cod ASCII do enter é: %d",tecla);
   }
-  tela_principal();
+  printf("%c", tela_principal());
 	return 0; 
 }
