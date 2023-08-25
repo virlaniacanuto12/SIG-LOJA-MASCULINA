@@ -8,7 +8,12 @@ void exibirMenu(void){
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("- - - - - - - - CADASTRO-MERCADORIA - - - - - - - - \n");
+    printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
+    printf("                                                    \n");
+    printf("- - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("- - - - - - - - - MENU MERCADORIA - - - - - - - - - \n");
     printf("                                                    \n");
     printf("             1 - Cadastrar estoque                  \n");
     printf("             2 - Atualizar estoque                  \n");
@@ -21,3 +26,22 @@ void exibirMenu(void){
     //return charOpcao;
 }
 
+void cadastroMercadoria(void){
+    system("clear||cls");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("- - - - - - - - CADASTRO-MERCADORIA - - - - - - - - \n");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("Nome do fornecedor:\n");
+    printf("CNPJ do fornecedor:\n");
+    printf("Lote/remessa:\n");
+    printf("____________________________________________________\n");
+    printf("Informe a seção das peças:\n");
+    printf("Acessórios(A)|Peças superiores(S)|Peças inferiores(I)|Calçados(C)\n");
+    printf("Qual o tipo da peças?\n");
+    printf("Qual o tamanho das peças?\n");
+    printf("Qual a cor das peças?\n");
+    printf("Quantidade de peças?\n");
+    
+}
