@@ -1,5 +1,6 @@
 #include <stdio.h> 
 #include <stdlib.h>
+#include "cadastroMercadoria/cadastroMercadoria.h" 
 
 char tela_apresentation(void) {
   char enter;
@@ -43,10 +44,10 @@ char tela_principal(void) {
   printf("------------Projeto SIG-LOJA-MASCULINA--------------\n");
   printf("____________________________________________________\n");
   printf("                                                    \n");
-  printf("- - - - - - - - SIG-LOJA-MASCULIINA - - - - - - - - \n");
+  printf("- - - - - - - - SIG-LOJA-MASCULINA - - - - - - - - -\n");
   printf("                                                    \n");
   printf("             1 - Cadastro Vendedor                  \n");
-  printf("             2 - Cadastro Estoque                   \n");
+  printf("             2 - Cadastro Mercadoria                \n");
   printf("             3 - Seções                             \n");
   printf("             4 - Caixa                              \n");
   printf("             5 - Cartão da loja                     \n");
@@ -60,11 +61,48 @@ char tela_principal(void) {
 } 
 
 int main(){
+
   char tecla;
   while (tecla != 10){
     tecla = tela_apresentation();
-    printf("O cod ASCII do enter é: %d",tecla);
   }
-  printf("%c", tela_principal());
+
+  char opcao;
+  opcao = tela_principal();
+
+  switch (opcao){
+   case '1':
+    printf("Cadastro Vendedor");
+   break;
+
+   case '2':
+    printf("Cadastro Mercadoria");
+    exibirMenu();
+   break;
+
+   case '3':
+    printf("Seções");
+   break;
+
+   case '4':
+    printf("Caixa");
+   break;
+
+   case '5':
+    printf("Cartão da Loja");
+   break;
+
+   case '6':
+    printf("Relatórios");
+   break;
+
+   case '7':
+    printf("Fim do programa.");
+   break;
+
+   default:
+    printf("Opção inválida!");
+  }
+
 	return 0; 
 }
