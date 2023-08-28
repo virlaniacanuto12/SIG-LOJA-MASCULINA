@@ -2,21 +2,27 @@
 #include <stdlib.h>
 #include "cadastroMercadoria.h"
 
+char nomeFornecedor[61];
+char cnpjFornecedor[15];
+char lote[7];
 
-void exibirMenu(void){
+void exibirMenuMercadoria(void){
     char charOpcao;
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
+    printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
+    printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("- - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("- - - - - - - - - MENU MERCADORIA - - - - - - - - - \n");
+    printf("                  MENU MERCADORIA                   \n");
+    printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("             1 - Cadastrar estoque                  \n");
-    printf("             2 - Atualizar estoque                  \n");
+    printf("             2 - Editar estoque                     \n");
     printf("             3 - Excluir estoque                    \n");
     printf("             4 - Atualizar estoque                  \n");
     printf("             0 - Voltar                             \n");
@@ -30,18 +36,28 @@ void cadastroMercadoria(void){
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("- - - - - - - - CADASTRO-MERCADORIA - - - - - - - - \n");
+    printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
+    printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("Nome do fornecedor:\n");
-    printf("CNPJ do fornecedor:\n");
-    printf("Lote/remessa:\n");
+    printf("- - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
     printf("____________________________________________________\n");
-    printf("Informe a seção das peças:\n");
-    printf("Acessórios(A)|Peças superiores(S)|Peças inferiores(I)|Calçados(C)\n");
-    printf("Qual o tipo da peças?\n");
-    printf("Qual o tamanho das peças?\n");
-    printf("Qual a cor das peças?\n");
-    printf("Quantidade de peças?\n");
+    printf("                                                    \n");
+    printf("                  CADASTRAR ESTOQUE                 \n");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("Nome do fornecedor:                                 \n");
+    printf("CNPJ do fornecedor:                                 \n");
+    printf("Lote:                                               \n");
+    printf("                   SEÇÃO DAS PEÇAS                  \n");
+    printf("                                                    \n");
+    printf("Tipo da peça:                                       \n");
+    printf("Acessórios(A)|Peças superiores(S)                   \n");
+    printf("Peças inferiores(I)|Calçados(C):                    \n");
+    printf("                                                    \n");
+    printf("Descrição da peça:                                  \n");
+    printf("Tamanho:                                            \n");
+    printf("Cor:                                                \n");
+    printf("Quantidade:                                         \n");
     
 }

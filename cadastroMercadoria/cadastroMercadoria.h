@@ -1,3 +1,3 @@
 void opcaoMenu(char);
-void exibirMenu(void);
+void exibirMenuMercadoria(void);
 void cadastrarMercadoria(void);
