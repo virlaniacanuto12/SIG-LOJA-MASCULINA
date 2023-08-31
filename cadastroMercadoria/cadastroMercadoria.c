@@ -45,30 +45,21 @@ void cadastroMercadoria(void){
     printf("| - - - - - - - - - - SHOPMEN - - - - - - - - - - -|\n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("|                 CADASTRAR ESTOQUE                |\n");
+    printf("|               CADASTRAR MERCADORIA               |\n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("Nome do fornecedor:                                 \n");
     printf("CNPJ do fornecedor:                                 \n");
     printf("Cód do produto:                                     \n");  
-    printf("                                                    \n");
-    printf(" - - - - - - - - SEÇÃO DAS PEÇAS - - - - - - - - - -\n");
-    printf("                                                    \n");
-    printf("Tipo da peça                                        \n");
-    printf("                                                    \n");
-    printf("          Acessórios(A)|Peças superiores(S)         \n");
-    printf("           peças inferiores(I)|Calçados(C):         \n");
-    printf("                                                    \n");
     printf("Tamanho:                                            \n");
     printf("Cor:                                                \n");
-    printf("Quantidade:                                         \n");
-    printf("Preço:                                              \n");
+    printf("Preço de venda:                                     \n");
     printf("____________________________________________________\n");
 
     
 }
 
-void editarEstoque(void){
+void editarMercadoria(void){
     char charOpcao;
     system("clear||cls");
     printf("____________________________________________________\n");
@@ -84,7 +75,7 @@ void editarEstoque(void){
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("             1 - Tipo da peça                       \n");
-    printf("             2 - Cód produto                        \n");
+    printf("             2 - Cód de barras                      \n");
     printf("             3 - Quantidade                         \n");
     printf("             4 - Tamanho                            \n");
     printf("             5 - Cor                                \n");
@@ -95,7 +86,7 @@ void editarEstoque(void){
     //return charOpcao;
 }
 
-void excluirEstoque(void){
+void excluirMercadoria(void){
     char charOpcao;
     system("clear||cls");
     printf("____________________________________________________\n");
@@ -110,8 +101,8 @@ void excluirEstoque(void){
     printf("|                EXCLUIR MERCADORIA                |\n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("             Para voltar (0):                       \n");
-    printf("             N° de lote/cod (XXXX-XXXX):            \n");
+    printf("          Digite o cód de barras(12 dígitos):       \n");
+    printf("          Para voltar (0):                          \n");
     printf("____________________________________________________\n");
     scanf("%c", &charOpcao);
     //return charOpcao;
@@ -119,7 +110,7 @@ void excluirEstoque(void){
 /*A função pesquisar irá detalhar as informações básicas(quantidade,) do LOTE 
 que o usuário passar e as informações específicas do produto(cor e tamanho)*/
 
-void pesquisarEstoque(void){
+void pesquisarMercadoria(void){
     char charOpcao;
     system("clear||cls");
     printf("____________________________________________________\n");
@@ -134,8 +125,8 @@ void pesquisarEstoque(void){
     printf("|               PESQUISAR MERCADORIA               |\n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("             Informe o n° de lote/cod               \n");
-    printf("                    (XXXX-XXXX):                    \n");
+    printf("         Informe cód de barras(12 dígitos):         \n");
+    printf("                                                    \n");
     printf("____________________________________________________\n");
     scanf("%c", &charOpcao);
     //return charOpcao;
