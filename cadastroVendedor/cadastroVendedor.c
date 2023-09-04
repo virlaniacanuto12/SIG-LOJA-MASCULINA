@@ -34,10 +34,10 @@ void cadastroVendedor(void){
     printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("| - - - - - - - - - - SHOPMEN - - - - - - - - - - -|\n");
+    printf("  - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("|               CADASTRAR VENDEDOR                 |\n");
+    printf("                CADASTRAR VENDEDOR                  \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("              Nome:                                 \n");
@@ -59,7 +59,7 @@ void atualizarVendedor(void){
     printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("|- - - - - - - - - - SHOPMEN - - - - - - - - - - - |\n");
+    printf(" - - - - - - - - - - SHOPMEN - - - - - - - - - - -  \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("                ATUALIZAR VENDEDOR                  \n");
@@ -67,9 +67,9 @@ void atualizarVendedor(void){
     printf("                                                    \n");
     printf("        Informe a opção que deseja atualizar:       \n");
     printf("                                                    \n");
-    printf("            1 - Estado civil:                       \n");
-    printf("            2 - Naturalidade:                       \n");
-    printf("            3 - Escolaridade:                       \n");
+    printf("            1 - Estado civil                        \n");
+    printf("            2 - Naturalidade                        \n");
+    printf("            3 - Escolaridade                        \n");
     printf("                                                    \n");
     printf("____________________________________________________\n");
 }
@@ -82,7 +82,7 @@ void excluirVendedor(void){
     printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("|- - - - - - - - - - SHOPMEN - - - - - - - - - - - |\n");
+    printf(" - - - - - - - - - - SHOPMEN - - - - - - - - - - -  \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("                 EXCLUIR VENDEDOR                   \n");
@@ -102,7 +102,7 @@ void registroVendas(void){
     printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("|- - - - - - - - - - SHOPMEN - - - - - - - - - - - |\n");
+    printf(" - - - - - - - - - - SHOPMEN - - - - - - - - - - -  \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("                 REGISTRO DE VENDAS                 \n");
@@ -123,7 +123,7 @@ void conquistas(void){
     printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("|- - - - - - - - - - SHOPMEN - - - - - - - - - - - |\n");
+    printf(" - - - - - - - - - - SHOPMEN - - - - - - - - - - -  \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("                    CONQUISTAS                      \n");
