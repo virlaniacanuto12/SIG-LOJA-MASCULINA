@@ -1,6 +1,11 @@
 #include <stdio.h> 
 #include <stdlib.h>
 #include "cadastroMercadoria/cadastroMercadoria.h" 
+#include "cadastroVendedor/cadastroVendedor.h" 
+#include "caixa/caixa.h"
+#include "cartaoLoja/cartaoLoja.h"
+
+
 
 char tela_apresentation(void) {
   char enter;
@@ -26,7 +31,7 @@ char tela_apresentation(void) {
   printf("                                                    \n");
   printf("             Virlania Micarla Medeiros Canuto       \n");
   printf("____________________________________________________\n");
-  printf("Pressione enter para continuar!\n");
+  printf("---------->Pressione enter para continuar!<---------\n");
   enter = getchar();
   return enter;
 }
@@ -36,7 +41,7 @@ char tela_principal(void) {
   system("clear||cls");
   printf("\n");
   printf("____________________________________________________\n");
-  printf("\n");
+  printf("                                                    \n");
   printf("----Universidade Federal do Rio Grande do Norte-----\n");
   printf("------------Centro de Ensino Superior---------------\n");
   printf("-----Departamento de Computacao e Tecnologia--------\n");
@@ -45,13 +50,13 @@ char tela_principal(void) {
   printf("____________________________________________________\n");
   printf("                                                    \n");
   printf("- - - - - - - - SIG-LOJA-MASCULINA - - - - - - - - -\n");
+  printf("____________________________________________________\n");
   printf("                                                    \n");
   printf("             1 - Cadastro Vendedor                  \n");
   printf("             2 - Cadastro Mercadoria                \n");
-  printf("             3 - Seções                             \n");
-  printf("             4 - Caixa                              \n");
-  printf("             5 - Cartão da loja                     \n");
-  printf("             0 - Relatórios                         \n");
+  printf("             3 - Caixa                              \n");
+  printf("             4 - Cartão da loja                     \n");
+  printf("             5 - Relatórios                         \n");
   printf("             0 - Sair                               \n");
   printf("                                                    \n");
   printf("____________________________________________________\n");
@@ -72,20 +77,19 @@ int main(){
 
   switch (opcao){
    case '1':
-    printf("Cadastro Vendedor");
+    exibirMenuVendedor();
    break;
 
    case '2':
-    printf("Cadastro Mercadoria");
-    exibirMenu();
+    exibirMenuMercadoria();
    break;
 
    case '3':
-    printf("Seções");
+    pagamentoCaixa();
    break;
 
    case '4':
-    printf("Caixa");
+    menuCartao();
    break;
 
    case '5':
@@ -95,13 +99,9 @@ int main(){
    case '6':
     printf("Relatórios");
    break;
-
-   case '7':
-    printf("Fim do programa.");
-   break;
-
+  
    default:
-    printf("Opção inválida!");
+    printf("----------->Opção inválida!<------------");
   }
 
 	return 0; 
