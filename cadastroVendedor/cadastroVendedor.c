@@ -22,7 +22,6 @@ void exibirMenuVendedor(void){
     printf("             4 - Registro vendas                    \n");
     printf("             5 - Conquistas                         \n");
     printf("             0 - Voltar                             \n");
-    printf("                                                    \n");
     printf("____________________________________________________\n");
 }
 
@@ -41,12 +40,12 @@ void cadastroVendedor(void){
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("              Nome:                                 \n");
+    printf("              Tel:                                  \n");
     printf("              CPF:                                  \n");
     printf("              Data de nascimento:                   \n");
     printf("              Estado civil:                         \n");
     printf("              Naturalidade:                         \n");
     printf("              Escolaridade:                         \n");
-    printf("                                                    \n");
     printf("____________________________________________________\n");
 
 }
@@ -70,7 +69,6 @@ void atualizarVendedor(void){
     printf("            1 - Estado civil                        \n");
     printf("            2 - Naturalidade                        \n");
     printf("            3 - Escolaridade                        \n");
-    printf("                                                    \n");
     printf("____________________________________________________\n");
 }
 
@@ -89,7 +87,6 @@ void excluirVendedor(void){
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("    Informe o CPF do vendedor que deseja excluir:   \n");
-    printf("                                                    \n");
     printf("____________________________________________________\n");
 }
 
@@ -110,7 +107,6 @@ void registroVendas(void){
     printf("                                                    \n");
     printf("        Informe o CPF do vendedor que deseja        \n"); 
     printf("          verificar o registro de vendas:           \n");
-    printf("                                                    \n");
     printf("____________________________________________________\n");
 }
 /*A função conquista irá exibir as conquistas que aquele vendedor ja possui.
@@ -131,6 +127,5 @@ void conquistas(void){
     printf("                                                    \n");
     printf("        Informe o CPF do vendedor que deseja        \n"); 
     printf("            verificar as conquistas:                \n");
-    printf("                                                    \n");
     printf("____________________________________________________\n");
 }
