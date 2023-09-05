@@ -4,7 +4,9 @@
 
 
 /*A função pagamento caixa deverá pedir o cód de barras até as peças escolhiidas pelo cliente acabarem. 
-Após isso, é exibido o valor total das suas compras e o programa segue.*/
+Após isso, é exibido o valor total das suas compras e o programa segue. A informação data será pedida para 
+que a dinâmica dos relatórios possa ser feita*/
+
 void pagamentoCaixa(void){
     char charOpcao;
     system("clear||cls");
@@ -20,6 +22,7 @@ void pagamentoCaixa(void){
     printf("                       CAIXA                        \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
+    printf("             Data:                                  \n");
     printf("             Cód de barras:                         \n");
     printf("             Método de pagamento:                   \n");
     printf("             Vendedor:                              \n");
