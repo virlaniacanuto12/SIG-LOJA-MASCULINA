@@ -7,8 +7,6 @@
 #include "relatorios/relatorio.h"
 
 
-
-
 char tela_apresentation(void) {
   char enter;
   system("clear||cls");
@@ -40,8 +38,8 @@ char tela_apresentation(void) {
   return enter;
 }
 
-int tela_principal(void) {
-  int escolha;
+char tela_principal(void) {
+  char escolha;
   system("clear||cls");
   printf("\n");
   printf("____________________________________________________\n");
@@ -62,39 +60,39 @@ int tela_principal(void) {
   printf("             4 - Cartão da loja                     \n");
   printf("             5 - Relatórios                         \n");
   printf("             0 - Encerrar                           \n");
-  printf("                                                    \n");
   printf("____________________________________________________\n");
-  scanf("%d",&escolha);
+  scanf("%c",&escolha);
+  getchar();
   return escolha;
 } 
 
 int main(){
-  int escolha;
+  char escolha;
     do{
       tela_apresentation();
       escolha = tela_principal();
       switch(escolha){
-        case 0:
+        case '0':
           printf("----------Encerrando programa.............\n");
         break;
-        case 1:
+        case '1':
           menuVendedor();
         break;
-        case 2:
+        case '2':
           menuMercadoria();
         break;
-        case 3:
+        case '3':
           pagamentoCaixa();
         break;
-        case 4:
+        case '4':
           menuCartao();
         break;
-        case 5:
+        case '5':
           menuRelatorio();
         break;
         default:
           printf("------------Opção inválida!--------------\n");
       }
-    } while(escolha !=0);
+    } while(escolha != '0');
 	return 0; 
 }
