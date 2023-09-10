@@ -4,11 +4,14 @@
 #include "cadastroVendedor/cadastroVendedor.h" 
 #include "caixa/caixa.h"
 #include "cartaoLoja/cartaoLoja.h"
+#include "relatorios/relatorio.h"
+
 
 
 
 char tela_apresentation(void) {
   char enter;
+  system("clear||cls");
   printf("____________________________________________________\n");
   printf("                                                    \n");
   printf("----Universidade Federal do Rio Grande do Norte-----\n");
@@ -32,12 +35,13 @@ char tela_apresentation(void) {
   printf("             Virlania Micarla Medeiros Canuto       \n");
   printf("____________________________________________________\n");
   printf("---------->Pressione enter para continuar!<---------\n");
-  enter = getchar();
+  scanf("%c",&enter);
+  getchar();
   return enter;
 }
 
-char tela_principal(void) {
-  char escolha;
+int tela_principal(void) {
+  int escolha;
   system("clear||cls");
   printf("\n");
   printf("____________________________________________________\n");
@@ -57,52 +61,40 @@ char tela_principal(void) {
   printf("             3 - Caixa                              \n");
   printf("             4 - Cartão da loja                     \n");
   printf("             5 - Relatórios                         \n");
-  printf("             0 - Sair                               \n");
+  printf("             0 - Encerrar                           \n");
   printf("                                                    \n");
   printf("____________________________________________________\n");
-  printf("\n");
-  scanf("%c",&escolha);
+  scanf("%d",&escolha);
   return escolha;
 } 
 
 int main(){
-
-  char tecla;
-  while (tecla != 10){
-    tecla = tela_apresentation();
-  }
-
-  char opcao;
-  opcao = tela_principal();
-
-  switch (opcao){
-   case '1':
-    exibirMenuVendedor();
-   break;
-
-   case '2':
-    exibirMenuMercadoria();
-   break;
-
-   case '3':
-    pagamentoCaixa();
-   break;
-
-   case '4':
-    menuCartao();
-   break;
-
-   case '5':
-    printf("Cartão da Loja");
-   break;
-
-   case '6':
-    printf("Relatórios");
-   break;
-  
-   default:
-    printf("----------->Opção inválida!<------------");
-  }
-
+  int escolha;
+    do{
+      tela_apresentation();
+      escolha = tela_principal();
+      switch(escolha){
+        case 0:
+          printf("----------Encerrando programa.............\n");
+        break;
+        case 1:
+          menuVendedor();
+        break;
+        case 2:
+          menuMercadoria();
+        break;
+        case 3:
+          pagamentoCaixa();
+        break;
+        case 4:
+          menuCartao();
+        break;
+        case 5:
+          menuRelatorio();
+        break;
+        default:
+          printf("------------Opção inválida!--------------\n");
+      }
+    } while(escolha !=0);
 	return 0; 
 }
