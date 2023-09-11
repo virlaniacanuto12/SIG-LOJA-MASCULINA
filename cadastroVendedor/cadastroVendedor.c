@@ -1,8 +1,35 @@
 #include <stdio.h> 
 #include <stdlib.h>
-#include "cadastroVendedor.h"
+#include "cadastroVendedor.h" 
 
-void exibirMenuVendedor(void){
+void escolhaMenuVendedor(char escolha){
+        switch(escolha){
+        case '0':
+            printf("Saindo do programa!");
+        break;
+        case '1':
+            cadastroVendedor();
+        break;
+        case '2':
+            atualizarVendedor();
+        break;
+        case '3':
+            excluirVendedor();
+        break;
+        case '4':
+            registroVendas();
+        break;
+        case '5':
+            conquistas();
+        break;
+        default:
+            printf("------------------>Opção inválida!<-----------------\n");
+        }
+        menuVendedor();
+}
+
+char menuVendedor(void){
+    char charOpcao;
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
@@ -23,9 +50,13 @@ void exibirMenuVendedor(void){
     printf("             5 - Conquistas                         \n");
     printf("             0 - Voltar                             \n");
     printf("____________________________________________________\n");
+    scanf("%c", &charOpcao);
+    escolhaMenuVendedor(charOpcao);
+    return charOpcao;
 }
 
-void cadastroVendedor(void){
+char cadastroVendedor(void){
+    char charOpcao;
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
@@ -37,6 +68,8 @@ void cadastroVendedor(void){
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("                CADASTRAR VENDEDOR                  \n");
+    printf("                                                    \n");
+    printf("               Digite (0) Para Voltar               \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("              Nome:                                 \n");
@@ -47,10 +80,13 @@ void cadastroVendedor(void){
     printf("              Naturalidade:                         \n");
     printf("              Escolaridade:                         \n");
     printf("____________________________________________________\n");
-
+    scanf("%c", &charOpcao);
+    getchar();
+    return charOpcao;
 }
 
-void atualizarVendedor(void){
+char atualizarVendedor(void){
+    char charOpcao;
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
@@ -69,10 +105,15 @@ void atualizarVendedor(void){
     printf("            1 - Estado civil                        \n");
     printf("            2 - Naturalidade                        \n");
     printf("            3 - Escolaridade                        \n");
+    printf("            0 - Voltar                              \n");
     printf("____________________________________________________\n");
+    scanf("%c", &charOpcao);
+    getchar();
+    return charOpcao;
 }
 
-void excluirVendedor(void){
+char excluirVendedor(void){
+    char charOpcao;
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
@@ -84,14 +125,20 @@ void excluirVendedor(void){
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("                 EXCLUIR VENDEDOR                   \n");
+    printf("                                                    \n");
+    printf("               Digite (0) Para Voltar               \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("    Informe o CPF do vendedor que deseja excluir:   \n");
     printf("____________________________________________________\n");
+    scanf("%c", &charOpcao);
+    getchar();
+    return charOpcao;
 }
 
 /*A função registro de vendas irá exibir as vendas que o vendedor informado realizou no mês*/
-void registroVendas(void){
+char registroVendas(void){
+    char cpfVendedor;
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
@@ -102,16 +149,22 @@ void registroVendas(void){
     printf(" - - - - - - - - - - SHOPMEN - - - - - - - - - - -  \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("                 REGISTRO DE VENDAS                 \n");
+    printf("                REGISTRO DE VENDAS                  \n");
+    printf("                                                    \n");
+    printf("               Digite (0) Para Voltar               \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("        Informe o CPF do vendedor que deseja        \n"); 
     printf("          verificar o registro de vendas:           \n");
     printf("____________________________________________________\n");
+    scanf("%c", &cpfVendedor);
+    getchar();
+    return cpfVendedor;
 }
 /*A função conquista irá exibir as conquistas que aquele vendedor ja possui.
 Vai existir o broche de ouro, prata e bronze que vai variar de acordo com o valor vendido pelo vendedor*/
-void conquistas(void){
+char conquistas(void){
+    char cpfVendedor;
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
@@ -119,13 +172,18 @@ void conquistas(void){
     printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf(" - - - - - - - - - - SHOPMEN - - - - - - - - - - -  \n");
+    printf(" - - - - - - - - - -  SHOPMEN - - - - - - - - - - - \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("                    CONQUISTAS                      \n");
+    printf("                                                    \n");
+    printf("               Digite (0) Para Voltar               \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("        Informe o CPF do vendedor que deseja        \n"); 
     printf("            verificar as conquistas:                \n");
     printf("____________________________________________________\n");
+    scanf("%c", &cpfVendedor);
+    getchar();
+    return cpfVendedor;
 }
