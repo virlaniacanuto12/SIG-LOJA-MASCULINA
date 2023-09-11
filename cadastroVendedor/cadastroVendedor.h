@@ -1,7 +1,7 @@
-char cadastroVendedor(void); 
-char menuVendedor(void);
-char atualizarVendedor(void);
-char excluirVendedor(void);
-char registroVendas(void);
-char conquistas(void);
-void escolhaMenuVendedor(char);
+void cadastroVendedor(void); 
+void menuVendedor(void);
+void atualizarVendedor(void);
+void excluirVendedor(void);
+void registroVendas(void);
+void conquistas(void);
+void escolhaMenuVendedor(char);  

@@ -3,10 +3,7 @@
 #include "cadastroVendedor.h" 
 
 void escolhaMenuVendedor(char escolha){
-        switch(escolha){
-        case '0':
-            printf("Saindo do programa!");
-        break;
+    switch(escolha){
         case '1':
             cadastroVendedor();
         break;
@@ -24,38 +21,38 @@ void escolhaMenuVendedor(char escolha){
         break;
         default:
             printf("------------------>Opção inválida!<-----------------\n");
-        }
-        menuVendedor();
+    }
 }
 
-char menuVendedor(void){
-    char charOpcao;
-    system("clear||cls");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
-    printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("- - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("                   MENU VENDEDOR                    \n");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("             1 - Cadastrar vendedor                 \n");
-    printf("             2 - Atualizar vendedor                 \n");
-    printf("             3 - Excluir vendedor                   \n");
-    printf("             4 - Registro vendas                    \n");
-    printf("             5 - Conquistas                         \n");
-    printf("             0 - Voltar                             \n");
-    printf("____________________________________________________\n");
-    scanf("%c", &charOpcao);
-    escolhaMenuVendedor(charOpcao);
-    return charOpcao;
+void menuVendedor(void){
+    char charOpcao = '7';
+    do{
+        system("clear||cls");
+        printf("____________________________________________________\n");
+        printf("                                                    \n");
+        printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
+        printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
+        printf("____________________________________________________\n");
+        printf("                                                    \n");
+        printf("- - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
+        printf("____________________________________________________\n");
+        printf("                                                    \n");
+        printf("                   MENU VENDEDOR                    \n");
+        printf("____________________________________________________\n");
+        printf("                                                    \n");
+        printf("             1 - Cadastrar vendedor                 \n");
+        printf("             2 - Atualizar vendedor                 \n");
+        printf("             3 - Excluir vendedor                   \n");
+        printf("             4 - Registro vendas                    \n");
+        printf("             5 - Conquistas                         \n");
+        printf("             0 - Voltar                             \n");
+        printf("____________________________________________________\n");
+        scanf("%c", &charOpcao);
+        escolhaMenuVendedor(charOpcao);
+    }while(charOpcao != '0');
 }
 
-char cadastroVendedor(void){
+void cadastroVendedor(void){
     char charOpcao;
     system("clear||cls");
     printf("____________________________________________________\n");
@@ -82,10 +79,9 @@ char cadastroVendedor(void){
     printf("____________________________________________________\n");
     scanf("%c", &charOpcao);
     getchar();
-    return charOpcao;
 }
 
-char atualizarVendedor(void){
+void atualizarVendedor(void){
     char charOpcao;
     system("clear||cls");
     printf("____________________________________________________\n");
@@ -98,21 +94,21 @@ char atualizarVendedor(void){
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("                ATUALIZAR VENDEDOR                  \n");
+    printf("                                                    \n"); 
+    printf("               Digite (0) Para Voltar               \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("        Informe a opção que deseja atualizar:       \n");
+    printf("           Informe os dados para atualizar:         \n");
     printf("                                                    \n");
-    printf("            1 - Estado civil                        \n");
-    printf("            2 - Naturalidade                        \n");
-    printf("            3 - Escolaridade                        \n");
-    printf("            0 - Voltar                              \n");
+    printf("           Estado civil                             \n");
+    printf("           Naturalidade                             \n");
+    printf("           Escolaridade                             \n");
     printf("____________________________________________________\n");
     scanf("%c", &charOpcao);
     getchar();
-    return charOpcao;
 }
 
-char excluirVendedor(void){
+void excluirVendedor(void){
     char charOpcao;
     system("clear||cls");
     printf("____________________________________________________\n");
@@ -133,11 +129,10 @@ char excluirVendedor(void){
     printf("____________________________________________________\n");
     scanf("%c", &charOpcao);
     getchar();
-    return charOpcao;
 }
 
 /*A função registro de vendas irá exibir as vendas que o vendedor informado realizou no mês*/
-char registroVendas(void){
+void registroVendas(void){
     char cpfVendedor;
     system("clear||cls");
     printf("____________________________________________________\n");
@@ -159,11 +154,10 @@ char registroVendas(void){
     printf("____________________________________________________\n");
     scanf("%c", &cpfVendedor);
     getchar();
-    return cpfVendedor;
 }
 /*A função conquista irá exibir as conquistas que aquele vendedor ja possui.
 Vai existir o broche de ouro, prata e bronze que vai variar de acordo com o valor vendido pelo vendedor*/
-char conquistas(void){
+void conquistas(void){
     char cpfVendedor;
     system("clear||cls");
     printf("____________________________________________________\n");
@@ -185,5 +179,4 @@ char conquistas(void){
     printf("____________________________________________________\n");
     scanf("%c", &cpfVendedor);
     getchar();
-    return cpfVendedor;
 }
