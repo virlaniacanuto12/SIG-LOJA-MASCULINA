@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 #include <wchar.h>
 #include <wctype.h>
 #include "auxFuncoes.h"
@@ -27,16 +29,25 @@ int validarNum(char *senha) {
   return 0;
 }
 
-void leSenha(void) {
-  char senha[4]; 
+int verificarSenha(char *senha) {
   int i = 1;
   while (i) {
-    printf("Digite sua senha:");
-    fgets(senha, sizeof(senha), stdin);
-    limparBufferEntrada();
+    int tam = strlen(senha);
     i = validarNum(senha);
-    if (i == 1) {
+    if(tam-1 > 4){
+      printf("Senha inválida. Digite apenas 4 números!\n");
+      i = 0;
+    }
+    else if (i == 1) {
       printf("Senha inválida. Digite apenas números!\n");
+      i = 0;
     }
   }
+  return 1;
 }
+
+void leSenha(char *senha){
+  printf("Digite sua senha:");
+  fgets(senha, sizeof(senha), stdin);
+  verificarSenha(senha);
+ }

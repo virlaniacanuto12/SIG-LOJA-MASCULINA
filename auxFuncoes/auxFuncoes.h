@@ -6,4 +6,4 @@ int validarNum(char*);
 //char leCodBarras(char);
 //char leData(char);
 //char leCel(char);
-void leSenha(void);
+void leSenha(char*);
