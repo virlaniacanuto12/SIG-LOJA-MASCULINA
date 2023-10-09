@@ -66,7 +66,7 @@ void cadastrarCartao(void){
     printf("               Digite (0) Para Voltar               \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    leNomes(nome);
+    leNomes(nome);//não aparece
     printf("CPF:\n");
     printf("Data de nascimento:\n");
     printf("Tel:\n");
@@ -74,7 +74,7 @@ void cadastrarCartao(void){
     printf("Fechamento de fatura:\n");
     printf("Vencimento de fatura:\n");
     printf("Renda:\n");
-    leSenha(senha);
+    leSenha(senha);//não está parando para fazer leitura
     printf("____________________________________________________\n");
     scanf("%c", &charOpcao);
     getchar();
