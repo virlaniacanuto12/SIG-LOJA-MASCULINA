@@ -1,24 +1,17 @@
 #include <stdio.h> 
 #include <stdlib.h>
 #include "cartaoLoja.h"
+#include "../auxFuncoes/auxFuncoes.h"
 
-void escolhaMenuCartao(char escolha){
-    switch(escolha){
-        case '1':
-            cadastrarCartao();
-        break;
-        case '2':
-            atualizarCartao();
-        break;
-        case '3':
-            excluirCartao();
-        break;
-        case '4':
-            verificarCartao();
-        break;
-        default:
-            printf("------------------>Opção inválida!<-----------------\n");
-    }
+char senha[6];
+char nome[20];
+char cpf[20];
+char dataNascCliente[20];
+
+void leSenha(char *senha){
+  printf("Digite sua senha:");
+  fgets(senha, sizeof(senha), stdin);
+  verificarSenha(senha);
 }
 
 void menuCartao(void){
@@ -45,7 +38,7 @@ void menuCartao(void){
         printf("                                                    \n");
         printf("____________________________________________________\n");
         scanf("%c", &charOpcao);
-        getchar();
+        //getchar();
         escolhaMenuCartao(charOpcao);
     }while(charOpcao != '0');
 }
@@ -67,14 +60,15 @@ void cadastrarCartao(void){
     printf("               Digite (0) Para Voltar               \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("              Nome do cliente                       \n");
-    printf("              CPF:                                  \n");
-    printf("              Data de nascimento:                   \n");
-    printf("              Estado civil:                         \n");
-    printf("              Escolaridade:                         \n");
-    printf("              Fechamento de fatura:                 \n");
-    printf("              Vencimento de fatura:                 \n");
-    printf("              Renda:                                \n");
+    printf("Nome do cliente:\n");
+    printf("CPF:\n");
+    printf("Data de nascimento:\n");
+    printf("Tel:\n");
+    printf("Estado civil:\n");
+    printf("Fechamento de fatura:\n");
+    printf("Vencimento de fatura:\n");
+    printf("Renda:\n");
+    leSenha(senha);
     printf("____________________________________________________\n");
     scanf("%c", &charOpcao);
     getchar();
@@ -102,7 +96,6 @@ void atualizarCartao(void){
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("              Renda:                                \n");
-    printf("              Limite:                               \n");
     printf("              Data de fechamento:                   \n");
     printf("              Data de vencimento:                   \n");
     printf("              Senha:                                \n");
@@ -159,4 +152,23 @@ void verificarCartao(void){
     printf("____________________________________________________\n");
     scanf("%c", &charOpcao);
     getchar();
+}
+
+void escolhaMenuCartao(char escolha){
+    switch(escolha){
+        case '1':
+            cadastrarCartao();
+        break;
+        case '2':
+            atualizarCartao();
+        break;
+        case '3':
+            excluirCartao();
+        break;
+        case '4':
+            verificarCartao();
+        break;
+        default:
+            printf("------------------>Opção inválida!<-----------------\n");
+    }
 }
