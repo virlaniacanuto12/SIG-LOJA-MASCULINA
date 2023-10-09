@@ -90,14 +90,16 @@ int validarNome(char *nome) {
     return 1;
 }
 
-void leSenha(char *senha){
-  printf("Digite sua senha:");
-  fgets(senha, sizeof(senha), stdin);
-  verificarSenha(senha);
-}
-
 void leNomes(char *nome){
   printf("Nome:");
   fgets(nome, sizeof(nome), stdin);
   validarNome(nome);
+}
+
+float desconto(float valorCompra, int porcentagem){
+  float desconto;
+  float valorFinal;
+  desconto = (valorCompra * porcentagem) / 100;
+  valorFinal = valorCompra - desconto;
+  return valorFinal;
 }

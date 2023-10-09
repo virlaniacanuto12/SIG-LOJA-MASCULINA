@@ -14,6 +14,12 @@ void leSenha(char *senha){
   verificarSenha(senha);
 }
 
+void leNomes(char *nome){
+  printf("Nome:");
+  fgets(nome, sizeof(nome), stdin);
+  validarNome(nome);
+}
+
 void menuCartao(void){
     char charOpcao;
     do{
@@ -60,7 +66,7 @@ void cadastrarCartao(void){
     printf("               Digite (0) Para Voltar               \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("Nome do cliente:\n");
+    leNomes(nome);
     printf("CPF:\n");
     printf("Data de nascimento:\n");
     printf("Tel:\n");
