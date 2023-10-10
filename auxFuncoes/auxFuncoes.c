@@ -10,6 +10,51 @@
 bool v = true;
 bool f = false;
 
+//Função compartilhada por Vinicius Maia
+int ddd[27] = {11, 21, 27, 31, 41, 47, 51, 61, 62, 63, 65, 67, 68, 69,
+               71, 79, 81, 82, 83, 84, 85, 86, 91, 92, 95, 96, 98};
+
+int buscaDdd(int busca) {
+  int tam = sizeof(ddd) / sizeof(ddd[0]);
+  for (int i = 0; i < tam; i++) {
+    if (ddd[i] == busca) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
+//Função compartilhada por Vinicius Maia
+int buscaNum(int tam, char celular[]) {
+  for (int i = 0; i < tam; i++) {
+    if (!(celular[i] >= '0' && celular[i] <= '9')) {
+      return 0;
+    }
+  }
+  return 1;
+}
+
+//Função compartilhada por Vinicius Maia
+int validaCel(char celular[]) {
+
+  int tam = strlen(celular);
+  int ddd = ((celular[0] - '0') * 10) + (celular[1] - '0');
+
+  if (tam != 11) {
+    return 0;
+  }
+
+  if (!buscaDdd(ddd)) {
+    return 0;
+  }
+
+  if (!buscaNum(tam, celular)) {
+    return 0;
+  }
+
+  return 1;
+}
+
 //compartilhada por Vinicius Maia
 void limparBufferEntrada() {
   int c;
@@ -32,11 +77,11 @@ int verificarSenha(char *senha) {
     int tam = strlen(senha);
     i = validarNum(senha);
     if(tam-1 > 4){
-      printf("Senha inválida. Digite apenas 4 números!\n");
+      return 0;
       i = 0;
     }
     else if (i == 1) {
-      printf("Senha inválida. Digite apenas números!\n");
+      return 0;
       i = 0;
     }
   }
@@ -65,35 +110,25 @@ int validarNome(char *nome) {
     //só permite nome maiores que 2 letras 
     // é utilizado 3 para contar com o \n do teclado
     if (tam<3){
-        printf("Inválido");
         return 0;
     }
     // Verificar se o usuário não digitou um espaço em branco,tanto no ínicio como no final
     if ((isspace(nome[0])) || (isspace(nome[tam - 2]))) {
-        printf("Inválido");
         return 0;
     }
     //esse loop serve para procurar a questão de números
     for (int j = 0; j < tam - 1; j++) {
         if (!letraAcentuada(nome[j])) {
-            printf("Inválido");
             return 0;
         }
     }
     // Verifica se dois espaços em branco consecutivos
     for (int i = 0; i < tam - 2; i++) {
         if ((isspace(nome[i])) && (isspace(nome[i + 1]))) {
-            printf("Inválido");
             return 0;
         }
     }
     return 1;
-}
-
-void leNomes(char *nome){
-  printf("Nome:");
-  fgets(nome, sizeof(nome), stdin);
-  validarNome(nome);
 }
 
 float desconto(float valorCompra, int porcentagem){
