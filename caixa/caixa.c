@@ -154,6 +154,7 @@ void pagamentoCaixa(void){
     printf("               Digite (0) Para Voltar               \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
+    printf("Vendedor responsável:\n");
     printf("Data:\n");
     printf("Cód de barras:\n");
     printf("Método de pagamento:\n");
