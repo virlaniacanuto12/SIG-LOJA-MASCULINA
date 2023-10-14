@@ -10,6 +10,12 @@ char estadoCivil[21];
 char naturalidade[21];
 char escolaridade[31];
 
+void leNomes(char *nome){
+  printf("Nome:");
+  fgets(nome, sizeof(nome), stdin);
+  validarNome(nome);
+}
+
 void escolhaMenuVendedor(char escolha){
     switch(escolha){
         case '1':
@@ -81,8 +87,9 @@ void cadastroVendedor(void){
     printf("____________________________________________________\n");
     printf("                                                    \n");
     getchar();
-    printf("Nome:");
-    fgets(nomeVendedor, sizeof(nomeVendedor), stdin);
+    //printf("Nome:");
+    //fgets(nomeVendedor, sizeof(nomeVendedor), stdin);
+    leNomes(nomeVendedor);
     fflush(stdin);
     printf("Tel:");
     fgets(celVendedor, sizeof(celVendedor), stdin);
