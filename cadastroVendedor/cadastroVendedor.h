@@ -8,3 +8,6 @@ void escolhaMenuVendedor(char);
 void leNomes(char*);
 void leCpf(char*);
 void leCel(char*);
+void leDataNasc(char*);
+void leEstadoCivil(char*);
+void leEscolaridade(char*);

@@ -6,21 +6,19 @@
 char nomeVendedor[51];
 char cpfVendedor[13];
 char celVendedor[13];
-char dataNascimento[10];
-char estadoCivil[21];
+char dataNascimento[12];
+char estadoCivil[50];
 char naturalidade[21];
 char escolaridade[31];
 
 void leCpf(char *cpf){
   printf("CPF:");
   fgets(cpf, sizeof(cpf), stdin);
-
 }
 
 void leCel(char *cel){
   printf("Tel:");
   fgets(cel, sizeof(cel), stdin);
-
 }
 
 void leNomes(char *nome){
@@ -28,6 +26,27 @@ void leNomes(char *nome){
   fgets(nome, sizeof(nome), stdin);
   validarNome(nome);
 }
+
+void leDataNasc(char *dataNasc){
+  printf("Data de nascimento(xx/xx/xxxx):");
+  fgets(dataNasc, sizeof(dataNasc), stdin);
+}
+
+void leEstadoCivil(char *estadoCivil){
+  printf("Estado civil:");
+  fgets(estadoCivil, sizeof(estadoCivil), stdin);
+}
+
+void leNaturalidade(char *naturalidade){
+  printf("Naturalidade:");
+  fgets(naturalidade, sizeof(naturalidade), stdin);
+}
+
+void leEscolaridade(char *escolaridade){
+  printf("Escolaridade:");
+  fgets(escolaridade, sizeof(escolaridade), stdin);
+}
+
 
 void escolhaMenuVendedor(char escolha){
     switch(escolha){
@@ -109,19 +128,19 @@ void cadastroVendedor(void){
 
     leCpf(cpfVendedor);
     fflush(stdin);
+    
+    leDataNasc(dataNascimento);
+    fflush(stdin);
+    
+    leEstadoCivil(estadoCivil);
+    fflush(stdin);
+    
+    leNaturalidade(naturalidade);
+    fflush(stdin);
 
-    printf("Data de nascimento:");
-    fgets(dataNascimento, sizeof(dataNascimento), stdin);
+    leEscolaridade(escolaridade);
     fflush(stdin);
-    printf("Estado civil:");
-    fgets(estadoCivil, sizeof(estadoCivil), stdin);
-    fflush(stdin);
-    printf("Naturalidade:");
-    fgets(naturalidade, sizeof(naturalidade), stdin);
-    fflush(stdin);
-    printf("Escolaridade:");
-    fgets(escolaridade, sizeof(escolaridade), stdin);
-    fflush(stdin);
+
     printf("______________________________________________________");
     scanf("%c", &charOpcao);
 }
