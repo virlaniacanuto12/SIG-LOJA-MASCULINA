@@ -5,3 +5,6 @@ void excluirVendedor(void);
 void registroVendas(void);
 void conquistas(void);
 void escolhaMenuVendedor(char);  
+void leNomes(char*);
+void leCpf(char*);
+void leCel(char*);

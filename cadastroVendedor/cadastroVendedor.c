@@ -4,11 +4,24 @@
 #include "../auxFuncoes/auxFuncoes.h"
 
 char nomeVendedor[51];
-char cpfVendedor[12];
+char cpfVendedor[13];
+char celVendedor[13];
 char dataNascimento[10];
 char estadoCivil[21];
 char naturalidade[21];
 char escolaridade[31];
+
+void leCpf(char *cpf){
+  printf("CPF:");
+  fgets(cpf, sizeof(cpf), stdin);
+
+}
+
+void leCel(char *cel){
+  printf("Tel:");
+  fgets(cel, sizeof(cel), stdin);
+
+}
 
 void leNomes(char *nome){
   printf("Nome:");
@@ -87,16 +100,16 @@ void cadastroVendedor(void){
     printf("____________________________________________________\n");
     printf("                                                    \n");
     getchar();
-    //printf("Nome:");
-    //fgets(nomeVendedor, sizeof(nomeVendedor), stdin);
+    
     leNomes(nomeVendedor);
     fflush(stdin);
-    printf("Tel:");
-    fgets(celVendedor, sizeof(celVendedor), stdin);
+
+    leCel(celVendedor);
     fflush(stdin);
-    printf("CPF:");
-    fgets(cpfVendedor, sizeof(cpfVendedor), stdin);
+
+    leCpf(cpfVendedor);
     fflush(stdin);
+
     printf("Data de nascimento:");
     fgets(dataNascimento, sizeof(dataNascimento), stdin);
     fflush(stdin);
