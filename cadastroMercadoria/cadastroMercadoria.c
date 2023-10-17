@@ -2,6 +2,17 @@
 #include <stdlib.h>
 #include "cadastroMercadoria.h"
 
+typedef struct mercadoria Mercadoria;
+
+struct {
+  char nomeFornecedor[51];
+  char codProduto[13];
+  char cnpj[13];
+  char tamanho[12];
+  char cor[50];
+  char precoMercadoria[21];
+};
+
 void escolhaMenuMercadoria(char escolha){
     switch(escolha){
         case '1':
@@ -68,7 +79,7 @@ void cadastroMercadoria(void){
     printf("                                                    \n");
     printf("            Nome do fornecedor:                     \n");
     printf("            CNPJ do fornecedor:                     \n");
-    printf("            Cód do produto:                         \n");  
+    printf("            Cód de barras:                          \n");  
     printf("            Tamanho:                                \n");
     printf("            Cor:                                    \n");
     printf("            Preço de venda:                         \n");
