@@ -5,16 +5,6 @@
 
 typedef struct vendedor Vendedor;
 
-struct vendedor{
-  char nomeVendedor[51];
-  char cpfVendedor[13];
-  char celVendedor[13];
-  char dataNascimento[12];
-  char estadoCivil[50];
-  char naturalidade[21];
-  char escolaridade[31];
-};
-
 char nomeVendedor[51];
 char cpfVendedor[13];
 char celVendedor[13];
@@ -151,7 +141,8 @@ void cadastroVendedor(void){
     fflush(stdin);
 
     leEscolaridade(escolaridade);
-    fflush(stdin);
+    limparBufferEntrada();
+    //fflush(stdin);
 
     printf("______________________________________________________");
     scanf("%c", &charOpcao);
