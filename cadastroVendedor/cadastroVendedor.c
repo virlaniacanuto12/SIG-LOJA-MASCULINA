@@ -3,15 +3,6 @@
 #include "cadastroVendedor.h" 
 #include "../auxFuncoes/auxFuncoes.h"
 
-typedef struct vendedor Vendedor;
-
-char nomeVendedor[51];
-char cpfVendedor[13];
-char celVendedor[13];
-char dataNascimento[12];
-char estadoCivil[50];
-char naturalidade[21];
-char escolaridade[31];
 
 void leCpf(char *cpf){
   printf("CPF:");
@@ -102,8 +93,7 @@ void menuVendedor(void){
 }
 
 void cadastroVendedor(void){
-    //char nomeVendedor[51];
-    char celVendedor[12];
+    Vendedor* vendedor;
     char charOpcao;
     system("clear||cls");
     printf("____________________________________________________\n");
@@ -122,30 +112,29 @@ void cadastroVendedor(void){
     printf("                                                    \n");
     getchar();
     
-    leNomes(nomeVendedor);
+    leNomes(vendedor->nomeVendedor);
     fflush(stdin);
 
-    leCel(celVendedor);
+    leCel(vendedor->celVendedor);
     fflush(stdin);
 
-    leCpf(cpfVendedor);
+    leCpf(vendedor->cpfVendedor);
     fflush(stdin);
     
-    leDataNasc(dataNascimento);
+    leDataNasc(vendedor->dataNascimento);
     fflush(stdin);
     
-    leEstadoCivil(estadoCivil);
+    leEstadoCivil(vendedor->estadoCivil);
     fflush(stdin);
     
-    leNaturalidade(naturalidade);
+    leNaturalidade(vendedor->naturalidade);
     fflush(stdin);
 
-    leEscolaridade(escolaridade);
+    leEscolaridade(vendedor->escolaridade);
     limparBufferEntrada();
     //fflush(stdin);
-
-    printf("______________________________________________________");
     scanf("%c", &charOpcao);
+    printf("______________________________________________________");
 }
 
 void atualizarVendedor(void){

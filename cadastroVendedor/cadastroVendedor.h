@@ -1,3 +1,5 @@
+typedef struct vendedor Vendedor;
+
 struct vendedor{
   char nomeVendedor[51];
   char cpfVendedor[13];
