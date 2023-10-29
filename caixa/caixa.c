@@ -4,6 +4,7 @@
 #include "../auxFuncoes/auxFuncoes.h"
 
 
+
 int exibeMetodoPag(char escolhaPag) {
   switch (escolhaPag) {
   case '1':
@@ -161,7 +162,6 @@ void pagamentoCaixa(void){
     //scanf(" %c",&charOpcao);
     leMetodoPag();
     //printf("%c",charOpcao);
-    printf("Vendedor:\n");
     printf("____________________________________________________\n");
 
 }
