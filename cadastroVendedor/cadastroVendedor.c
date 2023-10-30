@@ -17,7 +17,7 @@ void leCel(char *cel){
 void leNomes(char *nome){
   printf("Nome:");
   fgets(nome, sizeof(nome), stdin);
-  validarNome(nome);
+  //validarNome(nome);
 }
 
 void leDataNasc(char *dataNasc){
@@ -63,6 +63,54 @@ void escolhaMenuVendedor(char escolha){
     }
 }
 
+Vendedor* cadastrandoVendedor(void){
+  Vendedor *vendedor;
+  vendedor = (Vendedor *)malloc(sizeof(Vendedor));
+  leNomes(vendedor->nomeVendedor);
+  limparBufferEntrada();
+  // fflush(stdin);
+
+  leCel(vendedor->celVendedor);
+  limparBufferEntrada();
+  // fflush(stdin);
+
+  leCpf(vendedor->cpfVendedor);
+  limparBufferEntrada();
+  // fflush(stdin);
+
+  leDataNasc(vendedor->dataNascimento);
+  limparBufferEntrada();
+  // fflush(stdin);
+
+  leEstadoCivil(vendedor->estadoCivil);
+  limparBufferEntrada();
+  // fflush(stdin);
+
+  leNaturalidade(vendedor->naturalidade);
+  limparBufferEntrada();
+  // fflush(stdin);
+
+  leEscolaridade(vendedor->escolaridade);
+  return vendedor;
+}
+
+int gravandoVendedor(void) {
+  //limparBufferEntrada();
+  FILE *fp;
+  Vendedor *novoVendedor;
+  fp = fopen("arquivo.bin", "ab");
+
+  if (fp == NULL) {
+    printf("Erro na criacao do arquivo\n!");
+    exit(1);
+  }
+  novoVendedor = cadastrandoVendedor();
+  fwrite(novoVendedor, sizeof(Vendedor), 1, fp);
+  fclose(fp);
+  free(novoVendedor);
+  return 0;
+}
+
 void menuVendedor(void){
     char charOpcao = '7';
     do{
@@ -93,7 +141,7 @@ void menuVendedor(void){
 }
 
 void cadastroVendedor(void){
-    Vendedor* vendedor;
+    //Vendedor* vendedor;
     char charOpcao;
     system("clear||cls");
     printf("____________________________________________________\n");
@@ -109,32 +157,9 @@ void cadastroVendedor(void){
     printf("                                                    \n");
     printf("               Digite (0) Para Voltar               \n");
     printf("____________________________________________________\n");
-    printf("                                                    \n");
+    gravandoVendedor();
     getchar();
-    
-    leNomes(vendedor->nomeVendedor);
-    fflush(stdin);
-
-    leCel(vendedor->celVendedor);
-    fflush(stdin);
-
-    leCpf(vendedor->cpfVendedor);
-    fflush(stdin);
-    
-    leDataNasc(vendedor->dataNascimento);
-    fflush(stdin);
-    
-    leEstadoCivil(vendedor->estadoCivil);
-    fflush(stdin);
-    
-    leNaturalidade(vendedor->naturalidade);
-    fflush(stdin);
-
-    leEscolaridade(vendedor->escolaridade);
-    limparBufferEntrada();
-    //fflush(stdin);
     scanf("%c", &charOpcao);
-    printf("______________________________________________________");
 }
 
 void atualizarVendedor(void){
