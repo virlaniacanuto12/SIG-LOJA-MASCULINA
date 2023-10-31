@@ -1,6 +1,7 @@
 #include <stdio.h> 
 #include <stdlib.h>
 #include "cadastroMercadoria.h"
+#include "../auxFuncoes/auxFuncoes.h"
 
 void leCnpj(char *cnpj){
   printf("CNPJ do fornecedor:");
@@ -31,6 +32,49 @@ void leCor(char *cor){
 void lePreco(char *preco){
   printf("Preço:");
   fgets(preco, sizeof(preco), stdin);
+}
+
+Mercadoria* cadastrandoMercadoria(void){
+  Mercadoria *mercadoria;
+  mercadoria = (Mercadoria *)malloc(sizeof(Mercadoria));
+  leNomes(mercadoria->nomeFornecedor);
+  limparBufferEntrada();
+  // fflush(stdin);
+
+  leCodBarras(mercadoria->codBarras);
+  limparBufferEntrada();
+  // fflush(stdin);
+
+  leTamanho(mercadoria->tamanho);
+  limparBufferEntrada();
+  // fflush(stdin);
+
+  leCor(mercadoria->cor);
+  limparBufferEntrada();
+  // fflush(stdin);
+
+  lePreco(mercadoria->preco);
+  limparBufferEntrada();
+  // fflush(stdin);
+
+  return mercadoria;
+}
+
+int gravandoMercadoria(void) {
+  //limparBufferEntrada();
+  FILE *fp;
+  Mercadoria *mercadoria;
+  fp = fopen("arquivoMercadoria.bin", "ab");
+
+  if (fp == NULL) {
+    printf("Erro na criacao do arquivo\n!");
+    exit(1);
+  }
+  mercadoria = cadastrandoMercadoria();
+  fwrite(mercadoria, sizeof(mercadoria), 1, fp);
+  fclose(fp);
+  free(mercadoria);
+  return 0;
 }
 
 void escolhaMenuMercadoria(char escolha){
@@ -97,13 +141,7 @@ void cadastroMercadoria(void){
     printf("                CADASTRAR MERCADORIA                \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("            Nome do fornecedor:                     \n");
-    printf("            CNPJ do fornecedor:                     \n");
-    printf("            Cód de barras:                          \n");  
-    printf("            Tamanho:                                \n");
-    printf("            Cor:                                    \n");
-    printf("            Preço de venda:                         \n");
-    printf("____________________________________________________\n");
+    gravandoMercadoria();
     scanf("%c", &charOpcao);
     getchar();
 }

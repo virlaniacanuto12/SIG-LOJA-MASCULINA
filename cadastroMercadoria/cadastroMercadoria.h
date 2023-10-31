@@ -2,11 +2,11 @@ typedef struct mercadoria Mercadoria;
 
 struct mercadoria{
   char nomeFornecedor[51];
-  char codProduto[13];
+  char codBarras[13];
   char cnpj[13];
   char tamanho[12];
   char cor[50];
-  char precoMercadoria[21];
+  char preco[21];
 };
 
 void opcaoMenu(char);
