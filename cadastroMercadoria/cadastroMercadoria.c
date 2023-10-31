@@ -2,16 +2,36 @@
 #include <stdlib.h>
 #include "cadastroMercadoria.h"
 
-typedef struct mercadoria Mercadoria;
+void leCnpj(char *cnpj){
+  printf("CNPJ do fornecedor:");
+  fgets(cnpj, sizeof(cnpj), stdin);
+}
 
-struct {
-  char nomeFornecedor[51];
-  char codProduto[13];
-  char cnpj[13];
-  char tamanho[12];
-  char cor[50];
-  char precoMercadoria[21];
-};
+void leNomeFornecedor(char *nomeFornecedor){
+  printf("Nome do Fornecedor:");
+  fgets(nomeFornecedor, sizeof(nomeFornecedor), stdin);
+  //validarNome(nome);
+}
+
+void leCodBarras(char *codBarras){
+  printf("Código de barras:");
+  fgets(codBarras, sizeof(codBarras), stdin);
+}
+
+void leTamanho(char *tamanho){
+  printf("Tamanho:");
+  fgets(tamanho, sizeof(tamanho), stdin);
+}
+
+void leCor(char *cor){
+  printf("Cor:");
+  fgets(cor, sizeof(cor), stdin);
+}
+
+void lePreco(char *preco){
+  printf("Preço:");
+  fgets(preco, sizeof(preco), stdin);
+}
 
 void escolhaMenuMercadoria(char escolha){
     switch(escolha){
