@@ -81,6 +81,7 @@ void escolhaMenuVendedor(char escolha){
           lendoDados();
           break;
         case '3':
+          atualizarVendedor();
           getchar();
           break;
         case '4':
@@ -179,6 +180,15 @@ void lendoDados(void){
     printf("Erro na abertura do arquivo\n");
     exit(1);
   }
+  system("clear||cls");
+  printf("____________________________________________________\n");
+  printf("                                                    \n");
+  printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
+  printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
+  printf("____________________________________________________\n");
+  printf("                                                    \n");
+  printf("- - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
+  printf("____________________________________________________\n");
   printf("                                                    \n");
   printf("               USUÁRIOS CADASTRADOS                 \n");
   printf("____________________________________________________\n");
@@ -224,7 +234,10 @@ void menuVendedor(void){
 }
 
 void atualizarVendedor(void){
-    char charOpcao;
+    char cpf[12];
+    Vendedor* vendedor = (Vendedor*) malloc(sizeof(Vendedor));
+    FILE* fp;
+    int achei = 0;
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
@@ -235,20 +248,54 @@ void atualizarVendedor(void){
     printf(" - - - - - - - - - - SHOPMEN - - - - - - - - - - -  \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("                ATUALIZAR VENDEDOR                  \n");
+    printf("                  EDITAR VENDEDOR                   \n");
     printf("                                                    \n"); 
     printf("               Digite (0) Para Voltar               \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("           Informe os dados para atualizar:         \n");
-    printf("                                                    \n");
-    printf("           Estado civil                             \n");
-    printf("           Naturalidade                             \n");
-    printf("           Escolaridade                             \n");
+    printf("  Informe o cpf do vendedor que deseja atualizar:   \n");
     printf("____________________________________________________\n");
-    scanf("%c", &charOpcao);
+    leCpf(cpf);
     getchar();
-}
+    fp = fopen("arquivoVendedor.bin", "r+b");
+    if (fp == NULL) {
+      printf("\t\t Erro na abertura do arquivo!\n");
+      getchar();
+    }else{
+      while (fread(vendedor, sizeof(Vendedor), 1, fp) == 1) {
+        if(strcmp(vendedor->cpfVendedor, cpf) == 0) {
+          printf("\n");
+          printf("                  Usuário Encontrado                \n");
+          printf("                                                    \n");
+          printf("           Informe os dados para atualizar:         \n");
+      
+          leCel(vendedor->celVendedor);
+
+          leEstadoCivil(vendedor->estadoCivil);
+      
+          leEscolaridade(vendedor->escolaridade);
+
+          vendedor-> status = 'a';
+
+          fseek(fp, -sizeof(Vendedor), SEEK_CUR);
+          fwrite(vendedor, sizeof(Vendedor), 1, fp);
+          achei = 1;
+          break;
+        }
+      }
+    }
+    if(!achei){
+      printf("\n");
+      printf("\t\t\t CPF não encontrado!\n");
+    } else{
+      printf("\n");
+      printf("\t\t\t Usuário atualizado com sucesso!\n");
+    }
+    getchar();
+    fclose(fp);
+    free(vendedor);
+}   
+
 
 void excluirVendedor(void){
     char cpf[13];
