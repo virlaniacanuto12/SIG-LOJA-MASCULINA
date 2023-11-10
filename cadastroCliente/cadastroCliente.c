@@ -152,7 +152,6 @@ void verificarCliente(void){
     printf("        Informe o CPF do cliente que deseja         \n");
     printf("                verificar o cartão:                 \n");
     printf("____________________________________________________\n");
-    scanf("%c", &charOpcao);
     getchar();
 }
 
