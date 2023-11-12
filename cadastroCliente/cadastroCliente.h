@@ -6,11 +6,15 @@ struct cliente{
   char clienteDataNasc[9];
   char tel[12];
   char email[50];
-  char estadoCivil[21];
+  char estadoCivilCliente[21];
+  char status; 
 };
 void menuCliente(void);
 void escolhaMenuCliente(char);
-void cadastrarCliente(void);
+void exibeCliente(Cliente* cliente);
+void gravandoCliente(Cliente* cliente);
+void lendoCliente(void);
+Cliente* cadastrarCliente(void);
 void atualizarCliente(void);
 void excluirCliente(void);
 //void leSenha(char*);

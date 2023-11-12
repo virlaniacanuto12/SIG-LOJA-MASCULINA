@@ -1,24 +1,51 @@
 #include <stdio.h> 
 #include <stdlib.h>
+#include <string.h>
+#include <stdio_ext.h> 
 #include "cadastroCliente.h"
 #include "../auxFuncoes/auxFuncoes.h"
 
-char senhas[6];
-char nomes[20];
-char cpfs[20];
-char dataNasCliente[20];
-
-/*void leSenha(char *senha){
-  printf("Digite sua senha:");
-  fgets(senha, sizeof(senha), stdin);
-  verificarSenha(senha);
-  }*/
 
 void lerNomes(char *nome){
   printf("Nome:");
-  fgets(nome, sizeof(nome), stdin);
+  fgets(nome, 51, stdin);
   //validarNome(nome);
+   if (nome[strlen(nome) - 1] == '\n') {
+    nome[strlen(nome) - 1] = '\0';
+  }
 }
+
+void lecpfCliente(char *cpf){
+  printf("CPF:");
+  fgets(cpf, 13, stdin);
+  if (cpf[strlen(cpf) - 1] == '\n') {
+    cpf[strlen(cpf) - 1] = '\0';
+  }
+}
+
+void leclienteDataNasc(char *dataNasc){
+  printf("Data de nascimento:");
+  fgets(dataNasc, 9, stdin);
+   if (dataNasc[strlen(dataNasc) - 1] == '\n') {
+    dataNasc[strlen(dataNasc) - 1] = '\0';
+  }
+}
+
+void leTel(char *tel){
+  printf("Tel:");
+  fgets(tel, 12, stdin);
+}
+
+void leEmail(char *email){
+  printf("Email:");
+  fgets(email, 50, stdin);
+}
+
+void leEstadoCivilCliente(char *estadoCivil){
+  printf("Estado civil:");
+  fgets(estadoCivil, 21, stdin);
+}
+
 
 void menuCliente(void){
     char charOpcao;
@@ -49,8 +76,9 @@ void menuCliente(void){
     }while(charOpcao != '0');
 }
 
-void cadastrarCliente(void){
-    char charOpcao;
+Cliente* cadastrarCliente(void){
+  Cliente *cliente;
+  cliente = (Cliente *)malloc(sizeof(Cliente));
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
@@ -66,16 +94,93 @@ void cadastrarCliente(void){
     printf("               Digite (0) Para Voltar               \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    lerNomes(nomes);//não aparece
-    printf("CPF:\n");
-    printf("Data de nascimento:\n");
-    printf("Tel:\n");
-    printf("Email:\n");
-    printf("Estado civil:\n");
-    //leSenha(senha);//não está parando para fazer leitura
+    
+    lerNomes(cliente->nomeCliente);
+
+    lecpfCliente(cliente->cpfCliente);
+
+    leclienteDataNasc(cliente->clienteDataNasc);
+
+    leTel(cliente->tel);
+
+    leEmail(cliente->email);
+
+    leEstadoCivilCliente(cliente->estadoCivilCliente);
+
+    cliente->status='A'; 
+   
     printf("____________________________________________________\n");
-    scanf("%c", &charOpcao);
+    return cliente; 
+}
+
+void gravandoCliente(Cliente *cliente){
+  FILE *fp;
+  fp = fopen("arquivoCliente.bin","ab");
+
+  if(fp == NULL ){
+    printf("Erro na criação do arquivo!");
     getchar();
+  }
+
+  fwrite(cliente, sizeof(Cliente),1,fp);
+  fclose(fp);
+  free(cliente);
+}
+
+void exibeCliente(Cliente* cliente){
+  char situacao[20];
+
+  if((cliente == NULL) || (cliente->status == 'i')){
+    printf("Cliente não encontrado!");
+  } else{
+    printf("Nome:%s\n", cliente->nomeCliente);
+    printf("CPF:%s\n", cliente->cpfCliente);
+    printf("Celular:%s\n", cliente->tel);
+    printf("Email:%s\n", cliente->email);
+    printf("Data de nascimento:%s\n", cliente->clienteDataNasc);
+    printf("Estado Civil:%s\n", cliente->estadoCivilCliente);
+    printf("Status:%c\n", cliente->status);
+  }
+  if (cliente->status == 'a'){
+    strcpy(situacao, "Cadastro Ativo");
+  } else {
+    strcpy(situacao, "Cadastro Inativo");
+  }
+}
+
+void lendoCliente(void){
+  FILE *fp;
+  Cliente* cliente;
+  cliente = (Cliente*) malloc(sizeof(Cliente));
+  fp = fopen("arquivoCliente.bin","rb");
+
+  if (fp == NULL){
+    printf("Erro na abertura do arquivo!\n");
+    exit(1);
+  }
+  
+  system("clear||cls");
+  printf("____________________________________________________\n");
+  printf("                                                    \n");
+  printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
+  printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
+  printf("____________________________________________________\n");
+  printf("                                                    \n");
+  printf("- - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
+  printf("____________________________________________________\n");
+  printf("                                                    \n");
+  printf("               CLIENTES CADASTRADOS                 \n");
+  printf("____________________________________________________\n");
+
+  while(fread(cliente, sizeof(Cliente), 1, fp)){
+    exibeCliente(cliente);
+    printf("\n");
+  }
+  
+  fclose(fp);
+  free(cliente);
+  getchar();
+
 }
 
 void atualizarCliente(void){
@@ -133,7 +238,6 @@ void excluirCliente(void){
 data de vencimento, data de fechamento da fatura, limite e limite disponível.
 */
 void verificarCliente(void){
-    char charOpcao;
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
@@ -156,19 +260,23 @@ void verificarCliente(void){
 }
 
 void escolhaMenuCliente(char escolha){
+  Cliente *cliente;
     switch(escolha){
         case '1':
-            cadastrarCliente();
-        break;
+          cliente = cadastrarCliente();
+          gravandoCliente(cliente);
+          break;
         case '2':
             atualizarCliente();
-        break;
+          break;
         case '3':
             excluirCliente();
-        break;
+          break;
         case '4':
-            verificarCliente();
-        break;
+          getchar();
+          lendoCliente();
+            //verificarCliente();
+          break;
         default:
             printf("------------------>Opção inválida!<-----------------\n");
     }
