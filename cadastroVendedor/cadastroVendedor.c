@@ -100,7 +100,6 @@ Vendedor* cadastroVendedor(void){
   Vendedor *vendedor;
   vendedor = (Vendedor *)malloc(sizeof(Vendedor));
   
-  char charOpcao;
   system("clear||cls");
   printf("____________________________________________________\n");
   printf("                                                    \n");
@@ -115,7 +114,7 @@ Vendedor* cadastroVendedor(void){
   printf("                                                    \n");
   printf("               Digite (0) Para Voltar               \n");
   printf("____________________________________________________\n");
-  scanf("%c", &charOpcao);
+ // scanf("%c", &charOpcao);
   
   leNomes(vendedor->nomeVendedor);
 
@@ -234,7 +233,7 @@ void menuVendedor(void){
 }
 
 void atualizarVendedor(void){
-    char cpf[12];
+    char cpf[13];
     Vendedor* vendedor = (Vendedor*) malloc(sizeof(Vendedor));
     FILE* fp;
     int achei = 0;
@@ -255,7 +254,8 @@ void atualizarVendedor(void){
     printf("                                                    \n");
     printf("  Informe o cpf do vendedor que deseja atualizar:   \n");
     printf("____________________________________________________\n");
-    leCpf(cpf);
+    scanf(" %[0-9]", cpf);
+    //leCpf(cpf);
     getchar();
     fp = fopen("arquivoVendedor.bin", "r+b");
     if (fp == NULL) {
@@ -276,8 +276,8 @@ void atualizarVendedor(void){
           leEscolaridade(vendedor->escolaridade);
 
           vendedor-> status = 'a';
-
-          fseek(fp, -sizeof(Vendedor), SEEK_CUR);
+          fseek(fp, (-1)*sizeof(Vendedor), SEEK_CUR);
+          //fseek(fp, -sizeof(Vendedor), SEEK_CUR);
           fwrite(vendedor, sizeof(Vendedor), 1, fp);
           achei = 1;
           break;
