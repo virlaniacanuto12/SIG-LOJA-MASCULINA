@@ -10,17 +10,17 @@ void lerNomes(char *nome){
   printf("Nome:");
   fgets(nome, 51, stdin);
   //validarNome(nome);
-   if (nome[strlen(nome) - 1] == '\n') {
+  /*if (nome[strlen(nome) - 1] == '\n') {
     nome[strlen(nome) - 1] = '\0';
-  }
+  }*/ 
 }
 
 void lecpfCliente(char *cpf){
   printf("CPF:");
   fgets(cpf, 13, stdin);
-  if (cpf[strlen(cpf) - 1] == '\n') {
+  /*if (cpf[strlen(cpf) - 1] == '\n') {
     cpf[strlen(cpf) - 1] = '\0';
-  }
+  }*/
 }
 
 void leclienteDataNasc(char *dataNasc){
@@ -71,7 +71,7 @@ void menuCliente(void){
         printf("                                                    \n");
         printf("____________________________________________________\n");
         scanf("%c", &charOpcao);
-        //getchar();
+        //sgetchar();
         escolhaMenuCliente(charOpcao);
     }while(charOpcao != '0');
 }
@@ -96,7 +96,7 @@ Cliente* cadastrarCliente(void){
     printf("                                                    \n");
     
     lerNomes(cliente->nomeCliente);
-
+    limparBufferEntrada();
     lecpfCliente(cliente->cpfCliente);
 
     leclienteDataNasc(cliente->clienteDataNasc);
@@ -183,8 +183,11 @@ void lendoCliente(void){
 
 }
 
-void atualizarCliente(void){
-    char charOpcao;
+void editarCliente(void){
+    char cpf[13];
+    Cliente* cliente = (Cliente*) malloc(sizeof(Cliente));
+    FILE* fp;
+    int achei = 0;
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
@@ -195,45 +198,111 @@ void atualizarCliente(void){
     printf("  - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("                  ATUALIZAR CLIENTE                 \n");
+    printf("                  EDITAR CLIENTE                    \n");
     printf("                                                    \n");
     printf("               Digite (0) Para Voltar               \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("        Informe o CPF do cliente que deseja         \n");
     printf("              atualizar o cartão:                   \n");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("              Email:                                \n");
-    printf("              Tel:                                  \n");
-    printf("____________________________________________________\n");
-    scanf("%c", &charOpcao);
+    
+    scanf(" %[0-9]",cpf);
     getchar();
+    fp = fopen("arquivoCliente.bin","r+b");
+    
+    if (fp == NULL) {
+      printf("Erro na abertura do arquivo!\n");
+      getchar();
+    } else {
+      while (fread(cliente, sizeof(Cliente), 1, fp) == 1) {
+        if(strcmp(cliente->cpfCliente, cpf) == 0) {
+          printf("\n");
+          printf("                  Cliente Encontrado                \n");
+          printf("                                                    \n");
+          printf("           Informe os dados para atualizar:         \n");
+          
+          leEmail(cliente->email);
+
+          leTel(cliente->tel);
+
+          leEstadoCivilCliente(cliente->estadoCivilCliente);
+          
+          fseek(fp, (-1)*sizeof(Cliente), SEEK_CUR);
+          fwrite(cliente, sizeof(Cliente), 1, fp);
+          achei = 1;
+          break;
+        }
+      }
+    }
+    if (!achei) {
+        printf("\n");
+        printf("\t\t\t CPF não encontrado!\n");
+    } else {
+        printf("\n");
+        printf("\t\t\t Usuário excluído com sucesso!\n");
+    }
+  fclose(fp);
+  free(cliente);
+  getchar();
 }
 
 void excluirCliente(void){
-    char charOpcao;
-    system("clear||cls");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
-    printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("  - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("                  EXCLUIR CLIENTE                   \n");
-    printf("                                                    \n");
-    printf("               Digite (0) Para Voltar               \n");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("        Informe o CPF do cliente que deseja         \n");
-    printf("                excluir o cartão:                   \n");
-    printf("____________________________________________________\n");
-    scanf("%c", &charOpcao);
+  char cpf[13];
+  Cliente* cliente = (Cliente*) malloc(sizeof(Cliente));
+  FILE* fp;
+  int achei = 0;
+  system("clear||cls");
+  printf("____________________________________________________\n");
+  printf("                                                    \n");
+  printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
+  printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
+  printf("____________________________________________________\n");
+  printf("                                                    \n");
+  printf("  - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
+  printf("____________________________________________________\n");
+  printf("                                                    \n");
+  printf("                  EXCLUIR CLIENTE                   \n");
+  printf("                                                    \n");
+  printf("               Digite (0) Para Voltar               \n");
+  printf("____________________________________________________\n");
+  printf("                                                    \n");
+  printf("        Informe o CPF do cliente que deseja         \n");
+  printf("                excluir o cartão:                   \n");
+
+  fgets(cpf, 12, stdin);
+  getchar();
+  fp = fopen("arquivoCliente.bin", "r+b");  
+
+  if (fp == NULL) {
+    printf("Erro na abertura do arquivo!\n");
+    printf("Tecle <ENTER> para voltar...\n");
     getchar();
+  }else {
+    while (fread(cliente, sizeof(Cliente), 1, fp) == 1) {
+      if(strcmp(cliente->cpfCliente, cpf) == 0) {
+        printf("Usuário Encontrado\n");
+        printf("\n");
+        cliente->status = 'i';
+        fseek(fp, -sizeof(Cliente), SEEK_CUR);
+        fwrite(cliente, sizeof(Cliente), 1, fp);
+        achei = 1;
+        break;
+      }
+    }
+  }
+  if (!achei) {
+    printf("\n");
+    printf("\t\tUsuário não encontrado!\n");
+  } else {
+    printf("\n");
+    printf("\t\tUsuário excluído com sucesso!\n");
+  }
+
+  fclose(fp);
+  free(cliente);
+  getchar();
 }
+
 /*A função verificar irá exibir os seguintes dados do cliente respectivo ao CPF:
 data de vencimento, data de fechamento da fatura, limite e limite disponível.
 */
@@ -267,15 +336,15 @@ void escolhaMenuCliente(char escolha){
           gravandoCliente(cliente);
           break;
         case '2':
-            atualizarCliente();
+          editarCliente();
           break;
         case '3':
-            excluirCliente();
+          getchar();
+          excluirCliente();
           break;
         case '4':
           getchar();
           lendoCliente();
-            //verificarCliente();
           break;
         default:
             printf("------------------>Opção inválida!<-----------------\n");
