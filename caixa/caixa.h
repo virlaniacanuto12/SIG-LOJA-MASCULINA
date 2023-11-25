@@ -7,20 +7,23 @@ struct caixa{
   char tel[12];
   char email[50];
   char estadoCivilCliente[21];
+  char dataCaixa[12];
   char id; 
 };
 
 void menuCaixa(void);
-void realizarTransacao(void);
+Caixa* realizarTransacao(void);
 void pesquisarTransacao(void);
 void cancelarTransacao(void);
-
+void gravandoTransacao(Caixa *caixa);
 
 
 void pagamentoCaixa(void);
 void leMetodoPag(void); 
-int exibeMetodoPag(char);
-float leValor(void);
 void exibirPix(void);
+
+int exibeMetodoPag(char);
 int condicoesPixEspecie(void);
 int condicoesCartao(void); 
+
+float leValor(void);

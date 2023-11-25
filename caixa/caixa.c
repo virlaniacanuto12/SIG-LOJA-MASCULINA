@@ -3,6 +3,45 @@
 #include "caixa.h"
 #include "../auxFuncoes/auxFuncoes.h"
 
+float leValor() {
+  float valorCompra;
+  printf("Insira o valor a ser pago:");
+  scanf("%f", &valorCompra);
+  return valorCompra;
+}
+
+void exibirPix() { printf("CHAVE PIX: shopman@gmail.com"); }
+
+void leNomeCaixa(char *nome){
+  printf("Nome do vendedor responsável:");
+  fgets(nome,51,stdin);
+}
+
+void leCpfCaixa(char *cpf){
+  printf("CPF do vendedor:");
+  fgets(cpf,13,stdin);
+}
+
+void leDataCaixa(char *data){
+  printf("Data(xx/xx/xxxx):");
+  fgets(data,11,stdin);
+}
+
+void leCod(char *cod){
+  printf("Cód de barras:");
+  fgets(cod,10,stdin);
+}
+
+void leMetodoPag(void){
+  char charOpcao = '0';
+  printf("Escolha o método de pagamento:\n");
+  printf("(1) PIX\n");
+  printf("(2) CARTÃO\n");
+  printf("(3) ESPÉCIE\n");
+  scanf(" %c", &charOpcao);
+  exibeMetodoPag(charOpcao);
+}
+
 
 
 int exibeMetodoPag(char escolhaPag) {
@@ -23,9 +62,11 @@ int exibeMetodoPag(char escolhaPag) {
 }
 
 void escolhaCaixa(char escolhaOpcao){
+  Caixa *caixa;
   switch (escolhaOpcao) {
     case '1':
-      realizarTransacao();
+      caixa = realizarTransacao();
+      gravandoTransacao(caixa);
       break;
     case '2':
       pesquisarTransacao();
@@ -36,25 +77,6 @@ void escolhaCaixa(char escolhaOpcao){
     default:
       printf("------------------>Opção inválida!<-----------------\n");
   }
-}
-
-float leValor() {
-  float valorCompra;
-  printf("Insira o valor a ser pago:");
-  scanf("%f", &valorCompra);
-  return valorCompra;
-}
-
-void exibirPix() { printf("CHAVE PIX: shopman@gmail.com"); }
-
-void leMetodoPag(void){
-  char charOpcao = '0';
-  printf("Escolha o método de pagamento:\n");
-  printf("(1) PIX\n");
-  printf("(2) CARTÃO\n");
-  printf("(3) ESPÉCIE\n");
-  scanf(" %c", &charOpcao);
-  exibeMetodoPag(charOpcao);
 }
 
 int condicoesCartao(void) {
@@ -182,8 +204,9 @@ void menuCaixa(void){
 Após isso, é exibido o valor total das suas compras e o programa segue. A informação data será pedida para 
 que a dinâmica dos relatórios possa ser feita*/
 
-void realizarTransacao(void){
-    //char charOpcao = '0';
+Caixa* realizarTransacao(void){
+    Caixa *caixa;
+    caixa = (Caixa*)malloc(sizeof(Caixa));
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
@@ -199,17 +222,38 @@ void realizarTransacao(void){
     printf("               Digite (0) Para Voltar               \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("             Nome do vendedor responsável:          \n");
-    printf("             CPF do vendedor responsável:           \n");
-    printf("             Data:                                  \n");
-    printf("             Cód de barras:                         \n");
-    printf("             Método de pagamento:                   \n");
+
+    leNomeCaixa(caixa->nomeVendedor);
+
+    leCpfCaixa(caixa->cpfVendedor);
+
+    leDataCaixa(caixa->dataCaixa);
+    
+    leCod(caixa->codBarras);
+
+    leMetodoPag();
+
     printf("____________________________________________________\n");
     getchar();
+    return caixa;
+}
+
+void gravandoTransacao(Caixa *caixa){
+    FILE *fp;
+    fp = fopen("arquivoCaixa.bin","ab");
+
+    if(fp == NULL){
+      printf("Erro na gravação do arquivo!");
+      getchar();
+    }
+
+    fwrite(caixa, sizeof(Caixa),1,fp);
+    fclose(fp);
+    free(caixa);
 }
 
 void pesquisarTransacao(void){
-    //char charOpcao = '0';
+    char cpf[13];
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
@@ -227,6 +271,7 @@ void pesquisarTransacao(void){
     printf("                                                    \n");
     printf("   Informe o id da transação que deseja pesquisar:  \n");
     printf("____________________________________________________\n");
+    scanf(" %[0-9]",cpf);
     getchar();
 }
 
