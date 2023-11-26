@@ -141,7 +141,7 @@ void exibeCliente(Cliente* cliente){
     printf("Estado Civil:%s\n", cliente->estadoCivilCliente);
     printf("Status:%c\n", cliente->status);
   }
-  if (cliente->status == 'a'){
+  if (cliente->status == 'A'){
     strcpy(situacao, "Cadastro Ativo");
   } else {
     strcpy(situacao, "Cadastro Inativo");
@@ -151,14 +151,6 @@ void exibeCliente(Cliente* cliente){
 void lendoCliente(void){
   FILE *fp;
   Cliente* cliente;
-  cliente = (Cliente*) malloc(sizeof(Cliente));
-  fp = fopen("arquivoCliente.bin","rb");
-
-  if (fp == NULL){
-    printf("Erro na abertura do arquivo!\n");
-    exit(1);
-  }
-  
   system("clear||cls");
   printf("____________________________________________________\n");
   printf("                                                    \n");
@@ -171,6 +163,14 @@ void lendoCliente(void){
   printf("                                                    \n");
   printf("               CLIENTES CADASTRADOS                 \n");
   printf("____________________________________________________\n");
+
+  cliente = (Cliente*) malloc(sizeof(Cliente));
+  fp = fopen("arquivoCliente.bin","rb");
+
+  if (fp == NULL){
+    printf("Erro na abertura do arquivo!\n");
+    exit(1);
+  }
 
   while(fread(cliente, sizeof(Cliente), 1, fp)){
     exibeCliente(cliente);
@@ -306,7 +306,10 @@ void excluirCliente(void){
 /*A função verificar irá exibir os seguintes dados do cliente respectivo ao CPF:
 data de vencimento, data de fechamento da fatura, limite e limite disponível.
 */
-void verificarCliente(void){
+Cliente* verificarCliente(void){
+    FILE* fp;
+    Cliente* cliente;
+    char cpf[13];
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
@@ -324,8 +327,34 @@ void verificarCliente(void){
     printf("                                                    \n");
     printf("        Informe o CPF do cliente que deseja         \n");
     printf("                verificar o cartão:                 \n");
-    printf("____________________________________________________\n");
+
+    fgets(cpf, 12, stdin);
     getchar();
+    
+    cliente = (Cliente*)malloc(sizeof(Cliente));
+    fp = fopen("arquivoCliente.bin", "r+b");  
+    //getchar();
+
+
+    if (fp == NULL) {
+      printf("Erro na abertura do arquivo!\n");
+      printf("Tecle <ENTER> para voltar...\n");
+      getchar();
+    } else {
+      while(!feof(fp)) {
+          fread(cliente, sizeof(Cliente), 1, fp);
+          if((strcmp(cliente->cpfCliente, cpf) == 0) && (cliente->status == 'A')) {
+            printf("OI");
+            exibeCliente(cliente);
+            printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
+            getchar();
+            fclose(fp);
+            free(cliente);
+            return cliente;
+          } 
+        }
+    }
+    return NULL;
 }
 
 void escolhaMenuCliente(char escolha){
@@ -344,7 +373,7 @@ void escolhaMenuCliente(char escolha){
           break;
         case '4':
           getchar();
-          lendoCliente();
+          verificarCliente();
           break;
         default:
             printf("------------------>Opção inválida!<-----------------\n");
