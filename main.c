@@ -3,11 +3,11 @@
 #include "cadastroMercadoria/cadastroMercadoria.h" 
 #include "cadastroVendedor/cadastroVendedor.h" 
 #include "caixa/caixa.h"
-#include "cartaoLoja/cartaoLoja.h"
+#include "cadastroCliente/cadastroCliente.h"
 #include "relatorios/relatorio.h"
+#include "auxFuncoes/auxFuncoes.h"
 
-
-char tela_apresentation(void) {
+void tela_apresentation(void) {
   char enter;
   system("clear||cls");
   printf("____________________________________________________\n");
@@ -34,8 +34,7 @@ char tela_apresentation(void) {
   printf("____________________________________________________\n");
   printf("---------->Pressione enter para continuar!<---------\n");
   scanf("%c",&enter);
-  getchar();
-  return enter;
+  //getchar();
 }
 
 char tela_principal(void) {
@@ -56,8 +55,8 @@ char tela_principal(void) {
   printf("                                                    \n");
   printf("             1 - Cadastro Vendedor                  \n");
   printf("             2 - Cadastro Mercadoria                \n");
-  printf("             3 - Caixa                              \n");
-  printf("             4 - Cartão da loja                     \n");
+  printf("             3 - Cadastro Cliente                   \n");
+  printf("             4 - Caixa                              \n");
   printf("             5 - Relatórios                         \n");
   printf("             0 - Encerrar                           \n");
   printf("____________________________________________________\n");
@@ -74,7 +73,7 @@ int main(){
       switch(escolha){
         case '0':
           printf("----------Encerrando programa.............\n");
-        break;
+          break;
         case '1':
           menuVendedor();
         break;
@@ -82,10 +81,10 @@ int main(){
           menuMercadoria();
         break;
         case '3':
-          pagamentoCaixa();
+          menuCliente();
         break;
         case '4':
-          menuCartao();
+          menuCaixa();
         break;
         case '5':
           menuRelatorio();
