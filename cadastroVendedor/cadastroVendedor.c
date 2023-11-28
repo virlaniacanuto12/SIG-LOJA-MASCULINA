@@ -77,8 +77,8 @@ void escolhaMenuVendedor(char escolha){
           gravandoVendedor(vendedor);
           break;
         case '2':
+          pesquisarVendedor();
           getchar();
-          lendoDados();
           break;
         case '3':
           atualizarVendedor();
@@ -117,6 +117,7 @@ Vendedor* cadastroVendedor(void){
  // scanf("%c", &charOpcao);
   
   leNomes(vendedor->nomeVendedor);
+  limparBufferEntrada();
 
   leCel(vendedor->celVendedor);
 
@@ -169,16 +170,12 @@ void exibeVendedor(Vendedor* vendedor) {
   }
 }
 
-void lendoDados(void){
+//Função inspirada na de Mariana 
+void pesquisarVendedor(void){
+  getchar();
   FILE *fp;
   Vendedor* vendedor;
-  vendedor = (Vendedor*) malloc(sizeof(Vendedor));
-  fp = fopen("arquivoVendedor.bin","rb");
-
-  if (fp == NULL){
-    printf("Erro na abertura do arquivo\n");
-    exit(1);
-  }
+  char cpf[13];
   system("clear||cls");
   printf("____________________________________________________\n");
   printf("                                                    \n");
@@ -191,10 +188,30 @@ void lendoDados(void){
   printf("                                                    \n");
   printf("               USUÁRIOS CADASTRADOS                 \n");
   printf("____________________________________________________\n");
+  printf("                                                    \n");
+  printf("  Informe o cpf do vendedor que deseja pesquisar:   \n");
+  printf("                                                    \n");
+  fgets(cpf, 13, stdin);
+  getchar();
 
-  while(fread(vendedor, sizeof(Vendedor), 1, fp)){
-    exibeVendedor(vendedor);
-    printf("\n");
+  vendedor = (Vendedor*) malloc(sizeof(Vendedor));
+  fp = fopen("arquivoVendedor.bin","rb");
+
+  if (fp == NULL){
+    printf("Erro na abertura do arquivo\n");
+    getchar();
+  } else{
+      while(!feof(fp)){
+        fread(vendedor, sizeof(Vendedor), 1, fp);
+        if((strcmp(vendedor->cpfVendedor, cpf) == 0) && (vendedor->status != 'i')){
+          printf("oi");
+          exibeVendedor(vendedor);
+          printf("\n");
+          getchar();
+          fclose(fp);
+          free(vendedor);
+        }
+      }  
   }
   
   fclose(fp);
@@ -228,7 +245,7 @@ void menuVendedor(void){
         printf("____________________________________________________\n");
         scanf("%c", &charOpcao);
         escolhaMenuVendedor(charOpcao);
-        //getchar();
+        getchar();
     }while(charOpcao != '0');
 }
 
@@ -253,11 +270,12 @@ void atualizarVendedor(void){
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("  Informe o cpf do vendedor que deseja atualizar:   \n");
-    printf("____________________________________________________\n");
+    printf("                                                    \n");
     scanf(" %[0-9]", cpf);
     //leCpf(cpf);
     getchar();
     fp = fopen("arquivoVendedor.bin", "r+b");
+
     if (fp == NULL) {
       printf("\t\t Erro na abertura do arquivo!\n");
       getchar();
@@ -265,9 +283,9 @@ void atualizarVendedor(void){
       while (fread(vendedor, sizeof(Vendedor), 1, fp) == 1) {
         if(strcmp(vendedor->cpfVendedor, cpf) == 0) {
           printf("\n");
-          printf("                  Usuário Encontrado                \n");
-          printf("                                                    \n");
-          printf("           Informe os dados para atualizar:         \n");
+          printf("                  Vendedor Encontrado                \n");
+          printf("                                                     \n");
+          printf("           Informe os dados para atualizar:          \n");
       
           leCel(vendedor->celVendedor);
 
@@ -275,7 +293,7 @@ void atualizarVendedor(void){
       
           leEscolaridade(vendedor->escolaridade);
 
-          vendedor-> status = 'a';
+          //vendedor-> status = 'a';
           fseek(fp, (-1)*sizeof(Vendedor), SEEK_CUR);
           //fseek(fp, -sizeof(Vendedor), SEEK_CUR);
           fwrite(vendedor, sizeof(Vendedor), 1, fp);
@@ -291,12 +309,12 @@ void atualizarVendedor(void){
       printf("\n");
       printf("\t\t\t Usuário atualizado com sucesso!\n");
     }
-    getchar();
     fclose(fp);
     free(vendedor);
+    getchar();
 }   
 
-
+//função inspirada na de Mariana 
 void excluirVendedor(void){
     char cpf[13];
     Vendedor* vendedor = (Vendedor*) malloc(sizeof(Vendedor));
@@ -318,7 +336,6 @@ void excluirVendedor(void){
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("    Informe o CPF do vendedor que deseja excluir:   \n");
-    printf("____________________________________________________\n");
     //tinha erro aqui
     fgets(cpf, 12, stdin);
     getchar();
@@ -354,30 +371,6 @@ void excluirVendedor(void){
   getchar();
 }
 
-/*A função registro de vendas irá exibir as vendas que o vendedor informado realizou no mês*/
-void registroVendas(void){
-    char cpfVendedor;
-    system("clear||cls");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
-    printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf(" - - - - - - - - - - SHOPMEN - - - - - - - - - - -  \n");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("                REGISTRO DE VENDAS                  \n");
-    printf("                                                    \n");
-    printf("               Digite (0) Para Voltar               \n");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("        Informe o CPF do vendedor que deseja        \n"); 
-    printf("          verificar o registro de vendas:           \n");
-    printf("____________________________________________________\n");
-    scanf("%c", &cpfVendedor);
-    getchar();
-}
 /*A função conquista irá exibir as conquistas que aquele vendedor ja possui.
 Vai existir o broche de ouro, prata e bronze que vai variar de acordo com o valor vendido pelo vendedor*/
 void conquistas(void){

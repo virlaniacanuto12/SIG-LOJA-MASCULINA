@@ -15,6 +15,7 @@ Vendedor* cadastroVendedor(void);
 void menuVendedor(void);
 void pesquisarVendedor(void);
 void excluirVendedor(void);
+void atualizarVendedor(void);
 void registroVendas(void);
 void conquistas(void);
 void escolhaMenuVendedor(char);  
