@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio_ext.h> 
+#include <unistd.h>
+#include <time.h>
 #include "cadastroCliente.h"
 #include "../auxFuncoes/auxFuncoes.h"
 
@@ -97,19 +99,26 @@ Cliente* cadastrarCliente(void){
     
     lerNomes(cliente->nomeCliente);
     limparBufferEntrada();
+
     lecpfCliente(cliente->cpfCliente);
 
     leclienteDataNasc(cliente->clienteDataNasc);
 
     leTel(cliente->tel);
+    limparBufferEntrada();
 
     leEmail(cliente->email);
 
     leEstadoCivilCliente(cliente->estadoCivilCliente);
 
     cliente->status='A'; 
-   
+
+    printf("                                                    \n");
+    printf("            Cliente cadastrado com sucesso!         \n");
     printf("____________________________________________________\n");
+
+    sleep(1);
+    getchar();
     return cliente; 
 }
 
@@ -174,7 +183,6 @@ void lendoCliente(void){
 
   while(fread(cliente, sizeof(Cliente), 1, fp)){
     exibeCliente(cliente);
-    printf("\n");
   }
   
   fclose(fp);
@@ -207,6 +215,7 @@ void editarCliente(void){
     printf("              atualizar o cartão:                   \n");
     
     scanf(" %[0-9]",cpf);
+    sleep(1);
     getchar();
     fp = fopen("arquivoCliente.bin","r+b");
     
@@ -217,9 +226,10 @@ void editarCliente(void){
       while (fread(cliente, sizeof(Cliente), 1, fp) == 1) {
         if(strcmp(cliente->cpfCliente, cpf) == 0) {
           printf("\n");
-          printf("                  Cliente Encontrado                \n");
-          printf("                                                    \n");
-          printf("           Informe os dados para atualizar:         \n");
+          printf("       Cliente Encontrado!!\n");
+          printf("\n");
+          printf("   Informe os dados para atualizar:\n");
+          printf("\n");
           
           leEmail(cliente->email);
 
@@ -236,10 +246,11 @@ void editarCliente(void){
     }
     if (!achei) {
         printf("\n");
-        printf("\t\t\t CPF não encontrado!\n");
+        printf("        CPF não encontrado!\n");
     } else {
         printf("\n");
-        printf("\t\t\t Usuário excluído com sucesso!\n");
+        printf("  Usuário atualizado com sucesso!\n");
+        //limparBufferEntrada();
     }
   fclose(fp);
   free(cliente);
@@ -348,13 +359,13 @@ Cliente* verificarCliente(void){
             exibeCliente(cliente);
             printf("\t\t\t*** Tecle <ENTER> para continuar...\n");
             getchar();
-            fclose(fp);
-            free(cliente);
             return cliente;
           } 
         }
     }
     return NULL;
+    fclose(fp);
+    free(cliente);
 }
 
 void escolhaMenuCliente(char escolha){
@@ -373,7 +384,8 @@ void escolhaMenuCliente(char escolha){
           break;
         case '4':
           getchar();
-          verificarCliente();
+          lendoCliente();
+          //verificarCliente();
           break;
         default:
             printf("------------------>Opção inválida!<-----------------\n");
