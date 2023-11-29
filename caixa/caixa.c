@@ -40,7 +40,8 @@ void leCod(char *cod){
 
 void leMetodoPag(void){
   char charOpcao = '0';
-  printf("Escolha o método de pagamento:\n");
+  printf("           Escolha o método de pagamento:             \n");
+  printf("\n");
   printf("(1) PIX\n");
   printf("(2) CARTÃO\n");
   printf("(3) ESPÉCIE\n");
@@ -149,29 +150,36 @@ int condicoesCartao(void) {
 }
 
 int condicoesPixEspecie(void) {
-  float valorFinal;
   float valorCompra;
-
   valorCompra = leValor();
 
   if (valorCompra <= 500) {
-    //valorFinal = valorCompra - desconto(valorCompra, 5);
-    printf("RESUMO FINAL DA COMPRA\n");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("                RESUMO FINAL DA COMPRA              \n");
+    printf("____________________________________________________\n");
     printf("Valor da compra: R$ %.2f\n", valorCompra);
     printf("Valor com desconto: R$ %.2f\n", desconto(valorCompra,5));
     getchar();
     return 1;
-  } else if (valorCompra > 500) {
+  } else if (valorCompra > 500 && valorCompra < 1000) {
     //valorFinal = valorCompra - desconto(valorCompra, 10);
-    printf("RESUMO FINAL DA COMPRA\n");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("                RESUMO FINAL DA COMPRA              \n");
+    printf("____________________________________________________\n");
     printf("Valor da compra: R$%.2f\n", valorCompra);
-    //printf("Valor com desconto: R$%.2f\n", valorFinal);
+    printf("Valor com desconto: R$%.2f\n", desconto(valorCompra,10));
+    getchar();
     return 1;
   } else if (valorCompra >= 1000) {
-    //valorFinal = valorCompra - desconto(valorCompra, 10);
-    printf("RESUMO FINAL DA COMPRA\n");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("                RESUMO FINAL DA COMPRA              \n");
+    printf("____________________________________________________\n");    
     printf("Valor da compra: R$%.2f\n", valorCompra);
-    //printf("Valor com desconto: R$%.2f\n", valorFinal);
+    printf("Valor com desconto: R$%.2f\n", desconto(valorCompra,15));
+    getchar();
     return 1;
   }
   return 0;
