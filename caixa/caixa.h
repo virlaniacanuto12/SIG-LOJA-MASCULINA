@@ -8,12 +8,13 @@ struct caixa{
   char email[50];
   char estadoCivilCliente[21];
   char dataCaixa[12];
-  char id; 
+  int idTransacao; 
+  char statusTransacao; 
 };
 
 void menuCaixa(void);
 Caixa* realizarTransacao(void);
-void pesquisarTransacao(void);
+void pesquisarTransacao(void); 
 void cancelarTransacao(void);
 void gravandoTransacao(Caixa *caixa);
 

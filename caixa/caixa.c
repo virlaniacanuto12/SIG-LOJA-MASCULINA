@@ -1,5 +1,6 @@
 #include <stdio.h> 
 #include <stdlib.h>
+#include <string.h>
 #include "caixa.h"
 #include "../auxFuncoes/auxFuncoes.h"
 
@@ -32,6 +33,11 @@ void leCod(char *cod){
   fgets(cod,10,stdin);
 }
 
+/*void leIdTransacao(int id){
+  id = numAleatorio();
+  printf("Cód de barras: %d\n",id);
+}*/
+
 void leMetodoPag(void){
   char charOpcao = '0';
   printf("Escolha o método de pagamento:\n");
@@ -39,10 +45,9 @@ void leMetodoPag(void){
   printf("(2) CARTÃO\n");
   printf("(3) ESPÉCIE\n");
   scanf(" %c", &charOpcao);
+  getchar();
   exibeMetodoPag(charOpcao);
 }
-
-
 
 int exibeMetodoPag(char escolhaPag) {
   switch (escolhaPag) {
@@ -150,22 +155,23 @@ int condicoesPixEspecie(void) {
   valorCompra = leValor();
 
   if (valorCompra <= 500) {
-    valorFinal = valorCompra - desconto(valorCompra, 5);
+    //valorFinal = valorCompra - desconto(valorCompra, 5);
     printf("RESUMO FINAL DA COMPRA\n");
     printf("Valor da compra: R$ %.2f\n", valorCompra);
-    printf("Valor com desconto: R$ %.2f\n", valorFinal);
+    printf("Valor com desconto: R$ %.2f\n", desconto(valorCompra,5));
+    getchar();
     return 1;
   } else if (valorCompra > 500) {
-    valorFinal = valorCompra - desconto(valorCompra, 10);
+    //valorFinal = valorCompra - desconto(valorCompra, 10);
     printf("RESUMO FINAL DA COMPRA\n");
     printf("Valor da compra: R$%.2f\n", valorCompra);
-    printf("Valor com desconto: R$%.2f\n", valorFinal);
+    //printf("Valor com desconto: R$%.2f\n", valorFinal);
     return 1;
   } else if (valorCompra >= 1000) {
-    valorFinal = valorCompra - desconto(valorCompra, 10);
+    //valorFinal = valorCompra - desconto(valorCompra, 10);
     printf("RESUMO FINAL DA COMPRA\n");
     printf("Valor da compra: R$%.2f\n", valorCompra);
-    printf("Valor com desconto: R$%.2f\n", valorFinal);
+    //printf("Valor com desconto: R$%.2f\n", valorFinal);
     return 1;
   }
   return 0;
@@ -200,7 +206,7 @@ void menuCaixa(void){
 }
 
 
-/*A função pagamento caixa deverá pedir o cód de barras até as peças escolhiidas pelo cliente acabarem. 
+/*A função pagamento caixa deverá pedir o cód de barras até as peças escolhidas pelo cliente acabarem. 
 Após isso, é exibido o valor total das suas compras e o programa segue. A informação data será pedida para 
 que a dinâmica dos relatórios possa ser feita*/
 
@@ -224,6 +230,7 @@ Caixa* realizarTransacao(void){
     printf("                                                    \n");
 
     leNomeCaixa(caixa->nomeVendedor);
+    limparBufferEntrada();
 
     leCpfCaixa(caixa->cpfVendedor);
 
@@ -233,6 +240,11 @@ Caixa* realizarTransacao(void){
 
     leMetodoPag();
 
+    caixa->idTransacao = numAleatorio();
+
+    caixa->statusTransacao='R';
+
+    printf("          Transação realizada com sucesso!!         \n");
     printf("____________________________________________________\n");
     getchar();
     return caixa;
@@ -252,8 +264,28 @@ void gravandoTransacao(Caixa *caixa){
     free(caixa);
 }
 
+void exibeTransacao(Caixa* caixa){
+    //char situacao[20];
+
+    if((caixa == NULL)){
+      printf("Transação não encontrada!");
+    } else{
+      printf("Vendedor responsável:%s\n", caixa->nomeVendedor);
+      printf("CPF do vendedor:%s\n", caixa->cpfVendedor);
+      printf("Cod de barras:%s\n", caixa->codBarras);
+      printf("Tel:%s\n", caixa->tel);
+      printf("Email:%s\n", caixa->email);
+      printf("Estado Civil:%s\n", caixa->estadoCivilCliente);
+      printf("ID da transação:%d\n", caixa->idTransacao);
+    }
+}
+
 void pesquisarTransacao(void){
-    char cpf[13];
+    FILE *fp;
+    Caixa *caixa;
+    char id[5];
+    int achei = 0; 
+
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
@@ -271,10 +303,39 @@ void pesquisarTransacao(void){
     printf("                                                    \n");
     printf("   Informe o id da transação que deseja pesquisar:  \n");
     printf("____________________________________________________\n");
-    scanf(" %[0-9]",cpf);
+    scanf(" %s",id);
     getchar();
-}
 
+    caixa = (Caixa *)malloc(sizeof(Caixa)); 
+    fp = fopen("arquivoCaixa.bin","rb");
+
+    if(fp == NULL){
+      printf("Erro na abertura do arquivo!");
+      getchar();
+    } else {
+      while (fread(caixa, sizeof(Caixa), 1, fp)) {
+        exibeTransacao(caixa);
+        /*if(strcmp(caixa->idTransacao, id) == 0) {
+          printf("                                                    \n");
+          printf("                Transação Encontrada                \n");
+          printf("____________________________________________________\n");
+          exibeTransacao(caixa);
+          printf("                                                    \n");
+        }*/
+      }
+    }
+     if (!achei) {
+        printf("\n");
+        printf("\t\t\t Transação não encontrada!\n");
+    } else {
+        printf("\n");
+        printf("\t\t\t Pesquisa realizada com sucesso!\n");
+    }
+    fclose(fp);
+    free(caixa);
+    getchar();
+    
+}
 
 void cancelarTransacao(void){
     system("clear||cls");
@@ -287,7 +348,7 @@ void cancelarTransacao(void){
     printf("  - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("             CAIXA PESQUISAR TRANSAÇÃO              \n");
+    printf("              CAIXA CANCELAR TRANSAÇÃO              \n");
     printf("                                                    \n");
     printf("               Digite (0) Para Voltar               \n");
     printf("____________________________________________________\n");
