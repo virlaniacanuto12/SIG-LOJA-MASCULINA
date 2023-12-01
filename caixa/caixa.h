@@ -1,12 +1,9 @@
 typedef struct caixa Caixa;
 
 struct caixa{
-  char nomeVendedor[51];
+  char cpfCliente[13];
   char cpfVendedor[13];
   char codBarras[9];
-  char tel[12];
-  char email[50];
-  char estadoCivilCliente[21];
   char dataCaixa[12];
   int idTransacao; 
   char statusTransacao; 
@@ -24,7 +21,7 @@ void leMetodoPag(void);
 void exibirPix(void);
 
 int exibeMetodoPag(char);
-int condicoesPixEspecie(void);
-int condicoesCartao(void); 
+void condicoesPixEspecie(void);
+float condicoesCartao(void); 
+float resumoDaCompraCartao(int par, float valor);
 
-float leValor(void);
