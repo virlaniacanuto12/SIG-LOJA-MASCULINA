@@ -6,7 +6,9 @@ struct mercadoria{
   char cnpj[13];
   char tamanho[12];
   char cor[50];
-  char preco[21];
+  float preco;
+  int quantidade;
+  char status;
 };
 
 void opcaoMenu(char);
@@ -15,9 +17,11 @@ void leNomeFornecedor(char*);
 void leCodBarras(char*);
 void leTamanho(char*);
 void leCor(char*);
-void lePreco(char*);
+void lePreco(float*);
+void leQuantidade(int*);
 void menuMercadoria(void);
-void cadastroMercadoria(void);
+Mercadoria* cadastroMercadoria(void);
+void gravandoMercadoria(Mercadoria* mercadoria);
 void editarMercadoria(void);
 void excluirMercadoria(void);
 void pesquisarMercadoria(void);
