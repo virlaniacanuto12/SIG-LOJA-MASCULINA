@@ -9,29 +9,25 @@ void leCnpj(char *cnpj)
 {
   printf("CNPJ do fornecedor:");
   fgets(cnpj, 13, stdin);
-  getchar();
+  cnpj[strcspn(cnpj, "\n")] = '\0';
 }
 
 void leNomeFornecedor(char *nomeFornecedor)
 {
   printf("Nome do Fornecedor:");
   fgets(nomeFornecedor, 51, stdin);
-  getchar();
-  if (nomeFornecedor[strlen(nomeFornecedor) - 1] == '\n')
-  {
-    nomeFornecedor[strlen(nomeFornecedor) - 1] = '\0';
-  }
+  nomeFornecedor[strcspn(nomeFornecedor, "\n")] = '\0';
 }
 
 void leCodBarras(char *codBarras)
 {
   printf("Código de barras:");
   fgets(codBarras, 13, stdin);
-  getchar();
-  if (codBarras[strlen(codBarras) - 1] == '\n')
-  {
-    codBarras[strlen(codBarras) - 1] = '\0';
-  }
+  codBarras[strcspn(codBarras, "\n")] = '\0';
+  // if (codBarras[strlen(codBarras) - 1] == '\n')
+  // {
+  //   codBarras[strlen(codBarras) - 1] = '\0';
+  // }
 }
 
 void leQuantidade(int *quantidade)
@@ -45,22 +41,14 @@ void leTamanho(char *tamanho)
 {
   printf("Tamanho:");
   fgets(tamanho, 12, stdin);
-  //getchar();
-  if (tamanho[strlen(tamanho) - 1] == '\n')
-  {
-    tamanho[strlen(tamanho) - 1] = '\0';
-  }
+  tamanho[strcspn(tamanho, "\n")] = '\0';
 }
 
 void leCor(char *cor)
 {
   printf("Cor:");
   fgets(cor, 50, stdin);
-  //getchar();
-  if (cor[strlen(cor) - 1] == '\n')
-  {
-    cor[strlen(cor) - 1] = '\0';
-  }
+  cor[strcspn(cor, "\n")] = '\0';
 }
 
 void lePreco(float *preco)
@@ -88,7 +76,7 @@ void gravandoMercadoria(Mercadoria *mercadoria)
 void exibeMercadoria(Mercadoria *mercadoria)
 {
   char situacao[20];
-  
+
   if ((mercadoria == NULL) || (mercadoria->status == 'i'))
   {
     printf("Vendedor não encontrado\n");
@@ -101,6 +89,7 @@ void exibeMercadoria(Mercadoria *mercadoria)
     printf("Tamanho:%s\n", mercadoria->tamanho);
     printf("Quantidade:%d\n", mercadoria->quantidade);
     printf("Cor:%s\n", mercadoria->cor);
+    printf("Preço:%2.f\n", mercadoria->preco);
   }
   if (mercadoria->status == 'A')
   {
@@ -143,24 +132,24 @@ void menuMercadoria(void)
   do
   {
     system("clear||cls");
-    printf("____________________________________________________\n");
+    printf("__________________\n");
     printf("                                                    \n");
     printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
     printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
-    printf("____________________________________________________\n");
+    printf("__________________\n");
     printf("                                                    \n");
     printf("- - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
-    printf("____________________________________________________\n");
+    printf("__________________\n");
     printf("                                                    \n");
     printf("                  MENU MERCADORIA                   \n");
-    printf("____________________________________________________\n");
+    printf("__________________\n");
     printf("                                                    \n");
     printf("             1 - Cadastrar mercadoria               \n");
     printf("             2 - Editar mercadoria                  \n");
     printf("             3 - Excluir mercadoria                 \n");
     printf("             4 - Pesquisar mercadoria               \n");
     printf("             0 - Voltar                             \n");
-    printf("____________________________________________________\n");
+    printf("__________________\n");
     scanf("%c", &charOpcao);
     getchar();
     escolhaMenuMercadoria(charOpcao);
@@ -174,17 +163,17 @@ Mercadoria *cadastroMercadoria(void)
   Mercadoria *mercadoria;
   mercadoria = (Mercadoria *)malloc(sizeof(Mercadoria));
   system("clear||cls");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
   printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("- - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("                CADASTRAR MERCADORIA                \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
 
   leCodBarras(mercadoria->codBarras);
@@ -214,17 +203,17 @@ void editarMercadoria(void)
 
   system("clear||cls");
   getchar();
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
   printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("- - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("                  EDITAR MERCADORIA                 \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("               Informe o cód do produto:            \n");
   printf("                                                    \n");
@@ -254,10 +243,10 @@ void editarMercadoria(void)
         leTamanho(mercadoria->tamanho);
 
         leQuantidade(&(mercadoria->quantidade));
-        //limparBufferEntrada();
+        // limparBufferEntrada();
 
         leCor(mercadoria->cor);
-        //limparBufferEntrada();
+        // limparBufferEntrada();
 
         lePreco(&(mercadoria->preco));
 
@@ -285,21 +274,21 @@ void excluirMercadoria(void)
 {
   char charOpcao;
   system("clear||cls");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
   printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("  - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("                 EXCLUIR MERCADORIA                |\n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("          Digite o cód de barras(12 dígitos):       \n");
   printf("          Para voltar (0):                          \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   scanf("%c", &charOpcao);
   getchar();
 }
@@ -312,26 +301,26 @@ void pesquisarMercadoria(void)
   FILE *fp;
   Mercadoria *mercadoria;
   system("clear||cls");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
   printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("  - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("                PESQUISAR MERCADORIA                \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("         Informe cód de barras(12 dígitos):         \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   // leCodBarras(codBarras);
   scanf(" %[0-9]", codBarras);
   getchar();
 
   mercadoria = (Mercadoria *)malloc(sizeof(Mercadoria));
-  fp = fopen("arquivoMercadoria.bin", "r+b");
+  fp = fopen("arquivoMercadoria.bin", "rb");
 
   if (fp == NULL)
   {
@@ -340,10 +329,8 @@ void pesquisarMercadoria(void)
   }
   else
   {
-    while (!feof(fp))
+    while (fread(mercadoria, sizeof(Mercadoria), 1, fp) == 1)
     {
-      getchar();
-      fread(mercadoria, sizeof(Mercadoria), 1, fp);
       if ((strcmp(mercadoria->codBarras, codBarras) == 0) && (mercadoria->status != 'i'))
       {
         printf("oi");
