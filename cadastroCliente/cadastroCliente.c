@@ -7,53 +7,42 @@
 #include "cadastroCliente.h"
 #include "../auxFuncoes/auxFuncoes.h"
 
-void lerNomes(char *nome)
-{
-  printf("Nome:");
-  fgets(nome, 51, stdin);
-  // validarNome(nome);
-  /*if (nome[strlen(nome) - 1] == '\n') {
-    nome[strlen(nome) - 1] = '\0';
-  }*/
+void lerNomes(char *nome) {
+    printf("Nome:");
+    fgets(nome, 51, stdin);
+    nome[strcspn(nome, "\n")] = '\0';
 }
 
-void lecpfCliente(char *cpf)
-{
-  printf("CPF:");
-  fgets(cpf, 13, stdin);
-  /*if (cpf[strlen(cpf) - 1] == '\n') {
-    cpf[strlen(cpf) - 1] = '\0';
-  }*/
+void lecpfCliente(char *cpf) {
+    printf("CPF:");
+    fgets(cpf, 13, stdin);
+    cpf[strcspn(cpf, "\n")] = '\0';
 }
 
-void leclienteDataNasc(char *dataNasc)
-{
-  printf("Data de nascimento:");
-  fgets(dataNasc, 9, stdin);
-  if (dataNasc[strlen(dataNasc) - 1] == '\n')
-  {
-    dataNasc[strlen(dataNasc) - 1] = '\0';
-  }
-  getchar();
+void leclienteDataNasc(char *dataNasc) {
+    printf("Data de nascimento:");
+    fgets(dataNasc, 9, stdin);
+    dataNasc[strcspn(dataNasc, "\n")] = '\0';
+    getchar(); // Clear the buffer
 }
 
-void leTel(char *tel)
-{
-  printf("Tel:");
-  fgets(tel, 12, stdin);
-  getchar();
+void leTel(char *tel) {
+    printf("Tel:");
+    fgets(tel, 12, stdin);
+    tel[strcspn(tel, "\n")] = '\0';
+    getchar(); // Clear the buffer
 }
 
-void leEmail(char *email)
-{
-  printf("Email:");
-  fgets(email, 50, stdin);
+void leEmail(char *email) {
+    printf("Email:");
+    fgets(email, 50, stdin);
+    email[strcspn(email, "\n")] = '\0';
 }
 
-void leEstadoCivilCliente(char *estadoCivil)
-{
-  printf("Estado civil:");
-  fgets(estadoCivil, 21, stdin);
+void leEstadoCivilCliente(char *estadoCivil) {
+    printf("Estado civil:");
+    fgets(estadoCivil, 21, stdin);
+    estadoCivil[strcspn(estadoCivil, "\n")] = '\0';
 }
 
 void menuCliente(void)
@@ -62,17 +51,17 @@ void menuCliente(void)
   do
   {
     system("clear||cls");
-    printf("____________________________________________________\n");
+    printf("__________________\n");
     printf("                                                    \n");
     printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
     printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
-    printf("____________________________________________________\n");
+    printf("__________________\n");
     printf("                                                    \n");
     printf("- - - - - - - - - - SHOPMEN - - - - - - - - - - - - \n");
-    printf("____________________________________________________\n");
+    printf("__________________\n");
     printf("                                                    \n");
     printf("                  MENU CLIENTE                      \n");
-    printf("____________________________________________________\n");
+    printf("__________________\n");
     printf("                                                    \n");
     printf("             1 - Cadastrar cliente                  \n");
     printf("             2 - Atualizar cliente                  \n");
@@ -80,7 +69,7 @@ void menuCliente(void)
     printf("             4 - Verificar cliente                  \n");
     printf("             0 - Voltar                             \n");
     printf("                                                    \n");
-    printf("____________________________________________________\n");
+    printf("__________________\n");
     scanf("%c", &charOpcao);
     // sgetchar();
     escolhaMenuCliente(charOpcao);
@@ -92,31 +81,29 @@ Cliente *cadastrarCliente(void)
   Cliente *cliente;
   cliente = (Cliente *)malloc(sizeof(Cliente));
   system("clear||cls");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
   printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("  - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("                  CADASTRAR CLIENTE                 \n");
   printf("                                                    \n");
   printf("               Digite (0) Para Voltar               \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
+  limparBufferEntrada();
 
   lerNomes(cliente->nomeCliente);
-  limparBufferEntrada();
 
   lecpfCliente(cliente->cpfCliente);
 
   leclienteDataNasc(cliente->clienteDataNasc);
-  limparBufferEntrada();
 
   leTel(cliente->tel);
-  limparBufferEntrada();
 
   leEmail(cliente->email);
 
@@ -126,7 +113,7 @@ Cliente *cadastrarCliente(void)
 
   printf("                                                    \n");
   printf("            Cliente cadastrado com sucesso!         \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
 
   sleep(1);
   getchar();
@@ -182,17 +169,17 @@ void lendoCliente(void)
   FILE *fp;
   Cliente *cliente;
   system("clear||cls");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
   printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("- - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("               CLIENTES CADASTRADOS                 \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
 
   cliente = (Cliente *)malloc(sizeof(Cliente));
   fp = fopen("arquivoCliente.bin", "rb");
@@ -220,19 +207,19 @@ void editarCliente(void)
   FILE *fp;
   int achei = 0;
   system("clear||cls");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
   printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("  - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("                  EDITAR CLIENTE                    \n");
   printf("                                                    \n");
   printf("               Digite (0) Para Voltar               \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("        Informe o CPF do cliente que deseja         \n");
   printf("              atualizar o cartão:                   \n");
@@ -297,19 +284,19 @@ void excluirCliente(void)
   FILE *fp;
   int achei = 0;
   system("clear||cls");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
   printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("  - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("                  EXCLUIR CLIENTE                   \n");
   printf("                                                    \n");
   printf("               Digite (0) Para Voltar               \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("        Informe o CPF do cliente que deseja         \n");
   printf("                excluir o cartão:                   \n");
@@ -365,19 +352,19 @@ void verificarCliente(void)
   FILE *fp;
   Cliente *cliente;
   system("clear||cls");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
   printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("  - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("                  VERIFICAR CLIENTE                 \n");
   printf("                                                    \n");
   printf("               Digite (0) Para Voltar               \n");
-  printf("____________________________________________________\n");
+  printf("__________________\n");
   printf("                                                    \n");
   printf("        Informe o CPF do cliente que deseja         \n");
   printf("                verificar o cartão:                 \n");
