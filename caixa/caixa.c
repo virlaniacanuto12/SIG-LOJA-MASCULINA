@@ -5,6 +5,7 @@
 #include "caixa.h"
 #include "../auxFuncoes/auxFuncoes.h"
 #include "../cadastroMercadoria/cadastroMercadoria.h"
+#include "../cadastroVendedor/cadastroVendedor.h"
 
 // função de Mariana Santos
 void ler_DataHora(char *dataHora)
@@ -40,11 +41,17 @@ char *leCod(char *cod)
   return cod;
 }
 
-int leQtd(int quantidade)
+int leQtd(int *quantidade)
 {
   printf("Quantidade:");
-  scanf("%d", &quantidade);
+  scanf("%d", quantidade);
   return quantidade;
+}
+
+void leValor(float *valor)
+{
+  printf("Valor:");
+  scanf("%f", valor);
 }
 
 void leMetodoPag(void)
@@ -340,15 +347,15 @@ Caixa *realizarTransacao(void)
 
   strcpy(codBarras, leCod(caixa->codBarras));
 
-  quantidadeVendida = leQtd(caixa->quantidade);
- // printf("\n");
-  //getMercadoria(codBarras, quantidadeVendida);
+  quantidadeVendida = leQtd(&(caixa->quantidade));
+  // printf("\n");
+  // getMercadoria(codBarras, quantidadeVendida);
 
+  leValor(&(caixa->valor));
   // leMetodoPag();
 
   ler_DataHora(caixa->dataHora);
   printf("Data e hora: %s\n", caixa->dataHora);
-
 
   caixa->id = criar_id();
   printf("ID da venda: %d\n", caixa->id);
@@ -388,7 +395,10 @@ void exibeTransacao(Caixa *caixa)
     printf("CPF do cliente:%s\n", caixa->cpfCliente);
     printf("CPF do vendedor:%s\n", caixa->cpfVendedor);
     printf("Cod de barras:%s\n", caixa->codBarras);
-    printf("ID da transação:%d\n", caixa->id);
+    printf("Quantidade:%d\n", caixa->quantidade);
+    printf("Valor:%.2f\n", caixa->valor);
+    printf("ID da transação:%c\n", caixa->id);
+    printf("Cod de barras:%s\n", caixa->dataHora);
   }
 }
 
@@ -416,7 +426,7 @@ void pesquisarTransacao(void)
   printf("                                                    \n");
   printf("   Informe o id da transação que deseja pesquisar:  \n");
   printf("____________________________________________________\n");
-  scanf("%d", &id);
+  scanf(" %d", &id);
   getchar();
 
   caixa = (Caixa *)malloc(sizeof(Caixa));

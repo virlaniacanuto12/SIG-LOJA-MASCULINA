@@ -5,7 +5,8 @@ struct caixa{
   char cpfVendedor[13];
   char codBarras[9];
   int quantidade;
-  char id; 
+  float valor; 
+  int id; 
   char status;
   char dataHora[40]; 
 };
