@@ -63,7 +63,7 @@ void leMetodoPag(void)
 // Função de Matheus Diniz
 int criar_id(void)
 {
-  FILE *fp = fopen("caixa.bin", "rb");
+  FILE *fp = fopen("arquivoCaixa.bin", "rb");
   if (fp == NULL)
   {
     return 1;
@@ -352,7 +352,7 @@ Caixa *realizarTransacao(void)
 
   caixa->id = criar_id();
   printf("ID da venda: %d\n", caixa->id);
-  
+
   caixa->status = 'A';
 
   getchar();
