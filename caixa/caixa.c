@@ -1,9 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "caixa.h"
 #include "../auxFuncoes/auxFuncoes.h"
 #include "../cadastroMercadoria/cadastroMercadoria.h"
+
+// função de Mariana Santos
+void ler_DataHora(char *dataHora)
+{
+  time_t tempoAtual;
+  struct tm *infoTempo;
+
+  time(&tempoAtual);
+  infoTempo = localtime(&tempoAtual);
+
+  strftime(dataHora, 20, "%d/%m/%Y %H:%M:%S", infoTempo);
+}
 
 void leCpfVendedor(char *cpf)
 {
@@ -217,8 +230,7 @@ void condicoesPixEspecie(void)
 }
 
 /*Abre o arquivo mercadoria e com base no cód barras encontra a struct do produto,
-diminui a quantidade e retorna o preço total com base na quantidade do produto e seu valor.
-*/
+diminui a quantidade e retorna o preço total com base na quantidade do produto e seu valor.*/
 Mercadoria *getMercadoria(char *codBarras, int quantidadeVendida)
 {
   Mercadoria *mercadoria;
@@ -328,14 +340,19 @@ Caixa *realizarTransacao(void)
 
   strcpy(codBarras, leCod(caixa->codBarras));
 
-
   quantidadeVendida = leQtd(caixa->quantidade);
+ // printf("\n");
+  //getMercadoria(codBarras, quantidadeVendida);
 
-  getMercadoria(codBarras, quantidadeVendida);
+  // leMetodoPag();
 
-  //leMetodoPag();
+  ler_DataHora(caixa->dataHora);
+  printf("Data e hora: %s\n", caixa->dataHora);
+
 
   caixa->id = criar_id();
+  printf("ID da venda: %d\n", caixa->id);
+  
   caixa->status = 'A';
 
   getchar();
@@ -437,7 +454,7 @@ void pesquisarTransacao(void)
   }
   fclose(fp);
   free(caixa);
-  //getchar();
+  // getchar();
 }
 
 void cancelarTransacao(void)

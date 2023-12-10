@@ -4,10 +4,10 @@ struct caixa{
   char cpfCliente[13];
   char cpfVendedor[13];
   char codBarras[9];
-  char dataCaixa[12];
   int quantidade;
   int id; 
-  char status; 
+  char status;
+  char dataHora[40]; 
 };
 
 void menuCaixa(void);
