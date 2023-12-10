@@ -5,8 +5,9 @@ struct caixa{
   char cpfVendedor[13];
   char codBarras[9];
   char dataCaixa[12];
-  int idTransacao; 
-  char statusTransacao; 
+  int quantidade;
+  int id; 
+  char status; 
 };
 
 void menuCaixa(void);
@@ -19,6 +20,7 @@ void gravandoTransacao(Caixa *caixa);
 void pagamentoCaixa(void);
 void leMetodoPag(void); 
 void exibirPix(void);
+int criar_id(void);
 
 int exibeMetodoPag(char);
 void condicoesPixEspecie(void);

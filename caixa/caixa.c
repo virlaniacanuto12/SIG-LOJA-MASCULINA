@@ -3,39 +3,35 @@
 #include <string.h>
 #include "caixa.h"
 #include "../auxFuncoes/auxFuncoes.h"
-
-float leValor()
-{
-  float valorCompra;
-  printf("Insira o valor a ser pago:");
-  scanf("%f", &valorCompra);
-  return valorCompra;
-}
-
-void exibirPix() { printf("CHAVE PIX: shopman@gmail.com"); }
+#include "../cadastroMercadoria/cadastroMercadoria.h"
 
 void leCpfVendedor(char *cpf)
 {
   printf("CPF do vendedor:");
   fgets(cpf, 13, stdin);
+  cpf[strcspn(cpf, "\n")] = '\0';
 }
 
 void leCpfCliente(char *cpf)
 {
   printf("CPF do Cliente:");
   fgets(cpf, 13, stdin);
+  cpf[strcspn(cpf, "\n")] = '\0';
 }
 
-void leCod(char *cod)
+char *leCod(char *cod)
 {
   printf("Cód de barras:");
   fgets(cod, 10, stdin);
+  cod[strcspn(cod, "\n")] = '\0';
+  return cod;
 }
 
-void leQtd(int quantidade)
+int leQtd(int quantidade)
 {
   printf("Quantidade:");
   scanf("%d", &quantidade);
+  return quantidade;
 }
 
 void leMetodoPag(void)
@@ -50,6 +46,42 @@ void leMetodoPag(void)
   scanf(" %c", &charOpcao);
   getchar();
   exibeMetodoPag(charOpcao);
+}
+// Função de Matheus Diniz
+int criar_id(void)
+{
+  FILE *fp = fopen("caixa.bin", "rb");
+  if (fp == NULL)
+  {
+    return 1;
+    // Percorre o arquivo inteiro
+    fseek(fp, 0, SEEK_END);
+    // Para verificiar o tamanho do arquivo
+    if ((long)ftell(fp) == 0)
+    {
+      // caso o arquivo esteja vázio
+      fclose(fp);
+      return 1;
+    }
+  }
+  else
+  {
+    // Posicione o ponteiro no início do último registro
+    // Ver a última estrutura Adicionada
+
+    // long adicionada para evitar problemas de conversão pelo sizeof, para um valor negativo, causando um estouro no fseek
+    fseek(fp, -((long)sizeof(Caixa)), SEEK_END);
+    // Agora você pode ler o último registro usando fread
+
+    Caixa ultstruct;
+    fread(&ultstruct, sizeof(Caixa), 1, fp);
+
+    // Obtenha o ID do último registro e incremente
+    int id = ultstruct.id + 1;
+
+    fclose(fp); // Feche o arquivo aqui
+    return id;
+  }
 }
 
 int exibeMetodoPag(char escolhaPag)
@@ -146,7 +178,7 @@ float condicoesCartao(void)
   float valorFinal;
   float valorCompra;
 
-  valorCompra = leValor();
+  valorCompra = 1000;
 
   if (valorCompra < 500)
   {
@@ -168,7 +200,7 @@ float condicoesCartao(void)
 void condicoesPixEspecie(void)
 {
   float valorCompra;
-  valorCompra = leValor();
+  valorCompra = 1000;
 
   if (valorCompra <= 500)
   {
@@ -182,6 +214,54 @@ void condicoesPixEspecie(void)
   {
     resumoDaCompraPix(valorCompra, 15);
   }
+}
+
+/*Abre o arquivo mercadoria e com base no cód barras encontra a struct do produto,
+diminui a quantidade e retorna o preço total com base na quantidade do produto e seu valor.
+*/
+Mercadoria *getMercadoria(char *codBarras, int quantidadeVendida)
+{
+  Mercadoria *mercadoria;
+  FILE *fp;
+  mercadoria = (Mercadoria *)malloc(sizeof(Mercadoria));
+  fp = fopen("arquivoMercadoria.bin", "rb");
+
+  if (fp == NULL)
+  {
+    printf("Erro na abertura do arquivo!");
+    getchar();
+  }
+  else
+  {
+    while (!feof(fp))
+    {
+      printf("Entrou no while");
+      fread(mercadoria, sizeof(Mercadoria), 1, fp);
+      if ((strcmp(mercadoria->codBarras, codBarras) == 0) && (mercadoria->status != 'i'))
+      {
+        printf("Entrou no primeiro if");
+        if (mercadoria->quantidade == 0 || quantidadeVendida > mercadoria->quantidade)
+        {
+          printf("Estoque indisponível!");
+          printf("Estoque atual: %d\n", mercadoria->quantidade);
+          getchar();
+        }
+        // diminui quantidade comprada do estoque e mostra quanto ficou
+        else
+        {
+          mercadoria->quantidade -= quantidadeVendida;
+          printf("Disponível no estoque!");
+          printf("Estoque pós venda: %d\n", mercadoria->quantidade);
+          getchar();
+          fseek(fp, -sizeof(Mercadoria), SEEK_CUR);
+          fwrite(mercadoria, sizeof(Mercadoria), 1, fp);
+          break;
+        }
+      }
+    }
+  }
+  fclose(fp);
+  return mercadoria;
 }
 
 void menuCaixa(void)
@@ -222,6 +302,9 @@ Caixa *realizarTransacao(void)
 {
   Caixa *caixa;
   caixa = (Caixa *)malloc(sizeof(Caixa));
+  // float preco = 0;
+  char codBarras[10];
+  int quantidadeVendida = 0;
   system("clear||cls");
   printf("____________________________________________________\n");
   printf("                                                    \n");
@@ -243,18 +326,18 @@ Caixa *realizarTransacao(void)
 
   leCpfVendedor(caixa->cpfVendedor);
 
-  // leDataCaixa(caixa->dataCaixa);
+  strcpy(codBarras, leCod(caixa->codBarras));
 
-  leCod(caixa->codBarras);
 
-  leMetodoPag();
+  quantidadeVendida = leQtd(caixa->quantidade);
 
-  caixa->idTransacao = numAleatorio();
+  getMercadoria(codBarras, quantidadeVendida);
 
-  caixa->statusTransacao = 'R';
+  //leMetodoPag();
 
-  // printf("          Transação realizada com sucesso!!         \n");
-  printf("____________________________________________________\n");
+  caixa->id = criar_id();
+  caixa->status = 'A';
+
   getchar();
   return caixa;
 }
@@ -279,7 +362,7 @@ void exibeTransacao(Caixa *caixa)
 {
   // char situacao[20];
 
-  if ((caixa == NULL))
+  if ((caixa == NULL) || (caixa->status == 'i'))
   {
     printf("Transação não encontrada!");
   }
@@ -288,7 +371,7 @@ void exibeTransacao(Caixa *caixa)
     printf("CPF do cliente:%s\n", caixa->cpfCliente);
     printf("CPF do vendedor:%s\n", caixa->cpfVendedor);
     printf("Cod de barras:%s\n", caixa->codBarras);
-    printf("ID da transação:%d\n", caixa->idTransacao);
+    printf("ID da transação:%d\n", caixa->id);
   }
 }
 
@@ -296,7 +379,7 @@ void pesquisarTransacao(void)
 {
   FILE *fp;
   Caixa *caixa;
-  char id[5];
+  int id = 0;
   int achei = 0;
 
   system("clear||cls");
@@ -316,7 +399,7 @@ void pesquisarTransacao(void)
   printf("                                                    \n");
   printf("   Informe o id da transação que deseja pesquisar:  \n");
   printf("____________________________________________________\n");
-  scanf(" %s", id);
+  scanf("%d", &id);
   getchar();
 
   caixa = (Caixa *)malloc(sizeof(Caixa));
@@ -331,29 +414,30 @@ void pesquisarTransacao(void)
   {
     while (fread(caixa, sizeof(Caixa), 1, fp))
     {
-      exibeTransacao(caixa);
-      /*if(strcmp(caixa->idTransacao, id) == 0) {
-        printf("                                                    \n");
-        printf("                Transação Encontrada                \n");
-        printf("____________________________________________________\n");
+      if ((caixa->id == id) && (caixa->status != 'i'))
+      {
+        achei = 1;
         exibeTransacao(caixa);
-        printf("                                                    \n");
-      }*/
+        printf("\n");
+        break;
+        getchar();
+      }
     }
   }
   if (!achei)
   {
     printf("\n");
     printf("\t\t\t Transação não encontrada!\n");
+    getchar();
   }
   else
   {
     printf("\n");
-    printf("\t\t\t Pesquisa realizada com sucesso!\n");
+    printf("\t  Pesquisa realizada com sucesso!\n");
   }
   fclose(fp);
   free(caixa);
-  getchar();
+  //getchar();
 }
 
 void cancelarTransacao(void)
