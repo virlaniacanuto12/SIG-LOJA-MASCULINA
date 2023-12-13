@@ -41,17 +41,18 @@ char *leCod(char *cod)
   return cod;
 }
 
-int leQtd(int *quantidade)
+int leQtd(int quantidade)
 {
   printf("Quantidade:");
-  scanf("%d", quantidade);
+  scanf("%d", &quantidade);
   return quantidade;
 }
 
-void leValor(float *valor)
+float *leValor(float *valor)
 {
   printf("Valor:");
   scanf("%f", valor);
+  return valor;
 }
 
 void leMetodoPag(void)
@@ -142,6 +143,29 @@ void escolhaCaixa(char escolhaOpcao)
     printf("------------------>Opção inválida!<-----------------\n");
   }
 }
+
+/*LÓGICA PARA ACESSAR QUANTIDADE DE MERCADORIA
+if (mercadoria->quantidade == 0 || quantidadeVendida > mercadoria->quantidade)
+        {
+          do{
+            printf("Estoque indisponível!");
+            printf("Estoque atual: %d\n", mercadoria->quantidade);
+            getchar();
+          }while(quantidadeVendida>mercadoria->quantidade);
+        }
+        // diminui quantidade comprada do estoque e mostra quanto ficou
+        else
+        {
+          mercadoria->quantidade -= quantidadeVendida;
+          printf("Disponível no estoque!");
+          printf("Estoque pós venda: %d\n", mercadoria->quantidade);
+          getchar();
+          fseek(fp, -sizeof(Mercadoria), SEEK_CUR);
+          fwrite(mercadoria, sizeof(Mercadoria), 1, fp);
+          fclose(fp);
+          return mercadoria;
+        }
+       */
 
 void resumoDaCompraPix(float valorCompra, int porcentagem)
 {
@@ -236,9 +260,8 @@ void condicoesPixEspecie(void)
   }
 }
 
-/*Abre o arquivo mercadoria e com base no cód barras encontra a struct do produto,
-diminui a quantidade e retorna o preço total com base na quantidade do produto e seu valor.*/
-Mercadoria *getMercadoria(char *codBarras, int quantidadeVendida)
+// Pega a struct no arquivo com base no cod barras e retorna a estrutura inteira
+Mercadoria *getMercadoria(char *codBarras)
 {
   Mercadoria *mercadoria;
   FILE *fp;
@@ -249,40 +272,87 @@ Mercadoria *getMercadoria(char *codBarras, int quantidadeVendida)
   {
     printf("Erro na abertura do arquivo!");
     getchar();
+    return NULL;
   }
   else
   {
     while (!feof(fp))
     {
-      printf("Entrou no while");
       fread(mercadoria, sizeof(Mercadoria), 1, fp);
+      // printf("Codigos: |%s|\t|%s|\n", codBarras, mercadoria->codBarras);
       if ((strcmp(mercadoria->codBarras, codBarras) == 0) && (mercadoria->status != 'i'))
       {
-        printf("Entrou no primeiro if");
-        if (mercadoria->quantidade == 0 || quantidadeVendida > mercadoria->quantidade)
+        // printf("achou!\n");
+        return mercadoria;
+      }
+    }
+    fclose(fp);
+    return NULL;
+  }
+  return NULL;
+}
+// Para testar precisa da função de valorTotal(que vai calcular com base na quantidade que o cliente deseja comprar)
+int pontuacaoVendedor(Mercadoria *mercadoria, float valorTotal, char *cpfVendedor)
+{
+  Vendedor *vendedor;
+  FILE *fp;
+  vendedor = (Vendedor *)malloc(sizeof(Vendedor));
+  fp = fopen("arquivoVendedor.bin", "rb");
+
+  if (fp == NULL)
+  {
+    return 0;
+  }
+  else
+  {
+    while (fread(vendedor, sizeof(Vendedor), 1, fp))
+    {
+      if ((strcmp(vendedor->cpfVendedor, cpfVendedor) == 0) && (vendedor->status != 'i'))
+      {
+        if (valorTotal <= 500)
         {
-          printf("Estoque indisponível!");
-          printf("Estoque atual: %d\n", mercadoria->quantidade);
-          getchar();
+          vendedor->pontos += 50;
+          printf("Pontos vendedor: %d", vendedor->pontos);
+          return 1;
         }
-        // diminui quantidade comprada do estoque e mostra quanto ficou
-        else
+        else if (valorTotal > 500 && valorTotal <= 1000)
         {
-          mercadoria->quantidade -= quantidadeVendida;
-          printf("Disponível no estoque!");
-          printf("Estoque pós venda: %d\n", mercadoria->quantidade);
-          getchar();
-          fseek(fp, -sizeof(Mercadoria), SEEK_CUR);
-          fwrite(mercadoria, sizeof(Mercadoria), 1, fp);
-          break;
+          vendedor->pontos += 100;
+          printf("Pontos vendedor: %d", vendedor->pontos);
+          return 1;
+        }
+        else if (valorTotal > 1000)
+        {
+          vendedor->pontos += 150;
+          printf("Pontos vendedor: %d", vendedor->pontos);
+          return 1;
         }
       }
     }
+    return 0;
+    fclose(fp);
   }
-  fclose(fp);
-  return mercadoria;
 }
+// precisa fazer uma verificação para saber se a quantidade no estoque é maior que a quantidade vendida
+float valorTotal(Mercadoria *mercadoria, int quantidadeVendida)
+{
+  float valorTotal = 0;
 
+  printf("Quantidade vendida: %d",quantidadeVendida);
+  printf("Quantidade estoque: %d",mercadoria->quantidade);
+  
+  if (quantidadeVendida > mercadoria->quantidade)
+  {
+    printf("Quantidade indisponível no estoque!");
+    return 0;
+  }
+  else
+  {
+    valorTotal = (mercadoria->quantidade - quantidadeVendida) * mercadoria->preco;
+    printf("Valor total %f", valorTotal);
+    return valorTotal;
+  }
+}
 void menuCaixa(void)
 {
   char escolha;
@@ -319,11 +389,13 @@ que a dinâmica dos relatórios possa ser feita*/
 
 Caixa *realizarTransacao(void)
 {
+  Mercadoria *mercadoria;
   Caixa *caixa;
   caixa = (Caixa *)malloc(sizeof(Caixa));
-  // float preco = 0;
+  //float preco = 0;
   char codBarras[10];
-  int quantidadeVendida = 0;
+  int quantidadeVendida;
+  float valorTot = 0;
   system("clear||cls");
   printf("____________________________________________________\n");
   printf("                                                    \n");
@@ -347,12 +419,19 @@ Caixa *realizarTransacao(void)
 
   strcpy(codBarras, leCod(caixa->codBarras));
 
-  quantidadeVendida = leQtd(&(caixa->quantidade));
-  // printf("\n");
-  // getMercadoria(codBarras, quantidadeVendida);
+  quantidadeVendida = leQtd(caixa->quantidade);
+  
+  if(getMercadoria(codBarras) != NULL){
+    mercadoria = getMercadoria(codBarras);
+  }
+  else{
+    printf("Produto não cadastrado!!");
+  }
+  printf("Quantidade em estoque: %d\n", mercadoria->quantidade);
 
-  leValor(&(caixa->valor));
-  // leMetodoPag();
+  //leValor(&(caixa->valor));
+  valorTotal(mercadoria, quantidadeVendida);
+  //  leMetodoPag();
 
   ler_DataHora(caixa->dataHora);
   printf("Data e hora: %s\n", caixa->dataHora);
@@ -362,6 +441,7 @@ Caixa *realizarTransacao(void)
 
   caixa->status = 'A';
 
+  pontuacaoVendedor(mercadoria, valorTot, caixa->cpfVendedor);
   getchar();
   return caixa;
 }

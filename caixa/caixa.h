@@ -17,7 +17,6 @@ void pesquisarTransacao(void);
 void cancelarTransacao(void);
 void gravandoTransacao(Caixa *caixa);
 
-
 void pagamentoCaixa(void);
 void leMetodoPag(void); 
 void exibirPix(void);
