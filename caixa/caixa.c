@@ -68,6 +68,7 @@ void leMetodoPag(void)
   getchar();
   exibeMetodoPag(charOpcao);
 }
+
 // Função de Matheus Diniz
 int criar_id(void)
 {
@@ -352,6 +353,7 @@ float valorTotal(Mercadoria *mercadoria, int quantidadeVendida)
     return valorTotal;
   }
 }
+
 void menuCaixa(void)
 {
   char escolha;
@@ -431,9 +433,23 @@ Caixa *realizarTransacao(void)
     {
       printf("Produto não cadastrado!!");
     }
-  }while(encontrado != 1);
+  } while (encontrado != 1);
 
-  quantidadeVendida = leQtd(caixa->quantidade);
+  do
+  {
+    printf("Estoque: %d", mercadoria->quantidade);
+    quantidadeVendida = leQtd(caixa->quantidade);
+    if (quantidadeVendida > mercadoria->quantidade)
+    {
+      printf("Estoque indisponível!");
+      printf("Estoque atual: %d\n", mercadoria->quantidade);
+      getchar();
+    }
+    else
+    {
+      mercadoria->quantidade -= quantidadeVendida;
+    }
+  } while (quantidadeVendida > mercadoria->quantidade);
 
   printf("Quantidade em estoque: %d\n", mercadoria->quantidade);
 
