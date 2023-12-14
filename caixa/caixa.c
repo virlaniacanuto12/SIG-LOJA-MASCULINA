@@ -294,6 +294,9 @@ Mercadoria *getMercadoria(char *codBarras)
 // Para testar precisa da função de valorTotal(que vai calcular com base na quantidade que o cliente deseja comprar)
 int pontuacaoVendedor(Mercadoria *mercadoria, float valorTotal, char *cpfVendedor)
 {
+  printf("Valor total: %f", valorTotal);
+  printf("Valor total: %s", cpfVendedor);
+
   Vendedor *vendedor;
   FILE *fp;
   vendedor = (Vendedor *)malloc(sizeof(Vendedor));
@@ -337,10 +340,6 @@ int pontuacaoVendedor(Mercadoria *mercadoria, float valorTotal, char *cpfVendedo
 float valorTotal(Mercadoria *mercadoria, int quantidadeVendida)
 {
   float valorTotal = 0;
-
-  printf("Quantidade vendida: %d",quantidadeVendida);
-  printf("Quantidade estoque: %d",mercadoria->quantidade);
-  
   if (quantidadeVendida > mercadoria->quantidade)
   {
     printf("Quantidade indisponível no estoque!");
@@ -392,10 +391,12 @@ Caixa *realizarTransacao(void)
   Mercadoria *mercadoria;
   Caixa *caixa;
   caixa = (Caixa *)malloc(sizeof(Caixa));
-  //float preco = 0;
+  // float preco = 0;
   char codBarras[10];
   int quantidadeVendida;
   float valorTot = 0;
+  int encontrado = 0;
+
   system("clear||cls");
   printf("____________________________________________________\n");
   printf("                                                    \n");
@@ -417,20 +418,26 @@ Caixa *realizarTransacao(void)
 
   leCpfVendedor(caixa->cpfVendedor);
 
-  strcpy(codBarras, leCod(caixa->codBarras));
+  do
+  {
+    strcpy(codBarras, leCod(caixa->codBarras));
+
+    if (getMercadoria(codBarras) != NULL)
+    {
+      mercadoria = getMercadoria(codBarras);
+      encontrado = 1;
+    }
+    else
+    {
+      printf("Produto não cadastrado!!");
+    }
+  }while(encontrado != 1);
 
   quantidadeVendida = leQtd(caixa->quantidade);
-  
-  if(getMercadoria(codBarras) != NULL){
-    mercadoria = getMercadoria(codBarras);
-  }
-  else{
-    printf("Produto não cadastrado!!");
-  }
+
   printf("Quantidade em estoque: %d\n", mercadoria->quantidade);
 
-  //leValor(&(caixa->valor));
-  valorTotal(mercadoria, quantidadeVendida);
+  valorTot = valorTotal(mercadoria, quantidadeVendida);
   //  leMetodoPag();
 
   ler_DataHora(caixa->dataHora);
