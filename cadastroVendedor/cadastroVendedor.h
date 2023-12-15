@@ -9,6 +9,7 @@ struct vendedor{
   char naturalidade[50];
   char escolaridade[50];
   char status;
+  int pontos;
 };
 
 Vendedor* cadastroVendedor(void);
@@ -20,7 +21,7 @@ void registroVendas(void);
 void conquistas(void);
 void escolhaMenuVendedor(char);  
 void leNomes(char*);
-void leCpf(char*);
+void lecpfVendedor(char *cpf);
 void leCel(char*);
 void leDataNasc(char*);
 void leEstadoCivil(char*);

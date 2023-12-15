@@ -5,15 +5,22 @@
 #include "cadastroVendedor.h"
 #include "../auxFuncoes/auxFuncoes.h"
 
-void leCpf(char *cpf)
+void lecpfVendedor(char *cpf)
 {
-  printf("CPF:");
-  fgets(cpf, 13, stdin);
-  // Remove the newline character
-  if (cpf[strlen(cpf) - 1] == '\n')
+  int cpfValido = 0;
+  do
   {
-    cpf[strlen(cpf) - 1] = '\0';
-  }
+    printf("CPF:");
+    fgets(cpf, 13, stdin);
+    cpf[strcspn(cpf, "\n")] = '\0';
+
+    cpfValido = validarCpf(cpf);
+
+    if (!cpfValido)
+    {
+      printf("CPF inválido. Por favor, insira um CPF válido.\n");
+    }
+  } while (!validarCpf(cpf));
 }
 
 void leCel(char *cel)
@@ -130,14 +137,13 @@ Vendedor *cadastroVendedor(void)
   printf("                                                    \n");
   printf("               Digite (0) Para Voltar               \n");
   printf("____________________________________________________\n");
-  // scanf("%c", &charOpcao);
 
   leNomes(vendedor->nomeVendedor);
   limparBufferEntrada();
 
   leCel(vendedor->celVendedor);
 
-  leCpf(vendedor->cpfVendedor);
+  lecpfVendedor(vendedor->cpfVendedor);
 
   leDataNasc(vendedor->dataNascimento);
 
@@ -159,7 +165,7 @@ void gravandoVendedor(Vendedor *vendedor)
   if (fp == NULL)
   {
     printf("Erro na criação do arquivo\n!");
-    getchar(); // exit(1);
+    getchar(); 
   }
   fwrite(vendedor, sizeof(Vendedor), 1, fp);
   fclose(fp);
@@ -388,11 +394,12 @@ void pesquisarVendedor(void)
   printf("                                                    \n");
   printf("  Informe o cpf do vendedor que deseja pesquisar:   \n");
   printf("                                                    \n");
-  leCpf(cpf);
+  lecpfVendedor(cpf);
   getchar();
 
   vendedor = (Vendedor *)malloc(sizeof(Vendedor));
   fp = fopen("arquivoVendedor.bin", "rb");
+  int encontrado = 0;
 
   if (fp == NULL)
   {
@@ -400,18 +407,23 @@ void pesquisarVendedor(void)
   }
   else
   {
-    while (!feof(fp))
+    //!feof(fp)
+    while (fread(vendedor, sizeof(Vendedor), 1, fp) == 1)
     {
-      fread(vendedor, sizeof(Vendedor), 1, fp);
       if ((strcmp(vendedor->cpfVendedor, cpf) == 0) && (vendedor->status != 'i'))
       {
+        encontrado = 1;
         exibeVendedor(vendedor);
-        printf("\n");
+        //printf("\n");
         getchar();
       }
     }
+    if (!encontrado)
+    {
+      printf("Usuário não cadastrado!");
+      getchar();
+    }
   }
-
   fclose(fp);
   free(vendedor);
 }
