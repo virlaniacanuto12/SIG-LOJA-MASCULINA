@@ -339,7 +339,9 @@ int pontuacaoVendedor(Mercadoria *mercadoria, float valorTotal, char *cpfVendedo
 float valorTotal(Mercadoria *mercadoria, int quantidadeVendida)
 {
   float valorTot = 0;
-  valorTot = (mercadoria->quantidade - quantidadeVendida) * mercadoria->preco;
+  printf("Quantidade mercadoria: %d \n", mercadoria->quantidade);
+  printf("Quantidade vendida: %d \n",quantidadeVendida);
+  valorTot = quantidadeVendida * mercadoria->preco;
   printf("Valor total %2.f", valorTot);
   return valorTot;
 }
@@ -427,7 +429,6 @@ Caixa *realizarTransacao(void)
   do
   {
     quantidadeVendida = leQtd(caixa->quantidade);
-    printf("Retorno da função qtd: %d/n", quantidadeVendida);
     if (quantidadeVendida > mercadoria->quantidade)
     {
       printf("Estoque indisponível!");
