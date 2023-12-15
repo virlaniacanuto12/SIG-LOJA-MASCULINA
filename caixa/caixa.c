@@ -272,7 +272,6 @@ Mercadoria *getMercadoria(char *codBarras)
 // Para testar precisa da função de valorTotal(que vai calcular com base na quantidade que o cliente deseja comprar)
 int pontuacaoVendedor(Mercadoria *mercadoria, float valorTotal, char *cpfVendedor)
 {
-  printf("Oi, entrou na função pontuar!");
   Vendedor *vendedor;
   FILE *fp;
   vendedor = (Vendedor *)malloc(sizeof(Vendedor));
