@@ -11,6 +11,9 @@ struct caixa{
   char dataHora[40]; 
 };
 
+void leCpfCliente(char *cpf);
+void leCpfVendedor(char *cpf);
+
 void menuCaixa(void);
 Caixa* realizarTransacao(void);
 void pesquisarTransacao(void); 

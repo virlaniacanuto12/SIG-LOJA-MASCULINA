@@ -21,16 +21,38 @@ void ler_DataHora(char *dataHora)
 
 void leCpfVendedor(char *cpf)
 {
-  printf("CPF do vendedor:");
-  fgets(cpf, 13, stdin);
-  cpf[strcspn(cpf, "\n")] = '\0';
+  int cpfValido = 0;
+  do
+  {
+    printf("CPF Vendedor:");
+    fgets(cpf, 13, stdin);
+    cpf[strcspn(cpf, "\n")] = '\0';
+
+    cpfValido = validarCpf(cpf);
+
+    if (!cpfValido)
+    {
+      printf("CPF inválido. Por favor, insira um CPF válido.\n");
+    }
+  } while (!validarCpf(cpf));
 }
 
 void leCpfCliente(char *cpf)
 {
-  printf("CPF do Cliente:");
-  fgets(cpf, 13, stdin);
-  cpf[strcspn(cpf, "\n")] = '\0';
+  int cpfValido = 0;
+  do
+  {
+    printf("CPF Cliente:");
+    fgets(cpf, 13, stdin);
+    cpf[strcspn(cpf, "\n")] = '\0';
+
+    cpfValido = validarCpf(cpf);
+
+    if (!cpfValido)
+    {
+      printf("CPF inválido. Por favor, insira um CPF válido.\n");
+    }
+  } while (!validarCpf(cpf));
 }
 
 char *leCod(char *cod)
@@ -405,6 +427,7 @@ Caixa *realizarTransacao(void)
   do
   {
     quantidadeVendida = leQtd(caixa->quantidade);
+    printf("Retorno da função qtd: %d/n", quantidadeVendida);
     if (quantidadeVendida > mercadoria->quantidade)
     {
       printf("Estoque indisponível!");
@@ -462,7 +485,7 @@ void exibeTransacao(Caixa *caixa)
     printf("CPF do vendedor:%s\n", caixa->cpfVendedor);
     printf("Cod de barras:%s\n", caixa->codBarras);
     printf("Quantidade:%d\n", caixa->quantidade);
-    printf("Valor unidade:%2.f\n", caixa->valor);
+    printf("Valor:%2.f\n", caixa->valor);
     printf("ID da transação:%d\n", caixa->id);
     printf("Data e hora:%s\n", caixa->dataHora);
   }
@@ -539,8 +562,9 @@ void repondoEstoque(Caixa *caixa)
 {
   Mercadoria *mercadoria;
   mercadoria = getMercadoria(caixa->codBarras);
-  printf("Quantidade mercadoria: %d", mercadoria->quantidade);
-  printf("Quantidade caixa: %d", caixa->quantidade);
+  printf("Cod barras: %s\n", mercadoria->codBarras);
+  printf("Quantidade mercadoria: %d\n", mercadoria->quantidade);
+  printf("Quantidade caixa: %d\n", caixa->quantidade);
   mercadoria->quantidade += caixa->quantidade;
   printf("Quantidade mercadoria atualizada: %d\n", mercadoria->quantidade);
 }
