@@ -6,9 +6,9 @@
 #include <wctype.h>
 #include "auxFuncoes.h"
 #include <stdbool.h>
+#include <time.h>
+#include <unistd.h>
 
-bool v = true;
-bool f = false;
 
 //Função compartilhada por Vinicius Maia
 int ddd[27] = {11, 21, 27, 31, 41, 47, 51, 61, 62, 63, 65, 67, 68, 69,
@@ -71,66 +71,6 @@ int validarNum(char *senha) {
   return 0;
 }
 
-int verificarSenha(char *senha) {
-  int i = 1;
-  while (i) {
-    int tam = strlen(senha);
-    i = validarNum(senha);
-    if(tam-1 > 4){
-      return 0;
-      i = 0;
-    }
-    else if (i == 1) {
-      return 0;
-      i = 0;
-    }
-  }
-  return 1;
-}
-
-bool letraAcentuada(char c) {   //recebe uma letra por vez
-    //um char com as palavras que possam vir a ser acentuadas
-    char letras_acentuadas[] = "ÁÀÂÃÉÈÊÍÌÎÓÒÔÕÚÙÛÇáàâãéèêíìîóòôõúùûç"; 
-    //ela roda um loop que termina até o caracter nulo do fgets
-    for (int i = 0; letras_acentuadas[i] != '\0'; i++) {  
-        // aí se a letra em questão for igual ao char letras_acentuadas retornará vdd
-        //esse loop e esse if verificiarão toda as letras
-        if (c == letras_acentuadas[i]) {
-            return true;
-        }
-    }
-    //verifica se a letra c é uma letra ou um espaço em branco 
-    return isalpha(c) || c == ' ';
-}
-
-//Função compartilhada por Matheus Diniz
-int validarNome(char *nome) {
-    // Pega o tamanho da variável nome
-    int tam = strlen(nome);
-    //só permite nome maiores que 2 letras 
-    // é utilizado 3 para contar com o \n do teclado
-    if (tam<3){
-        return 0;
-    }
-    // Verificar se o usuário não digitou um espaço em branco,tanto no ínicio como no final
-    if ((isspace(nome[0])) || (isspace(nome[tam - 2]))) {
-        return 0;
-    }
-    //esse loop serve para procurar a questão de números
-    for (int j = 0; j < tam - 1; j++) {
-        if (!letraAcentuada(nome[j])) {
-            return 0;
-        }
-    }
-    // Verifica se dois espaços em branco consecutivos
-    for (int i = 0; i < tam - 2; i++) {
-        if ((isspace(nome[i])) && (isspace(nome[i + 1]))) {
-            return 0;
-        }
-    }
-    return 1;
-}
-
 float desconto(float valorCompra, int porcentagem){
   float desconto;
   float valorFinal;
@@ -138,3 +78,64 @@ float desconto(float valorCompra, int porcentagem){
   valorFinal = valorCompra - desconto;
   return valorFinal;
 }
+
+//Feita por Mariana Santos
+void ler_Datahora(char* dataHora) {
+    time_t tempoAtual;
+    struct tm *infoTempo;
+
+    time(&tempoAtual);
+    infoTempo = localtime(&tempoAtual);
+
+    strftime(dataHora, 20, "%d/%m/%Y %H:%M:%S", infoTempo);
+}
+
+// Função baseada no código de https://github.com/RenanMRb/ProjetoEagleEyes.git
+int validarCpf(const char* cpf) {
+    int i, j, digito1 = 0, digito2 = 0;
+
+    // Verifica se o CPF possui 11 dígitos
+    if (strlen(cpf) != 11) {
+        return 0;
+    }
+
+    // Verifica se o CPF não possui todos os dígitos iguais
+    for (i = 0; i < 10; i++) {
+        if (cpf[i] != cpf[i + 1]) {
+            break;
+        }
+    }
+    if (i == 10) {
+        return 0;
+    }
+
+    // Calcula os dígitos verificadores do CPF
+    for (i = 0, j = 10; i < 9; i++, j--) {
+        digito1 += (cpf[i] - '0') * j;
+    }
+    digito1 %= 11;
+    if (digito1 < 2) {
+        digito1 = 0;
+    } else {
+        digito1 = 11 - digito1;
+    }
+    if ((cpf[9] - '0') != digito1) {
+        return 0;
+    }
+
+    for (i = 0, j = 11; i < 10; i++, j--) {
+        digito2 += (cpf[i] - '0') * j;
+    }
+    digito2 %= 11;
+    if (digito2 < 2) {
+        digito2 = 0;
+    } else {
+        digito2 = 11 - digito2;
+    }
+    if ((cpf[10] - '0') != digito2) {
+        return 0;
+    }
+
+    // Se passou por todas as verificações, o CPF é válido
+    return 1;
+} 

@@ -10,3 +10,5 @@ int verificarSenha(char*);
 int validaCel(char celular[]);
 int buscaNum(int tam, char celular[]);
 int buscaDdd(int busca);
+int numAleatorio(void);
+int validarCpf(const char* cpf);
