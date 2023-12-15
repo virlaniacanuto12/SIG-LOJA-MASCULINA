@@ -573,7 +573,7 @@ void cancelarTransacao(void)
   getchar();
 
   caixa = (Caixa *)malloc(sizeof(Caixa));
-  fp = fopen("arquivoCaixa.bin", "rb");
+  fp = fopen("arquivoCaixa.bin", "r+b");
 
   if (fp == NULL)
   {
@@ -584,11 +584,13 @@ void cancelarTransacao(void)
   {
     while (fread(caixa, sizeof(Caixa), 1, fp))
     {
-      if ((caixa->id == id) && (caixa->status != 'i'))
+      if (caixa->id == id)
       {
         achei = 1;
         repondoEstoque(caixa);
-        printf("\n");
+        caixa->status = 'i';
+        fseek(fp, -sizeof(Caixa), SEEK_CUR);
+        fwrite(caixa, sizeof(Caixa), 1, fp);
         break;
         getchar();
       }
