@@ -4,6 +4,7 @@
 #include <string.h>
 #include "cadastroVendedor.h"
 #include "../auxFuncoes/auxFuncoes.h"
+#include "../caixa/caixa.h"
 
 void lecpfVendedor(char *cpf)
 {
@@ -11,6 +12,7 @@ void lecpfVendedor(char *cpf)
   do
   {
     printf("CPF:");
+    // getchar();
     fgets(cpf, 13, stdin);
     cpf[strcspn(cpf, "\n")] = '\0';
 
@@ -97,6 +99,8 @@ void escolhaMenuVendedor(char escolha)
   case '1':
     vendedor = cadastroVendedor();
     gravandoVendedor(vendedor);
+    printf("Impressão cpf: %s\n", vendedor->cpfVendedor);
+    printf("Impressão cpf: %s\n", vendedor->cpfVendedor);
     break;
   case '2':
     pesquisarVendedor();
@@ -111,6 +115,9 @@ void escolhaMenuVendedor(char escolha)
     excluirVendedor();
     break;
   case '5':
+    registroVendas();
+    break;
+  case '6':
     conquistas();
     break;
   default:
@@ -137,9 +144,8 @@ Vendedor *cadastroVendedor(void)
   printf("                                                    \n");
   printf("               Digite (0) Para Voltar               \n");
   printf("____________________________________________________\n");
-
-  leNomes(vendedor->nomeVendedor);
   limparBufferEntrada();
+  leNomes(vendedor->nomeVendedor);
 
   leCel(vendedor->celVendedor);
 
@@ -165,7 +171,7 @@ void gravandoVendedor(Vendedor *vendedor)
   if (fp == NULL)
   {
     printf("Erro na criação do arquivo\n!");
-    getchar(); 
+    getchar();
   }
   fwrite(vendedor, sizeof(Vendedor), 1, fp);
   fclose(fp);
@@ -175,7 +181,7 @@ void gravandoVendedor(Vendedor *vendedor)
 void exibeVendedor(Vendedor *vendedor)
 {
   char situacao[20];
-  if ((vendedor == NULL) || (vendedor->status == 'x'))
+  if ((vendedor == NULL) || (vendedor->status == 'i'))
   {
     printf("Vendedor não encontrado\n");
   }
@@ -407,14 +413,14 @@ void pesquisarVendedor(void)
   }
   else
   {
-    //!feof(fp)
+    //! feof(fp)
     while (fread(vendedor, sizeof(Vendedor), 1, fp) == 1)
     {
       if ((strcmp(vendedor->cpfVendedor, cpf) == 0) && (vendedor->status != 'i'))
       {
         encontrado = 1;
         exibeVendedor(vendedor);
-        //printf("\n");
+        // printf("\n");
         getchar();
       }
     }
@@ -426,6 +432,65 @@ void pesquisarVendedor(void)
   }
   fclose(fp);
   free(vendedor);
+}
+// Vai exibir o vendedor com as respectivas vendas que já fez
+void registroVendas(void)
+{
+  char cpf[13];
+  Caixa *caixa = (Caixa *)malloc(sizeof(Caixa));
+  FILE *fp;
+  int achei = 0;
+
+  system("clear||cls");
+  printf("____________________________________________________\n");
+  printf("                                                    \n");
+  printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
+  printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
+  printf("____________________________________________________\n");
+  printf("                                                    \n");
+  printf(" - - - - - - - - - -  SHOPMEN - - - - - - - - - - - \n");
+  printf("____________________________________________________\n");
+  printf("                                                    \n");
+  printf("                REGISTRO DE VENDAS                  \n");
+  printf("                                                    \n");
+  printf("               Digite (0) Para Voltar               \n");
+  printf("____________________________________________________\n");
+  printf("                                                    \n");
+  printf("        Informe o CPF do vendedor que deseja        \n");
+  printf("             verificar os registros:                \n");
+  printf("                                                    \n");
+  limparBufferEntrada();
+  lecpfVendedor(cpf);
+
+  fp = fopen("arquivoCaixa.bin", "rb");
+
+  if (fp == NULL)
+  {
+    printf("         Erro na abertura do arquivo!             \n");
+    printf("         Tecle <ENTER> para voltar...             \n");
+    getchar();
+  }
+  else
+  {
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("    Vendas realizadas pelo vendedor informado:      \n");
+    printf("____________________________________________________\n");
+
+    while (fread(caixa, sizeof(Caixa), 1, fp) == 1)
+    {
+      if (strcmp(caixa->cpfVendedor, cpf) == 0)
+      {
+        achei = 1;
+        printf("                                             \n");
+        exibeTransacao(caixa);
+        printf("\n");
+      }
+    }
+  }
+  fclose(fp);
+  free(caixa);
+  getchar();
 }
 
 /*A função conquista irá exibir as conquistas que aquele vendedor ja possui.

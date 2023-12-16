@@ -1,6 +1,7 @@
 typedef struct vendedor Vendedor;
 
-struct vendedor{
+struct vendedor
+{
   char nomeVendedor[50];
   char cpfVendedor[13];
   char celVendedor[13];
@@ -9,24 +10,24 @@ struct vendedor{
   char naturalidade[50];
   char escolaridade[50];
   char status;
+  char dataHora[40];
   int pontos;
 };
 
-Vendedor* cadastroVendedor(void);
+Vendedor *cadastroVendedor(void);
 void menuVendedor(void);
 void pesquisarVendedor(void);
 void excluirVendedor(void);
 void atualizarVendedor(void);
 void registroVendas(void);
 void conquistas(void);
-void escolhaMenuVendedor(char);  
-void leNomes(char*);
+void escolhaMenuVendedor(char);
+void leNomes(char *);
 void lecpfVendedor(char *cpf);
-void leCel(char*);
-void leDataNasc(char*);
-void leEstadoCivil(char*);
-void leEscolaridade(char*);
+void leCel(char *);
+void leDataNasc(char *);
+void leEstadoCivil(char *);
+void leEscolaridade(char *);
 void gravandoVendedor(Vendedor *vendedor);
-void exibeVendedor(Vendedor* vendedor);
+void exibeVendedor(Vendedor *vendedor);
 void lendoDados(void);
-
