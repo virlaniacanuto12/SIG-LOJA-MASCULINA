@@ -99,8 +99,6 @@ void escolhaMenuVendedor(char escolha)
   case '1':
     vendedor = cadastroVendedor();
     gravandoVendedor(vendedor);
-    printf("Impressão cpf: %s\n", vendedor->cpfVendedor);
-    printf("Impressão cpf: %s\n", vendedor->cpfVendedor);
     break;
   case '2':
     pesquisarVendedor();
@@ -395,7 +393,7 @@ void pesquisarVendedor(void)
   printf("- - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
   printf("____________________________________________________\n");
   printf("                                                    \n");
-  printf("               USUÁRIOS CADASTRADOS                 \n");
+  printf("               VENDEDORES CADASTRADOS               \n");
   printf("____________________________________________________\n");
   printf("                                                    \n");
   printf("  Informe o cpf do vendedor que deseja pesquisar:   \n");
@@ -497,7 +495,7 @@ void registroVendas(void)
 Vai existir o broche de ouro, prata e bronze que vai variar de acordo com o valor vendido pelo vendedor*/
 void conquistas(void)
 {
-  char cpfVendedor;
+  char cpf[13];
   system("clear||cls");
   printf("____________________________________________________\n");
   printf("                                                    \n");
@@ -516,6 +514,5 @@ void conquistas(void)
   printf("        Informe o CPF do vendedor que deseja        \n");
   printf("            verificar as conquistas:                \n");
   printf("____________________________________________________\n");
-  scanf("%c", &cpfVendedor);
-  getchar();
+  
 }

@@ -53,9 +53,9 @@ char tela_principal(void) {
   printf("- - - - - - - - SIG-LOJA-MASCULINA - - - - - - - - -\n");
   printf("____________________________________________________\n");
   printf("                                                    \n");
-  printf("             1 - Cadastro Vendedor                  \n");
-  printf("             2 - Cadastro Mercadoria                \n");
-  printf("             3 - Cadastro Cliente                   \n");
+  printf("             1 - Vendedor                           \n");
+  printf("             2 - Mercadoria                         \n");
+  printf("             3 - Cliente                            \n");
   printf("             4 - Caixa                              \n");
   printf("             5 - Relatórios                         \n");
   printf("             0 - Encerrar                           \n");
@@ -76,6 +76,7 @@ int main(){
           break;
         case '1':
           menuVendedor();
+          getchar();
         break;
         case '2':
           menuMercadoria();
