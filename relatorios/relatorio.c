@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "relatorio.h"
+#include <string.h>
+#include "../cadastroVendedor/cadastroVendedor.h"
 
 void escolhaMenuRelatorio(char escolha)
 {
@@ -10,10 +12,13 @@ void escolhaMenuRelatorio(char escolha)
         relatorioVendedores();
         break;
     case '2':
-        saldoVendasDia();
+        // relatorioClientes();
         break;
     case '3':
-        destaquesMes();
+        // relatorioMercadoria();
+        break;
+    case '4':
+        // relatorioVendas();
         break;
     default:
         printf("------------------>Opção inválida!<-----------------\n");
@@ -28,10 +33,11 @@ void menuRelatorioVendedor(char escolha)
         vendedoresAtivos();
         break;
     case '2':
-        vendedoresOrdem();
+        vendedoresNaturalidade();
+        getchar();
         break;
     case '3':
-        destaquesMes();
+        // destaquesMes();
         break;
     default:
         printf("------------------>Opção inválida!<-----------------\n");
@@ -87,8 +93,8 @@ void relatorioVendedores(void)
         printf("               Digite (0) Para Voltar               \n");
         printf("____________________________________________________\n");
         printf("                                                    \n");
-        printf("             1- Vendedores ativos:                  \n");
-        printf("             3- Listar por naturalidade:            \n");
+        printf("             1- Vendedores ativos                   \n");
+        printf("             3- Listar por naturalidade             \n");
         printf("____________________________________________________\n");
         scanf("%c", &charOpcao);
         menuRelatorioVendedor(charOpcao);
@@ -98,8 +104,9 @@ void relatorioVendedores(void)
 
 void vendedoresAtivos(void)
 {
-    Vendedores *vendedores = (Vendedores *)malloc(sizeof(Vendedores));
+    Vendedor *vendedor;
     FILE *fp;
+    vendedor = (Vendedor *)malloc(sizeof(Vendedor));
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
@@ -123,27 +130,28 @@ void vendedoresAtivos(void)
     }
     else
     {
-        while (fread(vendedores, sizeof(Vendedores), 1, fp))
+        while (fread(vendedor, sizeof(Vendedor), 1, fp))
         {
-            if (vendedores->status != 'i')
+            if (vendedor->status != 'i')
             {
-                printf("\nNome: %s\n", vendedores->nomeVendedor);
-                printf("CPF: %s\n", vendedores->cpfVendedor);
-                printf("Celular: %s\n", vendedores->celVendedor);
-                printf("Data de nascimento: %s\n", vendedores->dataNascimento);
-                printf("Estado civil: %s\n", vendedores->estadoCivil);
-                printf("Escolaridade: %s\n", vendedores->escolaridade);
-                printf("Status: %c\n", vendedores->status);
+                exibeVendedor(vendedor);
+                printf("\n");
             }
         }
     }
+    fclose(fp);
+    free(vendedor);
     getchar();
 }
 
 void vendedoresNaturalidade(void)
 {
-    Vendedores *vendedores = (Vendedores *)malloc(sizeof(Vendedores));
+    getchar();
+    Vendedor *vendedor; 
     FILE *fp;
+    vendedor = (Vendedor *)malloc(sizeof(Vendedor));
+
+    char naturalidade[50];
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
@@ -158,54 +166,30 @@ void vendedoresNaturalidade(void)
     printf("                                                    \n");
     printf("               Digite (0) Para Voltar               \n");
     printf("____________________________________________________\n");
+    printf("                                                    \n");
     printf("         De qual cidade vc deseja filtrar?          \n");
-}
 
-void saldoVendasMes(void)
-{
-    char charOpcao;
-    system("clear||cls");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
-    printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("- - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("                     RELATÓRIOS                     \n");
-    printf("                                                    \n");
-    printf("               Digite (0) Para Voltar               \n");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("               Saldo de vendas do mês:              \n");
-    printf("____________________________________________________\n");
-    scanf("%c", &charOpcao);
-    getchar();
-}
+    leNaturalidade(naturalidade);
 
-void saldoVendasDia(void)
-{
-    char charOpcao;
-    system("clear||cls");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
-    printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("- - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("                     RELATÓRIOS                     \n");
-    printf("                                                    \n");
-    printf("               Digite (0) Para Voltar               \n");
-    printf("____________________________________________________\n");
-    printf("                                                    \n");
-    printf("               Saldo de vendas do dia:              \n");
-    printf("____________________________________________________\n");
-    scanf("%c", &charOpcao);
+    fp = fopen("arquivoVendedor.bin", "rb");
+
+    if (fp == NULL)
+    {
+        printf("\nSem registro de vendedores. Faça primeiro os cadastros para depois listar.\n");
+    }
+    else
+    {
+        while (fread(vendedor, sizeof(Vendedor), 1, fp))
+        {
+            if (strcmp(vendedor->naturalidade, naturalidade) == 0)
+            {
+                exibeVendedor(vendedor);
+                printf("\n");
+            }
+        }
+    }
+    fclose(fp);
+    free(vendedor);
     getchar();
 }
 
