@@ -13,20 +13,23 @@ struct caixa{
 
 void leCpfCliente(char *cpf);
 void leCpfVendedor(char *cpf);
+void extrairMes(char *dataHora, char *mes);
 
 void menuCaixa(void);
 Caixa* realizarTransacao(void);
 void pesquisarTransacao(void); 
 void cancelarTransacao(void);
+void exibeTransacao(Caixa *caixa);
 void gravandoTransacao(Caixa *caixa);
 
 void pagamentoCaixa(void);
-void leMetodoPag(void); 
+void escolhaCaixa(char);
+char leMetodoPag(void); 
 void exibirPix(void);
 int criar_id(void);
 
-int exibeMetodoPag(char);
-void condicoesPixEspecie(void);
-float condicoesCartao(void); 
+void exibeMetodoPag(char, float);
+void condicoesPixEspecie(float);
+void condicoesCartao(float); 
 float resumoDaCompraCartao(int par, float valor);
 

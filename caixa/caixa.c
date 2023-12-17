@@ -44,13 +44,15 @@ void leCpfCliente(char *cpf)
   {
     printf("CPF Cliente:");
     fgets(cpf, 13, stdin);
+    // getchar();
     cpf[strcspn(cpf, "\n")] = '\0';
 
     cpfValido = validarCpf(cpf);
-
+    getchar();
     if (!cpfValido)
     {
       printf("CPF inválido. Por favor, insira um CPF válido.\n");
+      getchar();
     }
   } while (!validarCpf(cpf));
 }
@@ -75,20 +77,6 @@ float *leValor(float *valor)
   printf("Valor:");
   scanf("%f", valor);
   return valor;
-}
-
-void leMetodoPag(void)
-{
-  char charOpcao = '0';
-  printf("\n");
-  printf("           Escolha o método de pagamento:             \n");
-  printf("\n");
-  printf("(1) PIX\n");
-  printf("(2) CARTÃO\n");
-  printf("(3) ESPÉCIE\n");
-  scanf(" %c", &charOpcao);
-  getchar();
-  exibeMetodoPag(charOpcao);
 }
 
 // Função de Matheus Diniz
@@ -128,23 +116,35 @@ int criar_id(void)
   }
 }
 
-int exibeMetodoPag(char escolhaPag)
+char leMetodoPag(void)
+{
+  getchar();
+  char charOpcao = '0';
+  printf("\n");
+  printf("           Escolha o método de pagamento:             \n");
+  printf("                                                      \n");
+  printf("        (1) PIX || (2) CARTÃO || (3) ESPÉCIE          \n");
+  scanf(" %c", &charOpcao);
+  getchar();
+  return charOpcao;
+}
+
+void exibeMetodoPag(char escolhaPag, float valorFinal)
 {
   switch (escolhaPag)
   {
   case '1':
-    condicoesPixEspecie();
+    condicoesPixEspecie(valorFinal);
     break;
   case '2':
-    condicoesCartao();
+    condicoesCartao(valorFinal);
     break;
   case '3':
-    condicoesPixEspecie();
+    condicoesPixEspecie(valorFinal);
     break;
   default:
     printf("------------------>Opção inválida!<-----------------\n");
   }
-  return 0;
 }
 
 void escolhaCaixa(char escolhaOpcao)
@@ -167,18 +167,21 @@ void escolhaCaixa(char escolhaOpcao)
   }
 }
 
-void resumoDaCompraPix(float valorCompra, int porcentagem)
+float resumoDaCompraPix(float valorCompra, int porcentagem)
 {
-  system("clear||cls");
+  float valorFinal = 0;
   printf("____________________________________________________\n");
   printf("                                                    \n");
   printf("                RESUMO FINAL DA COMPRA              \n");
   printf("____________________________________________________\n");
+  printf("                                                    \n");
   printf("Valor da compra: R$ %.2f\n", valorCompra);
   printf("Valor com desconto: R$ %.2f\n", desconto(valorCompra, porcentagem));
   getchar();
+  return valorFinal;
 }
 
+// Calcula o preço final com base nos aumentos do cartão e grava na struct
 float resumoDaCompraCartao(int parcelas, float valorCompra)
 {
   char decisao;
@@ -191,7 +194,8 @@ float resumoDaCompraCartao(int parcelas, float valorCompra)
 
   if (decisao == 's')
   {
-    valorFinal = valorCompra + (10 * parcelas);
+    // soma 10% no valor final
+    valorFinal = valorCompra + ((10 * valorCompra) / 100);
     valorParcelado = valorFinal / parcelas;
 
     system("clear||cls");
@@ -217,46 +221,37 @@ float resumoDaCompraCartao(int parcelas, float valorCompra)
   }
 }
 
-float condicoesCartao(void)
+void condicoesCartao(float valorFinal)
 {
-  float valorFinal;
-  float valorCompra;
-
-  valorCompra = 1000;
-
-  if (valorCompra < 500)
+  if (valorFinal < 500)
   {
-    valorFinal = resumoDaCompraCartao(2, valorCompra);
+    resumoDaCompraCartao(2, valorFinal);
   }
 
-  else if (valorCompra >= 500 && valorCompra < 1200)
+  else if (valorFinal >= 500 && valorFinal < 1200)
   {
-    valorFinal = resumoDaCompraCartao(4, valorCompra);
+    resumoDaCompraCartao(4, valorFinal);
   }
 
-  else if (valorCompra >= 1200)
+  else if (valorFinal >= 1200)
   {
-    valorFinal = resumoDaCompraCartao(8, valorCompra);
+    resumoDaCompraCartao(8, valorFinal);
   }
-  return valorFinal;
 }
 
-void condicoesPixEspecie(void)
+void condicoesPixEspecie(float valorFinal)
 {
-  float valorCompra;
-  valorCompra = 1000;
-
-  if (valorCompra <= 500)
+  if (valorFinal <= 500)
   {
-    resumoDaCompraPix(valorCompra, 5);
+    resumoDaCompraPix(valorFinal, 5);
   }
-  else if (valorCompra > 500 && valorCompra < 1000)
+  else if (valorFinal > 500 && valorFinal < 1000)
   {
-    resumoDaCompraPix(valorCompra, 10);
+    resumoDaCompraPix(valorFinal, 10);
   }
-  else if (valorCompra >= 1000)
+  else if (valorFinal >= 1000)
   {
-    resumoDaCompraPix(valorCompra, 15);
+    resumoDaCompraPix(valorFinal, 15);
   }
 }
 
@@ -291,6 +286,27 @@ Mercadoria *getMercadoria(char *codBarras)
   }
   return NULL;
 }
+
+/*int verificarDataPonto(Caixa *caixa, Vendedor *vendedor)
+{
+  char mesVendedor[3];
+  char mesCaixa[3];
+
+  extrairMes(vendedor->dataHora, mesVendedor);
+  extrairMes(caixa->dataHora, mesCaixa);
+
+  if (strcmp(mesVendedor, mesCaixa) == 0)
+  {
+    printf("O mês da data do vendedor é igual ao mês da data da caixa: %s.\n", mesVendedor);
+    return 1;
+  }
+  else
+  {
+    printf("O mês da data do vendedor é diferente do mês da data da caixa.\n");
+    return 0;
+  }
+}*/
+
 // Para testar precisa da função de valorTotal(que vai calcular com base na quantidade que o cliente deseja comprar)
 int pontuacaoVendedor(Mercadoria *mercadoria, float valorTotal, char *cpfVendedor)
 {
@@ -305,31 +321,50 @@ int pontuacaoVendedor(Mercadoria *mercadoria, float valorTotal, char *cpfVendedo
   }
   while (fread(vendedor, sizeof(Vendedor), 1, fp))
   {
-    printf("Entrou no while");
-    printf("CPF vendedor struct: %s", vendedor->cpfVendedor);
-    printf("CPF vendedor: %s", cpfVendedor);
     if ((strcmp(vendedor->cpfVendedor, cpfVendedor) == 0) && (vendedor->status != 'i'))
     {
-      printf("ENTROU NO IF");
+      // if (verificarDataPonto(caixa, vendedor))
+      //{
       if (valorTotal <= 500)
-      {
-        vendedor->pontos += 50;
-        printf("Pontos vendedor: %d", vendedor->pontos);
-        return 1;
-      }
-      else if (valorTotal > 500 && valorTotal <= 1000)
       {
         vendedor->pontos += 100;
         printf("Pontos vendedor: %d", vendedor->pontos);
         return 1;
       }
-      else if (valorTotal > 1000)
+      else if (valorTotal > 500 && valorTotal <= 1000)
       {
         vendedor->pontos += 150;
         printf("Pontos vendedor: %d", vendedor->pontos);
         return 1;
       }
+      else if (valorTotal > 1000)
+      {
+        vendedor->pontos += 200;
+        printf("Pontos vendedor: %d", vendedor->pontos);
+        return 1;
+      }
     }
+    /*else if (valorTotal <= 500)
+    {
+      vendedor->pontos = 0;
+      vendedor->pontos += 50;
+      printf("Pontos vendedor: %d", vendedor->pontos);
+      return 1;
+    }
+    else if (valorTotal > 500 && valorTotal <= 1000)
+    {
+      vendedor->pontos = 0;
+      vendedor->pontos += 100;
+      printf("Pontos vendedor: %d", vendedor->pontos);
+      return 1;
+    }
+    else if (valorTotal > 1000)
+    {
+      vendedor->pontos = 0;
+      vendedor->pontos += 150;
+      printf("Pontos vendedor: %d", vendedor->pontos);
+      return 1;
+    }*/
   }
   return 0;
   fclose(fp);
@@ -339,10 +374,10 @@ int pontuacaoVendedor(Mercadoria *mercadoria, float valorTotal, char *cpfVendedo
 float valorTotal(Mercadoria *mercadoria, int quantidadeVendida)
 {
   float valorTot = 0;
-  printf("Quantidade mercadoria: %d \n", mercadoria->quantidade);
-  printf("Quantidade vendida: %d \n",quantidadeVendida);
+  // printf("Quantidade mercadoria: %d \n", mercadoria->quantidade);
+  // printf("Quantidade vendida: %d \n",quantidadeVendida);
   valorTot = quantidadeVendida * mercadoria->preco;
-  printf("Valor total %2.f", valorTot);
+  // printf("Valor total %2.f", valorTot);
   return valorTot;
 }
 
@@ -385,6 +420,8 @@ Caixa *realizarTransacao(void)
   Mercadoria *mercadoria;
   Caixa *caixa;
   caixa = (Caixa *)malloc(sizeof(Caixa));
+
+  char opcaoPag;
   char codBarras[10];
   int quantidadeVendida;
   float valorTot = 0;
@@ -406,8 +443,8 @@ Caixa *realizarTransacao(void)
   printf("____________________________________________________\n");
   printf("                                                    \n");
 
-  leCpfCliente(caixa->cpfCliente);
   limparBufferEntrada();
+  leCpfCliente(caixa->cpfCliente);
 
   leCpfVendedor(caixa->cpfVendedor);
 
@@ -441,15 +478,20 @@ Caixa *realizarTransacao(void)
     }
   } while (quantidadeVendida > mercadoria->quantidade);
 
-  valorTot = valorTotal(mercadoria, quantidadeVendida);
-  //  leMetodoPag();
-  printf("Valor Total:%2.f", valorTot);
-
   ler_DataHora(caixa->dataHora);
   printf("Data e hora: %s\n", caixa->dataHora);
 
   caixa->id = criar_id();
   printf("ID da venda: %d\n", caixa->id);
+
+  valorTot = valorTotal(mercadoria, quantidadeVendida);
+
+  printf("Valor Total:%2.f\n", valorTot);
+  getchar();
+
+  opcaoPag = leMetodoPag();
+  exibeMetodoPag(opcaoPag, valorTot);
+  getchar();
 
   caixa->status = 'A';
 
