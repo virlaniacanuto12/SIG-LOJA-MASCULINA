@@ -19,7 +19,7 @@ void escolhaMenuRelatorio(char escolha)
         getchar();
         break;
     case '3':
-        //relatorioMercadoria();
+        // relatorioMercadoria();
         getchar();
         break;
     case '4':
@@ -151,6 +151,7 @@ void vendedoresNaturalidade(void)
     Vendedor *vendedor;
     FILE *fp;
     vendedor = (Vendedor *)malloc(sizeof(Vendedor));
+    int encontrei = 0;
 
     char naturalidade[50];
     system("clear||cls");
@@ -185,11 +186,17 @@ void vendedoresNaturalidade(void)
         {
             if (strcmp(vendedor->naturalidade, naturalidade) == 0)
             {
+                encontrei = 1;
                 exibeVendedor(vendedor);
                 printf("\n");
             }
         }
     }
+    if (!encontrei)
+    {
+        printf("Não existe vendedor desta cidade cadastrado!");
+    }
+
     fclose(fp);
     free(vendedor);
     getchar();
@@ -247,6 +254,7 @@ void mercadoriaCor(void)
     Mercadoria *mercadoria;
     FILE *fp;
     mercadoria = (Mercadoria *)malloc(sizeof(Vendedor));
+    int encontrei = 0;
 
     char cor[50];
     system("clear||cls");
@@ -271,7 +279,7 @@ void mercadoriaCor(void)
     printf("                                                    \n");
     leCor(cor);
     printf("                                                    \n");
-    //getchar();
+    // getchar();
 
     fp = fopen("arquivoMercadoria.bin", "rb");
 
@@ -285,11 +293,17 @@ void mercadoriaCor(void)
         {
             if (strcmp(mercadoria->cor, cor) == 0)
             {
+                encontrei = 1;
                 exibeMercadoria(mercadoria);
                 printf("\n");
             }
         }
     }
+    if (!encontrei)
+    {
+        printf("Não existe mercadoria com esse tamanho no estoque!");
+    }
+
     fclose(fp);
     free(mercadoria);
     getchar();
@@ -297,7 +311,13 @@ void mercadoriaCor(void)
 
 void mercadoriaTam(void)
 {
-    char charOpcao;
+    getchar();
+    Mercadoria *mercadoria;
+    FILE *fp;
+    mercadoria = (Mercadoria *)malloc(sizeof(Vendedor));
+    int encontrei = 0;
+
+    char tam[12];
     system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
@@ -315,6 +335,36 @@ void mercadoriaTam(void)
     printf("                                                    \n");
     printf("           RELATÓRIO MERCADORIA POR TAMANHO         \n");
     printf("____________________________________________________\n");
-    scanf("%c", &charOpcao);
+    printf("                                                    \n");
+    printf("           Qual tamanho vc deseja filtrar?          \n");
+    printf("                                                    \n");
+    leTamanho(tam);
+    getchar();
+
+    fp = fopen("arquivoMercadoria.bin", "rb");
+
+    if (fp == NULL)
+    {
+        printf("\nSem registro de mercadorias.\n");
+    }
+    else
+    {
+        while (fread(mercadoria, sizeof(Mercadoria), 1, fp))
+        {
+            if (strcmp(mercadoria->tamanho, tam) == 0)
+            {
+                encontrei = 1;
+                exibeMercadoria(mercadoria);
+                printf("\n");
+            }
+        }
+    }
+    if (!encontrei)
+    {
+        printf("Não existe mercadoria com esse tamanho no estoque!");
+    }
+
+    fclose(fp);
+    free(mercadoria);
     getchar();
 }
