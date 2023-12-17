@@ -6,10 +6,12 @@
 
 void escolhaMenuRelatorio(char escolha)
 {
+    getchar();
     switch (escolha)
     {
     case '1':
         relatorioVendedores();
+        getchar();
         break;
     case '2':
         // relatorioClientes();
@@ -94,7 +96,7 @@ void relatorioVendedores(void)
         printf("____________________________________________________\n");
         printf("                                                    \n");
         printf("             1- Vendedores ativos                   \n");
-        printf("             3- Listar por naturalidade             \n");
+        printf("             2- Listar por naturalidade             \n");
         printf("____________________________________________________\n");
         scanf("%c", &charOpcao);
         menuRelatorioVendedor(charOpcao);
@@ -168,8 +170,9 @@ void vendedoresNaturalidade(void)
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("         De qual cidade vc deseja filtrar?          \n");
-
+    printf("                                                    \n");
     leNaturalidade(naturalidade);
+    printf("                                                    \n");
 
     fp = fopen("arquivoVendedor.bin", "rb");
 
@@ -193,7 +196,7 @@ void vendedoresNaturalidade(void)
     getchar();
 }
 
-void destaquesMes(void)
+void clientesStatus(void)
 {
     char charOpcao;
     system("clear||cls");
@@ -211,7 +214,7 @@ void destaquesMes(void)
     printf("               Digite (0) Para Voltar               \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("              Vendedores em destaque mês:           \n");
+    printf("            RELATÓRIO CLIENTES POR STATUS           \n");
     printf("____________________________________________________\n");
     scanf("%c", &charOpcao);
     getchar();
