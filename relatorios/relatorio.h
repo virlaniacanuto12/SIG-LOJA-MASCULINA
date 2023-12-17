@@ -26,8 +26,7 @@ void menuRelatorioMercadoria(char escolha);
 void relatorioVendas(void);
 void menuRelatorioCaixa(char escolha);
 void vendaMes(void);
+void vendaDia(void);
 
-void saldoVendasMes(void);
-void saldoVendasDia(void);
 
 void escolhaMenuRelatorio(char);

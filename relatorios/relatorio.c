@@ -390,7 +390,7 @@ void relatorioVendas(void)
         printf("____________________________________________________\n");
         printf("                                                    \n");
         printf("             1- Vendas por mês                      \n");
-        printf("             2- Mercadoria por tamanho              \n");
+        printf("             2- Vendas por dia                      \n");
         printf("____________________________________________________\n");
         scanf("%c", &charOpcao);
         menuRelatorioCaixa(charOpcao);
@@ -407,7 +407,7 @@ void menuRelatorioCaixa(char escolha)
         getchar();
         break;
     case '2':
-        mercadoriaTam();
+        vendaDia();
         getchar();
         break;
     default:
@@ -478,6 +478,77 @@ void vendaMes(void)
     if (!encontrei)
     {
         printf("Não existe vendas realizada nesse mês!");
+    }
+
+    fclose(fp);
+    free(caixa);
+    getchar();
+}
+
+void leDia(char *dia)
+{
+    printf("Dia:");
+    fgets(dia, 3, stdin);
+    dia[strcspn(dia, "\n")] = '\0';
+}
+
+
+void vendaDia(void)
+{
+    getchar();
+    Caixa *caixa;
+    FILE *fp;
+    caixa = (Caixa *)malloc(sizeof(Caixa));
+    int encontrei = 0;
+    
+    char diaVenda[3];
+    char dia[3];
+
+    system("clear||cls");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
+    printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("- - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("                     RELATÓRIOS                     \n");
+    printf("                                                    \n");
+    printf("               Digite (0) Para Voltar               \n");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("               RELATÓRIO VENDA POR DIA              \n");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("              Qual dia vc quer filtrar?             \n");
+    printf("                                                    \n");
+    leDia(dia);
+    getchar();
+
+    fp = fopen("arquivoCaixa.bin", "rb");
+
+    if (fp == NULL)
+    {
+        printf("\nSem registro de vendas.\n");
+    }
+    else
+    {
+        while (fread(caixa, sizeof(Caixa), 1, fp))
+        {
+            extrairDia(caixa->dataHora,diaVenda);
+            if (strcmp(diaVenda, dia) == 0)
+            {
+                encontrei = 1;
+                exibeTransacao(caixa);
+                printf("\n");
+            }
+        }
+    }
+    if (!encontrei)
+    {
+        printf("Não existe vendas realizada nesse dia!");
     }
 
     fclose(fp);
