@@ -4,6 +4,8 @@
 #include <string.h>
 #include "../cadastroVendedor/cadastroVendedor.h"
 #include "../cadastroMercadoria/cadastroMercadoria.h"
+#include "../caixa/caixa.h"
+#include "../auxFuncoes/auxFuncoes.h"
 
 void escolhaMenuRelatorio(char escolha)
 {
@@ -19,11 +21,8 @@ void escolhaMenuRelatorio(char escolha)
         getchar();
         break;
     case '3':
-        // relatorioMercadoria();
+        relatorioVendas();
         getchar();
-        break;
-    case '4':
-        // relatorioVendas();
         break;
     default:
         printf("------------------>Opção inválida!<-----------------\n");
@@ -366,5 +365,122 @@ void mercadoriaTam(void)
 
     fclose(fp);
     free(mercadoria);
+    getchar();
+}
+
+void relatorioVendas(void)
+{
+    getchar();
+    char charOpcao;
+    do
+    {
+        system("clear||cls");
+        printf("____________________________________________________\n");
+        printf("                                                    \n");
+        printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
+        printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
+        printf("____________________________________________________\n");
+        printf("                                                    \n");
+        printf("- - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
+        printf("____________________________________________________\n");
+        printf("                                                    \n");
+        printf("                 RELATÓRIOS VENDAS                  \n");
+        printf("                                                    \n");
+        printf("               Digite (0) Para Voltar               \n");
+        printf("____________________________________________________\n");
+        printf("                                                    \n");
+        printf("             1- Vendas por mês                      \n");
+        printf("             2- Mercadoria por tamanho              \n");
+        printf("____________________________________________________\n");
+        scanf("%c", &charOpcao);
+        menuRelatorioCaixa(charOpcao);
+        getchar();
+    } while (charOpcao != '0');
+}
+
+void menuRelatorioCaixa(char escolha)
+{
+    switch (escolha)
+    {
+    case '1':
+        vendaMes();
+        getchar();
+        break;
+    case '2':
+        mercadoriaTam();
+        getchar();
+        break;
+    default:
+        printf("------------------>Opção inválida!<-----------------\n");
+    }
+}
+
+void leMes(char *mes)
+{
+    printf("Mês:");
+    fgets(mes, 3, stdin);
+    mes[strcspn(mes, "\n")] = '\0';
+}
+
+void vendaMes(void)
+{
+    getchar();
+    Caixa *caixa;
+    FILE *fp;
+    caixa = (Caixa *)malloc(sizeof(Caixa));
+    int encontrei = 0;
+    
+    char mesVenda[3];
+    char mes[3];
+
+    system("clear||cls");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
+    printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("- - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("                     RELATÓRIOS                     \n");
+    printf("                                                    \n");
+    printf("               Digite (0) Para Voltar               \n");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("               RELATÓRIO VENDA POR MÊS              \n");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("              Qual mês vc quer filtrar?             \n");
+    printf("                                                    \n");
+    leMes(mes);
+    getchar();
+
+    fp = fopen("arquivoCaixa.bin", "rb");
+
+    if (fp == NULL)
+    {
+        printf("\nSem registro de vendas.\n");
+    }
+    else
+    {
+        while (fread(caixa, sizeof(Caixa), 1, fp))
+        {
+            extrairMes(caixa->dataHora,mesVenda);
+            if (strcmp(mesVenda, mes) == 0)
+            {
+                encontrei = 1;
+                exibeTransacao(caixa);
+                printf("\n");
+            }
+        }
+    }
+    if (!encontrei)
+    {
+        printf("Não existe vendas realizada nesse mês!");
+    }
+
+    fclose(fp);
+    free(caixa);
     getchar();
 }
