@@ -3,6 +3,7 @@
 #include "relatorio.h"
 #include <string.h>
 #include "../cadastroVendedor/cadastroVendedor.h"
+#include "../cadastroMercadoria/cadastroMercadoria.h"
 
 void escolhaMenuRelatorio(char escolha)
 {
@@ -14,10 +15,12 @@ void escolhaMenuRelatorio(char escolha)
         getchar();
         break;
     case '2':
-        // relatorioClientes();
+        relatorioMercadoria();
+        getchar();
         break;
     case '3':
-        // relatorioMercadoria();
+        //relatorioMercadoria();
+        getchar();
         break;
     case '4':
         // relatorioVendas();
@@ -37,9 +40,6 @@ void menuRelatorioVendedor(char escolha)
     case '2':
         vendedoresNaturalidade();
         getchar();
-        break;
-    case '3':
-        // destaquesMes();
         break;
     default:
         printf("------------------>Opção inválida!<-----------------\n");
@@ -65,8 +65,7 @@ void menuRelatorio(void)
         printf("____________________________________________________\n");
         printf("                                                    \n");
         printf("             1- Relatório Vendedor                  \n");
-        printf("             2- Relatório Cliente                   \n");
-        printf("             3- Relatório Mercadoria                \n");
+        printf("             2- Relatório Mercadoria                \n");
         printf("             3- Relatório Vendas                    \n");
         printf("             0- Voltar                              \n");
         printf("____________________________________________________\n");
@@ -149,7 +148,7 @@ void vendedoresAtivos(void)
 void vendedoresNaturalidade(void)
 {
     getchar();
-    Vendedor *vendedor; 
+    Vendedor *vendedor;
     FILE *fp;
     vendedor = (Vendedor *)malloc(sizeof(Vendedor));
 
@@ -196,7 +195,107 @@ void vendedoresNaturalidade(void)
     getchar();
 }
 
-void clientesStatus(void)
+void menuRelatorioMercadoria(char escolha)
+{
+    switch (escolha)
+    {
+    case '1':
+        mercadoriaCor();
+        getchar();
+        break;
+    case '2':
+        mercadoriaTam();
+        getchar();
+        break;
+    default:
+        printf("------------------>Opção inválida!<-----------------\n");
+    }
+}
+
+void relatorioMercadoria(void)
+{
+    char charOpcao;
+    do
+    {
+        system("clear||cls");
+        printf("____________________________________________________\n");
+        printf("                                                    \n");
+        printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
+        printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
+        printf("____________________________________________________\n");
+        printf("                                                    \n");
+        printf("- - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
+        printf("____________________________________________________\n");
+        printf("                                                    \n");
+        printf("                RELATÓRIOS VENDEDOR                 \n");
+        printf("                                                    \n");
+        printf("               Digite (0) Para Voltar               \n");
+        printf("____________________________________________________\n");
+        printf("                                                    \n");
+        printf("             1- Mercadoria por cor                  \n");
+        printf("             2- Mercadoria por tamanho              \n");
+        printf("____________________________________________________\n");
+        scanf("%c", &charOpcao);
+        menuRelatorioMercadoria(charOpcao);
+        getchar();
+    } while (charOpcao != '0');
+}
+
+void mercadoriaCor(void)
+{
+    getchar();
+    Mercadoria *mercadoria;
+    FILE *fp;
+    mercadoria = (Mercadoria *)malloc(sizeof(Vendedor));
+
+    char cor[50];
+    system("clear||cls");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
+    printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("- - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("                     RELATÓRIOS                     \n");
+    printf("                                                    \n");
+    printf("               Digite (0) Para Voltar               \n");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("            RELATÓRIO MERCADORIA POR COR            \n");
+    printf("____________________________________________________\n");
+    printf("                                                    \n");
+    printf("           Qual cor vc deseja filtrar?              \n");
+    printf("                                                    \n");
+    leCor(cor);
+    printf("                                                    \n");
+    //getchar();
+
+    fp = fopen("arquivoMercadoria.bin", "rb");
+
+    if (fp == NULL)
+    {
+        printf("\nSem registro de vendedores. Faça primeiro os cadastros para depois listar.\n");
+    }
+    else
+    {
+        while (fread(mercadoria, sizeof(Mercadoria), 1, fp))
+        {
+            if (strcmp(mercadoria->cor, cor) == 0)
+            {
+                exibeMercadoria(mercadoria);
+                printf("\n");
+            }
+        }
+    }
+    fclose(fp);
+    free(mercadoria);
+    getchar();
+}
+
+void mercadoriaTam(void)
 {
     char charOpcao;
     system("clear||cls");
@@ -214,7 +313,7 @@ void clientesStatus(void)
     printf("               Digite (0) Para Voltar               \n");
     printf("____________________________________________________\n");
     printf("                                                    \n");
-    printf("            RELATÓRIO CLIENTES POR STATUS           \n");
+    printf("           RELATÓRIO MERCADORIA POR TAMANHO         \n");
     printf("____________________________________________________\n");
     scanf("%c", &charOpcao);
     getchar();

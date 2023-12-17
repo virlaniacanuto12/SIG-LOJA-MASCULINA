@@ -19,6 +19,10 @@ void vendedoresAtivos(void);
 void vendedoresOrdem(void);
 void vendedoresNaturalidade(void);
 
+void mercadoriaTam(void);
+void mercadoriaCor(void);
+void relatorioMercadoria(void);
+
 
 void saldoVendasMes(void);
 void saldoVendasDia(void);
