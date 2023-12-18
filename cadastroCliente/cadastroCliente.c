@@ -6,6 +6,7 @@
 #include <time.h>
 #include "cadastroCliente.h"
 #include "../auxFuncoes/auxFuncoes.h"
+#include "../caixa/caixa.h"
 
 void lerNomes(char *nome)
 {
@@ -410,100 +411,22 @@ void verificarCliente(void)
   free(cliente);
 }
 
-void ordemAlfabetica(void)
-{
-  getchar();
-  FILE *fp;
-  Cliente *cli;
-  Cliente *lista;
-  Cliente *novo;
-
-  fp = fopen("arquivoCliente.bin", "rb");
-
-  if (fp == NULL)
-  {
-    printf("\nNão é possível continuar a listagem");
-  }
-
-  else
-  {
-    lista = NULL;
-    cli = (Cliente *)malloc(sizeof(Cliente));
-
-    while (fread(cli, sizeof(Cliente), 1, fp))
-    {
-      printf("entrou no while");
-
-      if (cli->status != 'i')
-      {
-        novo = (Cliente *)malloc(sizeof(Cliente));
-
-        strcpy(novo->nomeCliente, cli->nomeCliente);
-
-        strcpy(novo->cpfCliente, cli->cpfCliente);
-
-        strcpy(novo->tel, cli->tel);
-
-        strcpy(novo->email, cli->email);
-
-        strcpy(novo->clienteDataNasc, cli->clienteDataNasc);
-
-        novo->status = cli->status;
-      }
-
-      if (lista == NULL)
-      {
-        lista = novo;
-        novo->prox = NULL;
-      }
-
-      else if (strcmp(novo->nomeCliente, lista->nomeCliente) < 0)
-      {
-        novo->prox = lista;
-        lista = novo;
-      }
-
-      else
-      {
-        Cliente *anterior = lista;
-        Cliente *atual = lista->prox;
-
-        while ((atual != NULL) && strcmp(atual->nomeCliente, novo->nomeCliente) < 0)
-        {
-          anterior = atual;
-          atual = novo->prox;
-        }
-
-        anterior->prox = novo;
-        novo->prox = atual;
-      }
-    }
-  }
-  free(cli);
-  novo = lista;
-
-  while (novo != NULL)
-  {
-    exibeCliente(novo);
-    novo = novo->prox;
-  }
-
-  novo = lista;
-
-  while (lista != NULL)
-  {
-    lista = lista->prox;
-    free(novo);
-    novo = lista;
-  }
-
-  fclose(fp);
-}
 
 void relatorioCliente(void)
 {
   getchar();
+  FILE *fp = fopen("arquivoCliente.bin", "rb");
+  Cliente *novo_cli;
+  Cliente *lista;
   system("clear||cls");
+  if (fp == NULL)
+  {
+    printf("\t\t\t>>> Processando as informações...\n");
+    sleep(1);
+    printf("\t\t\t>>> Houve um erro ao abrir o arquivo!\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+  }
   printf("____________________________________________________\n");
   printf("                                                    \n");
   printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
@@ -520,8 +443,70 @@ void relatorioCliente(void)
   printf("                                                    \n");
   printf("            Clientes em ordem alfabética            \n");
   printf("                                                    \n");
+  printf("%-12s", "CPF");
+  printf("|");
+  printf("%-30s", "Nome do Cliente");
+  printf("\n");
+  printf("%13s", "|");
+  printf("\n");
+  lista = NULL;
+  novo_cli = (Cliente *)malloc(sizeof(Cliente));
+  if (novo_cli == NULL)
+  {
+    printf("\t\t\t>>> Processando as informações...\n");
+    sleep(1);
+    printf("\t\t\t>>> Houve um erro ao alocar a memória!\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+  }
+  while (fread(novo_cli, sizeof(Cliente), 1, fp) == 1)
+  {
+    novo_cli->prox = NULL;
+    if ((lista == NULL) || (strcmp(novo_cli->nomeCliente, lista->nomeCliente) < 0))
+    {
+      novo_cli->prox = lista;
+      lista = novo_cli;
+    }
+    else
+    {
+      Cliente *ant = lista;
+      Cliente *atual = lista->prox;
+      while ((atual != NULL) && strcmp(atual->nomeCliente, novo_cli->nomeCliente) < 0)
+      {
+        ant = atual;
+        atual = atual->prox;
+      }
+      ant->prox = novo_cli;
+      novo_cli->prox = atual;
+    }
+    novo_cli = (Cliente *)malloc(sizeof(Cliente));
+    if (novo_cli == NULL)
+    {
+      printf("\t\t\t>>> Processando as informações...\n");
+      sleep(1);
+      printf("\t\t\t>>> Houve um erro ao alocar a memória!\n");
+      printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+      getchar();
+    }
+  }
+  fclose(fp);
+  novo_cli = lista;
+  while(novo_cli != NULL) {
+    printf("%-12s", novo_cli->cpfCliente);
+    printf("|");
+    printf("%-30s", novo_cli->nomeCliente);
+    printf("\n");
+    novo_cli = novo_cli->prox;
+  }
+  novo_cli = lista;
+  while (lista != NULL) {
+    lista = lista->prox;
+    free(novo_cli);
+    novo_cli = lista;
+  }
+  printf("\n");
+  printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
   getchar();
-  ordemAlfabetica();
 }
 
 void escolhaMenuCliente(char escolha)
@@ -545,7 +530,6 @@ void escolhaMenuCliente(char escolha)
     verificarCliente();
     break;
   case '5':
-    // getchar();
     relatorioCliente();
     break;
   default:
