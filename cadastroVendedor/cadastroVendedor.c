@@ -27,13 +27,20 @@ void lecpfVendedor(char *cpf)
 
 void leCel(char *cel)
 {
-  printf("Tel:");
-  fgets(cel, 13, stdin);
-  // Remove the newline character
-  if (cel[strlen(cel) - 1] == '\n')
+  int celValido = 0;
+  do
   {
-    cel[strlen(cel) - 1] = '\0';
-  }
+    printf("Tel:");
+    fgets(cel, 13, stdin);
+    cel[strcspn(cel, "\n")] = '\0';
+
+    celValido = validaCel(cel);
+
+    if (!celValido)
+    {
+      printf("Cel inválido. Por favor, insira um Cel válido.\n");
+    }
+  } while (!validaCel(cel));
 }
 
 void leNomes(char *nome)
@@ -276,9 +283,11 @@ void atualizarVendedor(void)
       if (strcmp(vendedor->cpfVendedor, cpf) == 0)
       {
         printf("\n");
-        printf("                  Vendedor Encontrado                \n");
+        printf("                 Vendedor Encontrado                 \n");
+        printf("_____________________________________________________\n");
         printf("                                                     \n");
         printf("           Informe os dados para atualizar:          \n");
+        printf("_____________________________________________________\n");
 
         leCel(vendedor->celVendedor);
 
@@ -286,9 +295,7 @@ void atualizarVendedor(void)
 
         leEscolaridade(vendedor->escolaridade);
 
-        // vendedor-> status = 'a';
         fseek(fp, (-1) * sizeof(Vendedor), SEEK_CUR);
-        // fseek(fp, -sizeof(Vendedor), SEEK_CUR);
         fwrite(vendedor, sizeof(Vendedor), 1, fp);
         achei = 1;
         break;
@@ -333,7 +340,6 @@ void excluirVendedor(void)
   printf("____________________________________________________\n");
   printf("                                                    \n");
   printf("    Informe o CPF do vendedor que deseja excluir:   \n");
-  // tinha erro aqui
   fgets(cpf, 12, stdin);
   getchar();
   fp = fopen("arquivoVendedor.bin", "r+b");
@@ -411,14 +417,12 @@ void pesquisarVendedor(void)
   }
   else
   {
-    //! feof(fp)
     while (fread(vendedor, sizeof(Vendedor), 1, fp) == 1)
     {
       if ((strcmp(vendedor->cpfVendedor, cpf) == 0) && (vendedor->status != 'i'))
       {
         encontrado = 1;
         exibeVendedor(vendedor);
-        // printf("\n");
         getchar();
       }
     }
@@ -431,13 +435,14 @@ void pesquisarVendedor(void)
   fclose(fp);
   free(vendedor);
 }
+
 // Vai exibir o vendedor com as respectivas vendas que já fez
 void registroVendas(void)
 {
   char cpf[13];
   Caixa *caixa = (Caixa *)malloc(sizeof(Caixa));
   FILE *fp;
-  int achei = 0;
+  int encontrado = 0;
 
   system("clear||cls");
   printf("____________________________________________________\n");
@@ -474,16 +479,21 @@ void registroVendas(void)
     printf("                                                    \n");
     printf("    Vendas realizadas pelo vendedor informado:      \n");
     printf("____________________________________________________\n");
-
+    printf("                                                    \n");
     while (fread(caixa, sizeof(Caixa), 1, fp) == 1)
     {
       if (strcmp(caixa->cpfVendedor, cpf) == 0)
       {
-        achei = 1;
+        encontrado = 1;
         printf("                                             \n");
         exibeTransacao(caixa);
         printf("\n");
       }
+    }
+    if (!encontrado)
+    {
+      printf("Usuário não cadastrado!");
+      getchar();
     }
   }
   fclose(fp);
@@ -491,8 +501,8 @@ void registroVendas(void)
   getchar();
 }
 
-/*A função conquista irá exibir as conquistas que aquele vendedor ja possui.
-Vai existir o broche de ouro, prata e bronze que vai variar de acordo com o valor vendido pelo vendedor*/
+/*A ideia era mostrar um pódio de 3 vendedores, onde a classificação seria feita
+a partir dos pontos de cada vendedor obtido das vendas registradas em seu cpf.*/
 void conquistas(void)
 {
   char cpf[13];
@@ -514,5 +524,4 @@ void conquistas(void)
   printf("        Informe o CPF do vendedor que deseja        \n");
   printf("            verificar as conquistas:                \n");
   printf("____________________________________________________\n");
-  
 }
