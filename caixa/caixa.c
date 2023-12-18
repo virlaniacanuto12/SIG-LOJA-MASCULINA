@@ -120,10 +120,13 @@ char leMetodoPag(void)
 {
   getchar();
   char charOpcao = '0';
-  printf("\n");
+  printf("______________________________________________________\n");
+  printf("                                                      \n");
   printf("           Escolha o método de pagamento:             \n");
   printf("                                                      \n");
   printf("        (1) PIX || (2) CARTÃO || (3) ESPÉCIE          \n");
+  printf("______________________________________________________\n");
+
   scanf(" %c", &charOpcao);
   getchar();
   return charOpcao;
@@ -198,7 +201,6 @@ float resumoDaCompraCartao(int parcelas, float valorCompra)
     valorFinal = valorCompra + ((10 * valorCompra) / 100);
     valorParcelado = valorFinal / parcelas;
 
-    system("clear||cls");
     printf("____________________________________________________\n");
     printf("                                                    \n");
     printf("                RESUMO FINAL DA COMPRA              \n");
@@ -274,10 +276,8 @@ Mercadoria *getMercadoria(char *codBarras)
     while (!feof(fp))
     {
       fread(mercadoria, sizeof(Mercadoria), 1, fp);
-      // printf("Codigos: |%s|\t|%s|\n", codBarras, mercadoria->codBarras);
       if ((strcmp(mercadoria->codBarras, codBarras) == 0) && (mercadoria->status != 'i'))
       {
-        // printf("achou!\n");
         return mercadoria;
       }
     }
@@ -307,14 +307,13 @@ Mercadoria *getMercadoria(char *codBarras)
   }
 }*/
 
-// Para testar precisa da função de valorTotal(que vai calcular com base na quantidade que o cliente deseja comprar)
 int pontuacaoVendedor(Mercadoria *mercadoria, float valorTotal, char *cpfVendedor)
 {
   Vendedor *vendedor;
   FILE *fp;
   vendedor = (Vendedor *)malloc(sizeof(Vendedor));
   fp = fopen("arquivoVendedor.bin", "r+b");
-  
+
   int pontos = 0;
   if (fp == NULL)
   {
@@ -351,7 +350,7 @@ int pontuacaoVendedor(Mercadoria *mercadoria, float valorTotal, char *cpfVendedo
       fseek(fp, -sizeof(Vendedor), SEEK_CUR); // Volte para a posição correta no arquivo
       fwrite(vendedor, sizeof(Vendedor), 1, fp);
       fclose(fp);
-      //break; // Sai do loop após encontrar e atualizar o vendedor
+      // break; // Sai do loop após encontrar e atualizar o vendedor
     }
   }
   return 0;
@@ -363,10 +362,7 @@ int pontuacaoVendedor(Mercadoria *mercadoria, float valorTotal, char *cpfVendedo
 float valorTotal(Mercadoria *mercadoria, int quantidadeVendida)
 {
   float valorTot = 0;
-  // printf("Quantidade mercadoria: %d \n", mercadoria->quantidade);
-  // printf("Quantidade vendida: %d \n",quantidadeVendida);
   valorTot = quantidadeVendida * mercadoria->preco;
-  // printf("Valor total %2.f", valorTot);
   return valorTot;
 }
 
@@ -482,8 +478,9 @@ Caixa *realizarTransacao(void)
   exibeMetodoPag(opcaoPag, valorTot);
   getchar();
 
-  caixa->status = 'A';
+  caixa->status = 'a';
 
+  // Se escrever no arquivo novamente após o reusmo da compra talvez dê certo
   pontuacaoVendedor(mercadoria, valorTot, caixa->cpfVendedor);
   getchar();
   return caixa;
@@ -574,7 +571,7 @@ void pesquisarTransacao(void)
   if (!achei)
   {
     printf("\n");
-    printf("\t\t\t Transação não encontrada!\n");
+    printf("\t\tTransação não encontrada!\n");
     getchar();
   }
   else
@@ -584,8 +581,9 @@ void pesquisarTransacao(void)
   }
   fclose(fp);
   free(caixa);
-  // getchar();
+  //getchar();
 }
+
 /*Através da struct caixa, após achar a venda no arq de acordo como id digitado na função cancelarTransacao(),
 pegamos o campo codBarras da struct e usamos a função getMercadoria() para conseguir pegar a struct
 de mercadoria equivalente a venda e repor o estoque.
@@ -595,8 +593,7 @@ void repondoEstoque(Caixa *caixa)
   Mercadoria *mercadoria;
   mercadoria = getMercadoria(caixa->codBarras);
   printf("Cod barras: %s\n", mercadoria->codBarras);
-  printf("Quantidade mercadoria: %d\n", mercadoria->quantidade);
-  printf("Quantidade caixa: %d\n", caixa->quantidade);
+  printf("Quantidade vendida: %d\n", caixa->quantidade);
   mercadoria->quantidade += caixa->quantidade;
   printf("Quantidade mercadoria atualizada: %d\n", mercadoria->quantidade);
 }
@@ -638,7 +635,7 @@ void cancelarTransacao(void)
   }
   else
   {
-    while (fread(caixa, sizeof(Caixa), 1, fp))
+    while (fread(caixa, sizeof(Caixa), 1, fp) == 1)
     {
       if (caixa->id == id)
       {
@@ -648,7 +645,7 @@ void cancelarTransacao(void)
         fseek(fp, -sizeof(Caixa), SEEK_CUR);
         fwrite(caixa, sizeof(Caixa), 1, fp);
         break;
-        getchar();
+        // getchar();
       }
     }
   }
