@@ -412,6 +412,7 @@ void verificarCliente(void)
 
 void ordemAlfabetica(void)
 {
+  getchar();
   FILE *fp;
   Cliente *cli;
   Cliente *lista;
@@ -431,6 +432,8 @@ void ordemAlfabetica(void)
 
     while (fread(cli, sizeof(Cliente), 1, fp))
     {
+      printf("entrou no while");
+
       if (cli->status != 'i')
       {
         novo = (Cliente *)malloc(sizeof(Cliente));
@@ -465,7 +468,7 @@ void ordemAlfabetica(void)
         Cliente *anterior = lista;
         Cliente *atual = lista->prox;
 
-        while ((atual != NULL) && strcmp(atual->nomeCliente, novo->nomeCliente))
+        while ((atual != NULL) && strcmp(atual->nomeCliente, novo->nomeCliente) < 0)
         {
           anterior = atual;
           atual = novo->prox;
@@ -517,6 +520,7 @@ void relatorioCliente(void)
   printf("                                                    \n");
   printf("            Clientes em ordem alfabética            \n");
   printf("                                                    \n");
+  getchar();
   ordemAlfabetica();
 }
 
@@ -541,8 +545,8 @@ void escolhaMenuCliente(char escolha)
     verificarCliente();
     break;
   case '5':
-    getchar();
-    ordemAlfabetica();
+    // getchar();
+    relatorioCliente();
     break;
   default:
     printf("------------------>Opção inválida!<-----------------\n");

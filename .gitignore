@@ -1,3 +1,6 @@
+# ignore files
+*.out
+
 # Prerequisites
 *.d
 

@@ -28,6 +28,7 @@ void leCel(char *);
 void leDataNasc(char *);
 void leEstadoCivil(char *);
 void leEscolaridade(char *);
+void leNaturalidade(char *naturalidade);
 void gravandoVendedor(Vendedor *vendedor);
 void exibeVendedor(Vendedor *vendedor);
 void lendoDados(void);

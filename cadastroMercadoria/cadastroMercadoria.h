@@ -22,6 +22,7 @@ void leQuantidade(int*);
 void menuMercadoria(void);
 Mercadoria* cadastroMercadoria(void);
 void gravandoMercadoria(Mercadoria* mercadoria);
+void exibeMercadoria(Mercadoria *mercadoria);
 void editarMercadoria(void);
 void excluirMercadoria(void);
 void pesquisarMercadoria(void);

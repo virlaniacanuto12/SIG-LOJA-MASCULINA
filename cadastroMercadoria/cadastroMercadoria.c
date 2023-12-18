@@ -54,7 +54,7 @@ void leCor(char *cor)
 void lePreco(float *preco)
 {
   printf("Preço:");
-  scanf(" %f", preco);
+  scanf(" %2.f", preco);
 }
 
 void gravandoMercadoria(Mercadoria *mercadoria)

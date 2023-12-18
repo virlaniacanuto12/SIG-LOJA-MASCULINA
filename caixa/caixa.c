@@ -314,7 +314,8 @@ int pontuacaoVendedor(Mercadoria *mercadoria, float valorTotal, char *cpfVendedo
   FILE *fp;
   vendedor = (Vendedor *)malloc(sizeof(Vendedor));
   fp = fopen("arquivoVendedor.bin", "r+b");
-
+  
+  int pontos = 0;
   if (fp == NULL)
   {
     return 0;
@@ -327,19 +328,22 @@ int pontuacaoVendedor(Mercadoria *mercadoria, float valorTotal, char *cpfVendedo
       //{
       if (valorTotal <= 500)
       {
-        vendedor->pontos += 100;
+        pontos = 100;
+        vendedor->pontos += pontos;
         printf("Pontos vendedor: %d", vendedor->pontos);
         return 1;
       }
       else if (valorTotal > 500 && valorTotal <= 1000)
       {
-        vendedor->pontos += 150;
+        pontos = 150;
+        vendedor->pontos += pontos;
         printf("Pontos vendedor: %d", vendedor->pontos);
         return 1;
       }
       else if (valorTotal > 1000)
       {
-        vendedor->pontos += 200;
+        pontos = 200;
+        vendedor->pontos += pontos;
         printf("Pontos vendedor: %d", vendedor->pontos);
         return 1;
       }
@@ -347,11 +351,12 @@ int pontuacaoVendedor(Mercadoria *mercadoria, float valorTotal, char *cpfVendedo
       fseek(fp, -sizeof(Vendedor), SEEK_CUR); // Volte para a posição correta no arquivo
       fwrite(vendedor, sizeof(Vendedor), 1, fp);
       fclose(fp);
-      break; // Sai do loop após encontrar e atualizar o vendedor
+      //break; // Sai do loop após encontrar e atualizar o vendedor
     }
   }
   return 0;
   fclose(fp);
+  free(vendedor);
 }
 
 // precisa fazer uma verificação para saber se a quantidade no estoque é maior que a quantidade vendida

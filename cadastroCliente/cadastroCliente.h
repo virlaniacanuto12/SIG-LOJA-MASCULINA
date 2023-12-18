@@ -19,9 +19,10 @@ void excluirCliente(void);
 Cliente* cadastrarCliente(void);
 void editarCliente(void);
 void excluirCliente(void);
-//void leSenha(char*);
+
 void verificarCliente(void);
 void lerNomes(char*);
+void relatorioCliente(void);
 
 
 

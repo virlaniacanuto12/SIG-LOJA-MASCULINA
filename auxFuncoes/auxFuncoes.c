@@ -139,3 +139,15 @@ int validarCpf(const char* cpf) {
     // Se passou por todas as verificações, o CPF é válido
     return 1;
 } 
+
+//feita com ajuda do chatGPT
+void extrairMes(char *dataHora, char *mes) {
+    strncpy(mes, dataHora + 3, 2); // Copiar os caracteres referentes ao mês
+    mes[2] = '\0'; // Garantir que a string do mês termine com '\0'
+}
+
+//feita com ajuda do chatGPT
+void extrairDia(char *dataHora, char *dia) {
+    strncpy(dia, dataHora, 2); // Copiar os caracteres referentes ao dia
+    dia[2] = '\0'; // Garantir que a string do dia termine com '\0'
+}
