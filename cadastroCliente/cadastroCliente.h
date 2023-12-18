@@ -7,7 +7,8 @@ struct cliente{
   char tel[12];
   char email[50];
   char estadoCivilCliente[21];
-  char status; 
+  char status;  
+  Cliente* prox;
 };
 void menuCliente(void);
 void escolhaMenuCliente(char);

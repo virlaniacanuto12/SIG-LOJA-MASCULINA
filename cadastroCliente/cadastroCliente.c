@@ -85,6 +85,7 @@ void menuCliente(void)
     printf("             2 - Atualizar cliente                  \n");
     printf("             3 - Excluir cliente                    \n");
     printf("             4 - Verificar cliente                  \n");
+    printf("             5 - Cliente por ordem alfabética       \n");
     printf("             0 - Voltar                             \n");
     printf("                                                    \n");
     printf("____________________________________________________\n");
@@ -409,6 +410,116 @@ void verificarCliente(void)
   free(cliente);
 }
 
+void ordemAlfabetica(void)
+{
+  FILE *fp;
+  Cliente *cli;
+  Cliente *lista;
+  Cliente *novo;
+
+  fp = fopen("arquivoCliente.bin", "rb");
+
+  if (fp == NULL)
+  {
+    printf("\nNão é possível continuar a listagem");
+  }
+
+  else
+  {
+    lista = NULL;
+    cli = (Cliente *)malloc(sizeof(Cliente));
+
+    while (fread(cli, sizeof(Cliente), 1, fp))
+    {
+      if (cli->status != 'i')
+      {
+        novo = (Cliente *)malloc(sizeof(Cliente));
+
+        strcpy(novo->nomeCliente, cli->nomeCliente);
+
+        strcpy(novo->cpfCliente, cli->cpfCliente);
+
+        strcpy(novo->tel, cli->tel);
+
+        strcpy(novo->email, cli->email);
+
+        strcpy(novo->clienteDataNasc, cli->clienteDataNasc);
+
+        novo->status = cli->status;
+      }
+
+      if (lista == NULL)
+      {
+        lista = novo;
+        novo->prox = NULL;
+      }
+
+      else if (strcmp(novo->nomeCliente, lista->nomeCliente) < 0)
+      {
+        novo->prox = lista;
+        lista = novo;
+      }
+
+      else
+      {
+        Cliente *anterior = lista;
+        Cliente *atual = lista->prox;
+
+        while ((atual != NULL) && strcmp(atual->nomeCliente, novo->nomeCliente))
+        {
+          anterior = atual;
+          atual = novo->prox;
+        }
+
+        anterior->prox = novo;
+        novo->prox = atual;
+      }
+    }
+  }
+  free(cli);
+  novo = lista;
+
+  while (novo != NULL)
+  {
+    exibeCliente(novo);
+    novo = novo->prox;
+  }
+
+  novo = lista;
+
+  while (lista != NULL)
+  {
+    lista = lista->prox;
+    free(novo);
+    novo = lista;
+  }
+
+  fclose(fp);
+}
+
+void relatorioCliente(void)
+{
+  getchar();
+  system("clear||cls");
+  printf("____________________________________________________\n");
+  printf("                                                    \n");
+  printf("- - - - - - Loja de Artigos Masculinos - - - - - - -\n");
+  printf(" Developed by @virlaniacanuto12 -- since Aug, 2023  \n");
+  printf("____________________________________________________\n");
+  printf("                                                    \n");
+  printf("  - - - - - - - - - - SHOPMEN - - - - - - - - - - - \n");
+  printf("____________________________________________________\n");
+  printf("                                                    \n");
+  printf("                 RELATÓRIO CLIENTE                  \n");
+  printf("                                                    \n");
+  printf("               Digite (0) Para Voltar               \n");
+  printf("____________________________________________________\n");
+  printf("                                                    \n");
+  printf("            Clientes em ordem alfabética            \n");
+  printf("                                                    \n");
+  ordemAlfabetica();
+}
+
 void escolhaMenuCliente(char escolha)
 {
   Cliente *cliente;
@@ -427,8 +538,11 @@ void escolhaMenuCliente(char escolha)
     break;
   case '4':
     getchar();
-    //lendoCliente();
     verificarCliente();
+    break;
+  case '5':
+    getchar();
+    ordemAlfabetica();
     break;
   default:
     printf("------------------>Opção inválida!<-----------------\n");
