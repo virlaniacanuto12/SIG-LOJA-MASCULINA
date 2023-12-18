@@ -71,6 +71,8 @@ int validarNum(char *senha) {
   return 0;
 }
 
+/*Função usada para dar desconto no momento da venda. 
+A porcentagem é passada de acordo com o valor e método de compra.*/
 float desconto(float valorCompra, int porcentagem){
   float desconto;
   float valorFinal;
