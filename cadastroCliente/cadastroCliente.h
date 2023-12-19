@@ -3,13 +3,14 @@ typedef struct cliente Cliente;
 struct cliente{
   char nomeCliente[51];
   char cpfCliente[13];
-  char clienteDataNasc[9];
+  char clienteDataNasc[12];
   char tel[12];
   char email[50];
   char estadoCivilCliente[21];
   char status;  
   Cliente* prox;
 };
+
 void menuCliente(void);
 void escolhaMenuCliente(char);
 void exibeCliente(Cliente* cliente);
