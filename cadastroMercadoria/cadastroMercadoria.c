@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <time.h>
 #include "cadastroMercadoria.h"
 #include "../auxFuncoes/auxFuncoes.h"
 
@@ -54,7 +55,7 @@ void leCor(char *cor)
 void lePreco(float *preco)
 {
   printf("Preço:");
-  scanf(" %2.f", preco);
+  scanf(" %f", preco);
 }
 
 void gravandoMercadoria(Mercadoria *mercadoria)
@@ -216,7 +217,8 @@ void editarMercadoria(void)
   printf("____________________________________________________\n");
   printf("                                                    \n");
   printf("               Informe o cód do produto:            \n");
-  printf("                                                    \n");
+  printf("____________________________________________________\n");
+
   scanf(" %[0-9]", codBarras);
   getchar();
 
@@ -236,7 +238,8 @@ void editarMercadoria(void)
       if ((strcmp(mercadoria->codBarras, codBarras) == 0) && mercadoria->status != 'i')
       {
         printf("\n");
-        printf("                Mercadoria Encontrado                \n");
+        printf("                Mercadoria Encontrada!               \n");
+        sleep(1);
         printf("                                                     \n");
         printf("           Informe os dados para atualizar:          \n");
 
@@ -291,7 +294,8 @@ void excluirMercadoria(void)
   printf("               Digite (0) Para Voltar               \n");
   printf("____________________________________________________\n");
   printf("                                                    \n");
-  printf("          Digite o cód de barras(12 dígitos):       \n");
+  printf("               Digite o cód de barras:              \n");
+  printf("____________________________________________________\n");
 
   scanf(" %[0-9]", codBarras);
   getchar();
@@ -354,7 +358,7 @@ void pesquisarMercadoria(void)
   printf("                PESQUISAR MERCADORIA                \n");
   printf("____________________________________________________\n");
   printf("                                                    \n");
-  printf("         Informe cód de barras(12 dígitos):         \n");
+  printf("               Informe cód de barras:               \n");
   printf("____________________________________________________\n");
   // leCodBarras(codBarras);
   scanf(" %[0-9]", codBarras);
