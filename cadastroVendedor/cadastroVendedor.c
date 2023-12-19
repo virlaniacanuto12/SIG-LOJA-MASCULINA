@@ -501,6 +501,7 @@ void registroVendas(void)
   getchar();
 }
 
+//feita com ajuda do chatGPT
 void conquistas(void)
 {
   FILE *fp;
@@ -563,10 +564,10 @@ void conquistas(void)
   }
 
   // Exibe os 3 melhores vendedores
-  printf("Pódio dos vendedores:\n");
+  printf("\n");
   for (int i = 0; i < 3 && i < numVendedores; i++)
   {
-    printf("Classificado %d: %s | Pontos: %d\n", i + 1, vendedor[i].cpfVendedor, vendedor[i].pontos);
+    printf("Classificado %d: %s %s | Pontos: %d\n", i + 1, vendedor[i].nomeVendedor, vendedor[i].cpfVendedor, vendedor[i].pontos);
   }
 
   free(vendedor);
