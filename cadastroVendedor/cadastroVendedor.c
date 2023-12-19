@@ -502,6 +502,7 @@ void registroVendas(void)
 }
 
 //feita com ajuda do chatGPT
+//Mostra um pódio dos 3 vendedores com a maior pontuação
 void conquistas(void)
 {
   FILE *fp;
