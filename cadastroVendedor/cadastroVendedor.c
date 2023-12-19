@@ -501,11 +501,12 @@ void registroVendas(void)
   getchar();
 }
 
-/*A ideia era mostrar um pódio de 3 vendedores, onde a classificação seria feita
-a partir dos pontos de cada vendedor obtido das vendas registradas em seu cpf.*/
 void conquistas(void)
 {
-  char cpf[13];
+  FILE *fp;
+  Vendedor *vendedor;
+  int numVendedores = 0;
+
   system("clear||cls");
   printf("____________________________________________________\n");
   printf("                                                    \n");
@@ -518,10 +519,56 @@ void conquistas(void)
   printf("                                                    \n");
   printf("                    CONQUISTAS                      \n");
   printf("                                                    \n");
-  printf("               Digite (0) Para Voltar               \n");
+  printf("                Pódio dos vendedores                \n");
   printf("____________________________________________________\n");
-  printf("                                                    \n");
-  printf("        Informe o CPF do vendedor que deseja        \n");
-  printf("            verificar as conquistas:                \n");
-  printf("____________________________________________________\n");
+
+  fp = fopen("arquivoVendedor.bin", "rb");
+
+  if (fp == NULL)
+  {
+    printf("         Erro na abertura do arquivo!             \n");
+    printf("         Tecle <ENTER> para voltar...             \n");
+    getchar();
+  }
+
+  // Contar a quantidade de vendedores no arquivo
+  fseek(fp, 0, SEEK_END);
+  long fileSize = ftell(fp);
+  numVendedores = fileSize / sizeof(Vendedor);
+  rewind(fp);
+
+  vendedor = (Vendedor *)malloc(numVendedores * sizeof(Vendedor));
+  if (vendedor == NULL)
+  {
+    printf("Erro de alocação de memória!\n");
+    fclose(fp);
+    return;
+  }
+  // Lê todos os vendedores para a memória
+  fread(vendedor, sizeof(Vendedor), numVendedores, fp);
+  fclose(fp);
+
+  // Ordena os vendedores com base nos pontos (em ordem decrescente)
+  for (int i = 0; i < numVendedores - 1; i++)
+  {
+    for (int j = i + 1; j < numVendedores; j++)
+    {
+      if (vendedor[i].pontos < vendedor[j].pontos)
+      {
+        Vendedor temp = vendedor[i];
+        vendedor[i] = vendedor[j];
+        vendedor[j] = temp;
+      }
+    }
+  }
+
+  // Exibe os 3 melhores vendedores
+  printf("Pódio dos vendedores:\n");
+  for (int i = 0; i < 3 && i < numVendedores; i++)
+  {
+    printf("Classificado %d: %s | Pontos: %d\n", i + 1, vendedor[i].cpfVendedor, vendedor[i].pontos);
+  }
+
+  free(vendedor);
+  getchar();
 }
