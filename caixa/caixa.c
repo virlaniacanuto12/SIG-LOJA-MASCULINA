@@ -330,32 +330,30 @@ int pontuacaoVendedor(Mercadoria *mercadoria, float valorTotal, char *cpfVendedo
         pontos = 100;
         vendedor->pontos += pontos;
         printf("Pontos vendedor: %d", vendedor->pontos);
-        return 1;
       }
       else if (valorTotal > 500 && valorTotal <= 1000)
       {
         pontos = 150;
         vendedor->pontos += pontos;
         printf("Pontos vendedor: %d", vendedor->pontos);
-        return 1;
       }
       else if (valorTotal > 1000)
       {
         pontos = 200;
         vendedor->pontos += pontos;
         printf("Pontos vendedor: %d", vendedor->pontos);
-        return 1;
       }
 
       fseek(fp, -sizeof(Vendedor), SEEK_CUR); // Volte para a posição correta no arquivo
       fwrite(vendedor, sizeof(Vendedor), 1, fp);
       fclose(fp);
+      return 1;
       // break; // Sai do loop após encontrar e atualizar o vendedor
     }
   }
-  return 0;
   fclose(fp);
   free(vendedor);
+  return 0;
 }
 
 // precisa fazer uma verificação para saber se a quantidade no estoque é maior que a quantidade vendida
